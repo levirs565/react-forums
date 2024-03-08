@@ -18,6 +18,7 @@ export function ThreadDetailPage() {
       <h1>{detail.title}</h1>
       <p>{detail.body}</p>
 
+      <h2>Komentar</h2>
       <ul>
         {(detail.comments ?? []).map((comment) => (
           <li key={comment.id}>{comment.content}</li>
