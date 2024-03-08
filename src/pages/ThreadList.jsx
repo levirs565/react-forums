@@ -14,7 +14,7 @@ export function ThreadListPage() {
   const threads = useSelector((state) => state.threads.value);
 
   return (
-    <>
+    <div className="app-main">
       <ul className="thread-list">
         {threads.map((thread) => (
           <li className="thread-list-item" key={thread.id}>
@@ -35,6 +35,6 @@ export function ThreadListPage() {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }

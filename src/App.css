@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 } */
+
+.app-main {
+  margin: 0 auto;
+  padding: 16px;
+}
