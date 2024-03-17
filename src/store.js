@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import auth, { listenerMiddleware } from "./slices/auth";
+import auth, { listenerMiddleware, updateCurrentUser } from "./slices/auth";
 import threads from "./slices/threads";
 import threadDetail from "./slices/threadDetail";
 
@@ -12,3 +12,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
+
+store.dispatch(updateCurrentUser());
