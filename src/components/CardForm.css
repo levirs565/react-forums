@@ -1,0 +1,32 @@
+@import "../base.css";
+
+.card-form {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-form--form {
+  @mixin primary-surface;
+  border-radius: 16px;
+  border: 1px solid var(--color-fuchsia-700);
+  margin: 0 auto;
+  padding: 16px;
+  max-width: 48ch;
+}
+
+.card-form--header,
+.card-form--content {
+  margin-bottom: 16px;
+}
+
+.card-form--title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.card-form--message {
+  margin: 8px 0;
+  font-size: 14px;
+}

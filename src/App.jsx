@@ -2,6 +2,8 @@ import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ThreadListPage } from "./pages/ThreadList";
 import { ThreadDetailPage } from "./pages/ThreadDetail";
+import { RegisterPage } from "./pages/Register";
+import { LoginPage } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +13,14 @@ const router = createBrowserRouter([
   {
     path: "/thread/:id",
     element: <ThreadDetailPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 

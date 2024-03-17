@@ -1,0 +1,27 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field--label,
+.field--input {
+  display: block;
+}
+
+.field--label,
+.field--message {
+  font-size: 14px;
+}
+
+.field--message {
+  text-align: end;
+}
+
+.field--message--error {
+  color: var(--color-red-500);
+}
+
+.field + .field {
+  margin-top: 8px;
+}

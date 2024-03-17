@@ -1,0 +1,49 @@
+@define-mixin dark-theme {
+  [data-theme="dark"] & {
+    @mixin-content;
+  }
+}
+
+@define-mixin base-surface {
+  color: var(--text-color);
+  background-color: white;
+
+  @mixin dark-theme {
+    background-color: var(--color-zink-900);
+  }
+}
+
+@define-mixin surface {
+  border-color: var(--color-zink-300);
+
+  @mixin base-surface;
+
+  @mixin dark-theme {
+    border-color: var(--color-zink-600);
+  }
+}
+
+@define-mixin primary-surface {
+  border: 1px solid var(--color-fuchsia-700);
+
+  @mixin base-surface;
+}
+
+@define-mixin transparent-button {
+  &:hover {
+    background-color: var(--color-zink-200);
+  }
+  &:active {
+    background-color: var(--color-zink-300);
+  }
+
+  @mixin dark-theme {
+    &:hover {
+      background-color: var(--color-zink-700);
+    }
+
+    &:active {
+      background-color: var(--color-zink-600);
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.fancy-link {
+  text-decoration: none;
+  color: var(--color-fuchsia-500);
+  position: relative;
+  display: inline-block;
+  padding: 4px 8px;
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+  z-index: 0;
+
+  &:hover {
+    color: white;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+    background-color: var(--color-fuchsia-500);
+  }
+
+  &:hover::before {
+    height: 100%;
+    background-color: var(--color-fuchsia-700);
+  }
+}

@@ -1,0 +1,35 @@
+@import "../base.css";
+
+.app-input {
+  border: 1px solid var(--color-zink-400);
+  border-radius: 8px;
+  background: white;
+  color: var(--text-color);
+  overflow: hidden;
+
+  @mixin dark-theme {
+    border-color: var(--color-zink-600);
+    background-color: var(--color-zink-900);
+  }
+
+  &:focus-within {
+    border-color: var(--color-fuchsia-500);
+  }
+}
+
+.app-input--input {
+  background-color: transparent;
+  appearance: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 16px;
+  padding: 8px 12px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--placeholder-color);
+  }
+}
