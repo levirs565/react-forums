@@ -24,8 +24,9 @@ import {
 } from "../components/AppButton";
 import { useDispatch, useSelector } from "react-redux";
 import { register, selectRegisterState } from "../slices/auth";
+import { NotLoggedInGuard } from "../guard/LoginGuard";
 
-export function RegisterPage() {
+function RegisterPageContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -130,5 +131,13 @@ export function RegisterPage() {
         </AppButtonGroup>
       </CardFormFooter>
     </CardForm>
+  );
+}
+
+export function RegisterPage() {
+  return (
+    <NotLoggedInGuard>
+      <RegisterPageContent />
+    </NotLoggedInGuard>
   );
 }

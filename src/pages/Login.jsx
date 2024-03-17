@@ -23,8 +23,9 @@ import {
 } from "../components/AppButton";
 import { useDispatch, useSelector } from "react-redux";
 import { login, selectLoginState } from "../slices/auth";
+import { NotLoggedInGuard } from "../guard/LoginGuard";
 
-export function LoginPage() {
+function LoginPageContent() {
   const dispatch = useDispatch();
   const {
     register,
@@ -87,5 +88,13 @@ export function LoginPage() {
         </AppButtonGroup>
       </CardFormFooter>
     </CardForm>
+  );
+}
+
+export function LoginPage() {
+  return (
+    <NotLoggedInGuard>
+      <LoginPageContent />
+    </NotLoggedInGuard>
   );
 }

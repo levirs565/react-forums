@@ -64,18 +64,17 @@ function syncStateWithAsyncThunk(
 const slice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    userState: createProcessState(),
     loginState: createProcessState(),
     registerState: createProcessState(),
-    updateUserState: createProcessState(),
   },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
       builder,
       updateCurrentUser,
-      "updateUserState",
+      "userState",
       (state, action) => {
-        state.user = action.payload;
+        state.userState.user = action.payload;
       }
     );
     syncStateWithAsyncThunk(builder, login, "loginState");
@@ -83,6 +82,7 @@ const slice = createSlice({
   },
 });
 
+export const selectUserState = (state) => state.auth.userState;
 export const selectLoginState = (state) => state.auth.loginState;
 export const selectRegisterState = (state) => state.auth.registerState;
 
