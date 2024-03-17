@@ -1,0 +1,42 @@
+@import "../base.css";
+
+.shimmer {
+  --background-color: var(--color-zink-100);
+  --highlight-color: var(--color-zink-200);
+  background-color: var(--background-color);
+  background-image: linear-gradient(
+    to right,
+    var(--background-color) 0%,
+    var(--highlight-color) 20%,
+    var(--background-color) 40%,
+    var(--background-color) 100%
+  );
+  background-size: 100vw 100px;
+  background-repeat: no-repeat;
+  animation: shimmerAnimation 1s linear infinite forwards;
+
+  @mixin dark-theme {
+    --background-color: var(--color-zink-800);
+    --highlight-color: var(--color-zink-700);
+  }
+}
+
+.shimmer > * {
+  visibility: hidden;
+}
+
+@keyframes shimmerAnimation {
+  0% {
+    background-position: -50vw 0;
+  }
+
+  100% {
+    background-position: 75vw 0;
+  }
+}
+
+.multiline-shimmer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
