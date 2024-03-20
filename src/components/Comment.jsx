@@ -2,7 +2,9 @@ import PropTypes from "prop-types";
 import renderHtml from "html-react-parser";
 import "./Comment.css";
 import { InnerShimmer, MultiLineShimmer, Shimmer } from "./Shimmer";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { ContentEditableInput } from "./ContentEditable";
+import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
 
 function CommentItem({ owner, content }) {
   return (
@@ -81,3 +83,28 @@ export function CommentListShimmer() {
     </ul>
   );
 }
+
+export function NewCommentForm({ value, onValueChanged, isLoading, onSubmit }) {
+  return (
+    <div className="new-comment">
+      <ContentEditableInput
+        value={value}
+        onValueChanged={onValueChanged}
+        placeholder="Masukkan Komentar"
+      />
+      <AppButtonGroup className="new-comment--button-group">
+        <AppButtonGroupSpacer />
+        <AppButton variant="primary" onClick={onSubmit} disabled={isLoading}>
+          Kirim
+        </AppButton>
+      </AppButtonGroup>
+    </div>
+  );
+}
+
+NewCommentForm.propTypes = {
+  value: PropTypes.string.isRequired,
+  onValueChanged: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};

@@ -1,6 +1,6 @@
-export function createProcessState() {
+export function createProcessState(isLoading = true) {
   return {
-    loading: true,
+    loading: isLoading,
     error: null,
   };
 }

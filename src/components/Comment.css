@@ -32,3 +32,7 @@
   border-radius: 100%;
   overflow: hidden;
 }
+
+.new-comment--button-group {
+  margin-top: 8px;
+}

@@ -1,0 +1,16 @@
+.content-editable:focus {
+  outline: none;
+}
+
+.content-editable[contenteditable="true"] {
+  cursor: text;
+}
+
+.content-editable:empty::before {
+  content: attr(placeholder);
+  color: var(--placeholder-color);
+}
+
+.content-editable-input {
+  cursor: text;
+}

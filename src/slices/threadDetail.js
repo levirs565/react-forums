@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getData } from "../api";
+import { getData, postData } from "../api";
 import { createProcessState, syncStateWithAsyncThunk } from "./utils";
 
 export const updateThreadDetail = createAsyncThunk(
@@ -7,21 +7,39 @@ export const updateThreadDetail = createAsyncThunk(
   async ({ id }) => (await getData(`/threads/${id}`)).detailThread
 );
 
+export const addComment = createAsyncThunk(
+  "threadDetail/addComment",
+  async ({ threadId, content }) =>
+    (await postData(`/threads/${threadId}/comments`, { content })).comment
+);
+
 const slice = createSlice({
   name: "threadDetail",
-  initialState: createProcessState(),
+  initialState: {
+    detail: createProcessState(),
+    addComment: createProcessState(false),
+  },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
       builder,
       updateThreadDetail,
-      null,
+      "detail",
       (state, action) => {
-        state.detail = action.payload;
+        state.detail.detail = action.payload;
+      }
+    );
+    syncStateWithAsyncThunk(
+      builder,
+      addComment,
+      "addComment",
+      (state, action) => {
+        state.detail.detail.comments.unshift(action.payload);
       }
     );
   },
 });
 
-export const selectThreadDetail = (state) => state.threadDetail;
+export const selectThreadDetail = (state) => state.threadDetail.detail;
+export const selectAddCommentState = (state) => state.threadDetail.addComment;
 
 export default slice.reducer;

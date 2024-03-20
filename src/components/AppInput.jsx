@@ -2,15 +2,21 @@ import { forwardRef } from "react";
 import "./AppInput.css";
 import PropTypes from "prop-types";
 
-export function AppInputContainer({ className, children }) {
+export function AppInputContainer({ className, children, onClick }) {
   return (
-    <div className={`app-input ${className ? className : ""}`}>{children}</div>
+    <div
+      className={`app-input ${className ? className : ""}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
   );
 }
 
 AppInputContainer.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 export const AppInput = forwardRef(function AppInput(
