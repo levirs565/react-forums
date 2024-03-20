@@ -20,7 +20,7 @@ export function ThreadDetailPage() {
 
   if (loading)
     return (
-      <div className="app-main">
+      <div className="app-main app-main--content">
         <Shimmer>
           <h1>Title</h1>
         </Shimmer>
@@ -44,7 +44,7 @@ export function ThreadDetailPage() {
     );
 
   return (
-    <div className="app-main">
+    <div className="app-main app-main--content">
       <h1>{detail.title}</h1>
       <time>{formatDate(detail.createdAt)}</time>
       <div>{htmlToReact(detail.body)}</div>

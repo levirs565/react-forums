@@ -16,3 +16,8 @@
   margin-bottom: 72px;
   padding: 8px 16px;
 }
+
+.app-main--content {
+  max-width: 1000px;
+  margin: 0 auto;
+}

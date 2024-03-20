@@ -16,7 +16,7 @@ export function ThreadListPage() {
   const { loading, list } = useSelector(selectThreadsList);
 
   return (
-    <div className="app-main">
+    <div className="app-main app-main--content">
       <ThreadCardList
         emptyMessage="Kosong"
         highlightPattern=""

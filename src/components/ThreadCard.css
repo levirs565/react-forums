@@ -7,9 +7,6 @@
 .thread-card-list {
   list-style: none;
   padding-inline: 0;
-  margin: 0 auto;
-  padding: 0px 16px;
-  max-width: 1000px;
 }
 
 .thread-card {
