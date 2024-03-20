@@ -1,0 +1,19 @@
+.thread-detail--title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.thread-detail--date {
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.thread-detail--body {
+  font-size: 16px;
+
+  & div:has(br) {
+    line-height: 8px;
+  }
+}

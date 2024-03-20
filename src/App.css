@@ -21,3 +21,10 @@
   max-width: 1000px;
   margin: 0 auto;
 }
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
