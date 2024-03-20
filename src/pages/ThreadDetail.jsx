@@ -1,43 +1,56 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { updateFromApi } from "../slices/threadDetail";
+import { selectThreadDetail, updateThreadDetail } from "../slices/threadDetail";
+import htmlToReact from "html-react-parser";
 import "./ThreadDetail.css";
+import { useFormatDate } from "../hook";
+import { MultiLineShimmer, Shimmer } from "../components/Shimmer";
+import { CommentList, CommentListShimmer } from "../components/Comment";
 
 export function ThreadDetailPage() {
   const param = useParams();
-  const detail = useSelector((state) => state.threadDetail.value);
+  const { loading, error, detail } = useSelector(selectThreadDetail);
   const dispatch = useDispatch();
+  const formatDate = useFormatDate();
 
   useEffect(() => {
-    console.log("Update");
-    dispatch(updateFromApi(param.id));
+    dispatch(updateThreadDetail({ id: param.id }));
   }, [param]);
+
+  if (loading)
+    return (
+      <div className="app-main">
+        <Shimmer>
+          <h1>Title</h1>
+        </Shimmer>
+        <Shimmer>
+          <time>Date</time>
+        </Shimmer>
+        <MultiLineShimmer
+          lineCount={4}
+          renderItem={(index) => (
+            <Shimmer key={index}>
+              <p>Body</p>
+            </Shimmer>
+          )}
+        />
+
+        <Shimmer>
+          <h2>Komentar</h2>
+        </Shimmer>
+        <CommentListShimmer />
+      </div>
+    );
 
   return (
     <div className="app-main">
       <h1>{detail.title}</h1>
-      <p
-        dangerouslySetInnerHTML={{
-          __html: detail.body,
-        }}
-      ></p>
+      <time>{formatDate(detail.createdAt)}</time>
+      <div>{htmlToReact(detail.body)}</div>
 
       <h2>Komentar</h2>
-      <ul className="comment-list">
-        {(detail.comments ?? []).map((comment) => (
-          <li key={comment.id} className="comment">
-            <div className="comment--header">
-              <img className="comment--avatar" src={comment.owner.avatar} />
-              <p className="comment--owner">{comment.owner.name}</p>
-            </div>
-            <p
-              className="comment--body"
-              dangerouslySetInnerHTML={{ __html: comment.content }}
-            ></p>
-          </li>
-        ))}
-      </ul>
+      <CommentList list={detail.comments} />
     </div>
   );
 }

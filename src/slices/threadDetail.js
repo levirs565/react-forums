@@ -1,27 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getData } from "../api";
+import { createProcessState, syncStateWithAsyncThunk } from "./utils";
+
+export const updateThreadDetail = createAsyncThunk(
+  "threadDetail/update",
+  async ({ id }) => (await getData(`/threads/${id}`)).detailThread
+);
 
 const slice = createSlice({
   name: "threadDetail",
-  initialState: {
-    value: {},
-  },
-  reducers: {
-    update: (state, action) => {
-      state.value = action.payload;
-    },
+  initialState: createProcessState(),
+  extraReducers: (builder) => {
+    syncStateWithAsyncThunk(
+      builder,
+      updateThreadDetail,
+      null,
+      (state, action) => {
+        state.detail = action.payload;
+      }
+    );
   },
 });
 
-export const updateFromApi = (id) => async (dispath) => {
-  dispath(
-    slice.actions.update(
-      (
-        await (
-          await fetch("https://forum-api.dicoding.dev/v1/threads/" + id)
-        ).json()
-      ).data.detailThread
-    )
-  );
-};
+export const selectThreadDetail = (state) => state.threadDetail;
 
 export default slice.reducer;

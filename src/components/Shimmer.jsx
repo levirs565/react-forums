@@ -14,6 +14,19 @@ Shimmer.propTypes = {
   children: PropTypes.node,
 };
 
+export function InnerShimmer({ className, children }) {
+  return (
+    <Shimmer className={["shimmer--inner", className].join(" ")}>
+      {children}
+    </Shimmer>
+  );
+}
+
+InnerShimmer.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+};
+
 export function MultiLineShimmer({ renderItem, lineCount }) {
   return (
     <div className="multiline-shimmer">

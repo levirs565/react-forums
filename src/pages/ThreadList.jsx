@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectedThreadsList as selectThreadsList,
+  selectThreadsList as selectThreadsList,
   updateThreads,
 } from "../slices/threads";
-import "./ThreadList.css";
 import { ThreadCardList } from "../components/ThreadCard";
 
 export function ThreadListPage() {

@@ -17,6 +17,6 @@ const slice = createSlice({
   },
 });
 
-export const selectedThreadsList = (state) => state.threads;
+export const selectThreadsList = (state) => state.threads;
 
 export default slice.reducer;

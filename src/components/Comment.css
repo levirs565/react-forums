@@ -1,0 +1,29 @@
+
+.comment-list {
+  list-style: none;
+}
+
+.comment {
+  border: 1px solid var(--color-zink-400);
+  border-radius: 16px;
+  padding: 8px 16px;
+}
+
+.comment--header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.comment--owner {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.comment--avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+}

@@ -1,6 +1,6 @@
 export function createProcessState() {
   return {
-    loading: false,
+    loading: true,
     error: null,
   };
 }
