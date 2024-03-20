@@ -9,18 +9,7 @@
   padding-inline: 0;
   margin: 0 auto;
   padding: 0px 16px;
-
-  @media (min-width: 640px) {
-    max-width: calc(640px - 32px);
-  }
-
-  @media (min-width: 960px) {
-    max-width: calc(960px - 32px);
-  }
-
-  @media (min-width: 1280px) {
-    max-width: calc(1280px - 32px);
-  }
+  max-width: 1000px;
 }
 
 .thread-card {
