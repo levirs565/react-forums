@@ -71,8 +71,6 @@
 }
 
 .thread-card--footer {
-  justify-content: start !important;
-
   & button {
     z-index: 100;
   }

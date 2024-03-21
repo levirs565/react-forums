@@ -8,6 +8,7 @@ import {
   ArrowDownCircleIcon,
   ArrowDownCircleIconFilled,
 } from "../icons/ArrowDownCircleIcon";
+import "./Vote.css";
 
 export function VoteButtonGroup({
   className,
@@ -20,7 +21,7 @@ export function VoteButtonGroup({
   isDownVoted,
 }) {
   return (
-    <AppButtonGroup className={className}>
+    <AppButtonGroup className={["vote-button-group", className].join(" ")}>
       <AppIconButton
         hasText
         onClick={() => (isUpVoted ? onNeutralizeVote() : onUpVote())}
