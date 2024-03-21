@@ -64,7 +64,7 @@ export function ThreadDetailPage() {
         />
       )}
 
-      {user && (
+      {user && !loading && (
         <>
           <h2 className="subtitle">Komentar Baru</h2>
           <NewCommentForm
