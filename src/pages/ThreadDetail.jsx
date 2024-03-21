@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   addComment,
+  downVoteComment,
   selectAddCommentState,
   selectThreadDetail,
+  upVoteComment,
   updateThreadDetail,
 } from "../slices/threadDetail";
 import {
@@ -65,7 +67,25 @@ export function ThreadDetailPage() {
       {loading ? (
         <CommentListShimmer />
       ) : (
-        <CommentList list={detail.comments} />
+        <CommentList
+          list={detail.comments.map(
+            ({ id, owner, content, upVotesBy, downVotesBy }) => ({
+              id,
+              owner,
+              content,
+              upVoteCount: upVotesBy.length,
+              downVoteCount: downVotesBy.length,
+              isUpVoted: upVotesBy.includes(user?.id),
+              isDownVoted: downVotesBy.includes(user?.id),
+            })
+          )}
+          onUpVote={(id) =>
+            dispatch(upVoteComment({ threadId: param.id, commentId: id }))
+          }
+          onDownVote={(id) =>
+            dispatch(downVoteComment({ threadId: param.id, commentId: id }))
+          }
+        />
       )}
     </div>
   );

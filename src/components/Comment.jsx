@@ -2,11 +2,32 @@ import PropTypes from "prop-types";
 import renderHtml from "html-react-parser";
 import "./Comment.css";
 import { InnerShimmer, MultiLineShimmer, Shimmer } from "./Shimmer";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ContentEditableInput } from "./ContentEditable";
-import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
+import {
+  AppButton,
+  AppButtonGroup,
+  AppButtonGroupSpacer,
+  AppIconButton,
+  AppIconButtonText,
+} from "./AppButton";
+import {
+  ArrowUpCircleIcon,
+  ArrowUpCircleIconFilled,
+} from "../icons/ArrowUpCircleIcon";
+import { ArrowDownCircleIcon } from "../icons/ArrowDownCircleIcon";
 
-function CommentItem({ owner, content }) {
+function CommentItem({
+  id,
+  owner,
+  content,
+  upVoteCount,
+  downVoteCount,
+  onUpVote,
+  onDownVote,
+  isUpVoted,
+  isDownVoted,
+}) {
   return (
     <li className="comment">
       <div className="comment--header">
@@ -14,13 +35,30 @@ function CommentItem({ owner, content }) {
         <p className="comment--owner">{owner.name}</p>
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
+      <AppButtonGroup className="comment--footer">
+        <AppIconButton hasText onClick={() => onUpVote(id)}>
+          {isUpVoted ? <ArrowUpCircleIconFilled /> : <ArrowUpCircleIcon />}
+          <AppIconButtonText>{upVoteCount}</AppIconButtonText>
+        </AppIconButton>
+        <AppIconButton hasText onClick={() => onDownVote(id)}>
+          {isDownVoted ? <ArrowUpCircleIconFilled /> : <ArrowDownCircleIcon />}
+          <AppIconButtonText>{downVoteCount}</AppIconButtonText>
+        </AppIconButton>
+      </AppButtonGroup>
     </li>
   );
 }
 
 CommentItem.propTypes = {
+  id: PropTypes.string.isRequired,
   owner: PropTypes.object.isRequired,
   content: PropTypes.string.isRequired,
+  upVoteCount: PropTypes.number.isRequired,
+  downVoteCount: PropTypes.number.isRequired,
+  isUpVoted: PropTypes.bool.isRequired,
+  isDownVoted: PropTypes.bool.isRequired,
+  onUpVote: PropTypes.func.isRequired,
+  onDownVote: PropTypes.func.isRequired,
 };
 
 function CommentItemShimmer({ contentLineCount }) {
@@ -50,15 +88,22 @@ CommentItemShimmer.propTypes = {
   contentLineCount: PropTypes.number.isRequired,
 };
 
-export function CommentList({ list }) {
+export function CommentList({ list, onUpVote, onDownVote }) {
   if (!list || list.length == 0) return <p>Komentar Kosong</p>;
   return (
     <ul className="comment-list">
       {list.map((comment) => (
         <CommentItem
+          id={comment.id}
           key={comment.id}
           owner={comment.owner}
           content={comment.content}
+          upVoteCount={comment.upVoteCount}
+          isUpVoted={comment.isUpVoted}
+          onUpVote={onUpVote}
+          downVoteCount={comment.downVoteCount}
+          isDownVoted={comment.isDownVoted}
+          onDownVote={onDownVote}
         />
       ))}
     </ul>
@@ -67,6 +112,8 @@ export function CommentList({ list }) {
 
 CommentList.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onUpVote: PropTypes.func.isRequired,
+  onDownVote: PropTypes.func.isRequired,
 };
 
 export function CommentListShimmer() {

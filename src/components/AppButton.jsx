@@ -36,9 +36,15 @@ AppButtonGroup.propTypes = {
   children: PropTypes.node,
 };
 
-export function AppIconButton({ children, onClick }) {
+export function AppIconButton({ children, onClick, hasText }) {
   return (
-    <button className="app-icon-button" onClick={onClick}>
+    <button
+      className={[
+        "app-icon-button",
+        hasText && "app-icon-button--has-text",
+      ].join(" ")}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
@@ -47,4 +53,13 @@ export function AppIconButton({ children, onClick }) {
 AppIconButton.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func,
+  hasText: PropTypes.bool,
+};
+
+export function AppIconButtonText({ children }) {
+  return <span className="app-icon-button--text">{children}</span>;
+}
+
+AppIconButtonText.propTypes = {
+  children: PropTypes.node,
 };
