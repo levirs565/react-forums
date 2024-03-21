@@ -69,15 +69,15 @@ const slice = createSlice({
       }
     );
     builder.addCase(upVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail.detail.id) return;
+      if (action.payload.threadId != state.detail?.detail?.id) return;
       upVoteEntity(state.detail.detail, action.payload.userId);
     });
     builder.addCase(downVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail.detail.id) return;
+      if (action.payload.threadId != state.detail?.detail?.id) return;
       downVoteEntity(state.detail.detail, action.payload.userId);
     });
     builder.addCase(neutralizeVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail.detail.id) return;
+      if (action.payload.threadId != state.detail?.detail?.id) return;
       neutralizeVoteEntity(state.detail.detail, action.payload.userId);
     });
     builder.addCase(upVoteComment.fulfilled, (state, action) => {
