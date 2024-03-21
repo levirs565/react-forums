@@ -17,6 +17,11 @@ import {
 } from "../components/Comment";
 import { ThreadDetailShimmer, ThreadDetial } from "../components/ThreadDetail";
 import { selectUserState } from "../slices/auth";
+import {
+  downVoteThread,
+  neutralizeVoteThread,
+  upVoteThread,
+} from "../slices/threads";
 
 export function ThreadDetailPage() {
   const param = useParams();
@@ -47,6 +52,15 @@ export function ThreadDetailPage() {
           title={detail.title}
           body={detail.body}
           createdAt={detail.createdAt}
+          upVoteCount={detail.upVotesBy.length}
+          isUpVoted={detail.upVotesBy.includes(user?.id)}
+          downVoteCount={detail.downVotesBy.length}
+          isDownVoted={detail.downVotesBy.includes(user?.id)}
+          onUpVote={() => dispatch(upVoteThread({ id: param.id }))}
+          onDownVote={() => dispatch(downVoteThread({ id: param.id }))}
+          onNeutralizeVote={() =>
+            dispatch(neutralizeVoteThread({ id: param.id }))
+          }
         />
       )}
 

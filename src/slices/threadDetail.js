@@ -7,6 +7,7 @@ import {
   syncStateWithAsyncThunk,
   upVoteEntity,
 } from "./utils";
+import { downVoteThread, neutralizeVoteThread, upVoteThread } from "./threads";
 
 export const updateThreadDetail = createAsyncThunk(
   "threadDetail/update",
@@ -67,6 +68,18 @@ const slice = createSlice({
         state.detail.detail.comments.unshift(action.payload);
       }
     );
+    builder.addCase(upVoteThread.fulfilled, (state, action) => {
+      if (action.payload.threadId != state.detail.detail.id) return;
+      upVoteEntity(state.detail.detail, action.payload.userId);
+    });
+    builder.addCase(downVoteThread.fulfilled, (state, action) => {
+      if (action.payload.threadId != state.detail.detail.id) return;
+      downVoteEntity(state.detail.detail, action.payload.userId);
+    });
+    builder.addCase(neutralizeVoteThread.fulfilled, (state, action) => {
+      if (action.payload.threadId != state.detail.detail.id) return;
+      neutralizeVoteEntity(state.detail.detail, action.payload.userId);
+    });
     builder.addCase(upVoteComment.fulfilled, (state, action) => {
       const comment = state.detail.detail.comments.find(
         (comment) => comment.id === action.payload.commentId

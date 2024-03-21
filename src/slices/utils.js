@@ -28,7 +28,7 @@ export function syncStateWithAsyncThunk(
 }
 
 export function findThread(list, id) {
-  return list.find((value) => value.id === id);
+  return list?.find((value) => value.id === id);
 }
 
 export function upVoteEntity(entity, userId) {
