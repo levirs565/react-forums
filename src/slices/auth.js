@@ -41,6 +41,12 @@ const slice = createSlice({
     loginState: createProcessState(),
     registerState: createProcessState(),
   },
+  reducers: {
+    logout: (state) => {
+      setToken(null);
+      state.userState.user = null;
+    },
+  },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
       builder,
@@ -58,6 +64,8 @@ const slice = createSlice({
 export const selectUserState = (state) => state.auth.userState;
 export const selectLoginState = (state) => state.auth.loginState;
 export const selectRegisterState = (state) => state.auth.registerState;
+
+export const logout = slice.actions.logout;
 
 export const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({

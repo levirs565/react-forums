@@ -11,7 +11,6 @@ import {
   PopupItemIcon,
   PopupItemText,
 } from "./Popup";
-import { AccountCircleIcon } from "../icons/AccountCircleIcon";
 import { LogoutCircleIcon } from "../icons/LogoutCircleIcon";
 import { MoonIcon } from "../icons/MoonIcon";
 import { SunIcon } from "../icons/SunIcon";
@@ -50,17 +49,16 @@ TopBarTabs.propTypes = {
   children: PropTypes.node,
 };
 
-export function TopBarPopupContent({ userName, onLogout }) {
-  const { theme, toggleTheme } = useTheme();
-  const { getText, toggleLang } = useI8n();
+export function TopBarPopupAccountContent({ userName, userAvatar, onLogout }) {
+  const { getText } = useI8n();
 
   return (
     <PopupContent>
       {userName && (
         <React.Fragment>
-          <PopupItem>
+          <PopupItem isHeader>
             <PopupItemIcon>
-              <AccountCircleIcon />
+              <img className="top-bar--avatar-header" src={userAvatar} />
             </PopupItemIcon>
             <PopupItemText>{userName}</PopupItemText>
           </PopupItem>
@@ -72,6 +70,22 @@ export function TopBarPopupContent({ userName, onLogout }) {
           </PopupItem>
         </React.Fragment>
       )}
+    </PopupContent>
+  );
+}
+
+TopBarPopupAccountContent.propTypes = {
+  userName: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  userAvatar: PropTypes.string.isRequired,
+};
+
+export function TopBarPopupMoreContent() {
+  const { theme, toggleTheme } = useTheme();
+  const { getText, toggleLang } = useI8n();
+
+  return (
+    <PopupContent>
       <PopupItem clickable onClick={toggleTheme}>
         <PopupItemIcon>
           {theme === "dark" ? <MoonIcon /> : <SunIcon />}
@@ -90,16 +104,12 @@ export function TopBarPopupContent({ userName, onLogout }) {
   );
 }
 
-TopBarPopupContent.propTypes = {
-  userName: PropTypes.string,
-  onLogout: PropTypes.func.isRequired,
-};
-
 export function TopBar({
   showSearch,
   searchQuery,
   onSearchChange,
   userName,
+  userAvatar,
   onLogout,
 }) {
   const { getText } = useI8n();
@@ -134,11 +144,23 @@ export function TopBar({
           onChange={(el) => onSearchChange(el.target.value)}
         />
       )}
+      {userName && (
+        <Popup>
+          <AppIconButton>
+            <img className="top-bar--avatar-button" src={userAvatar} />
+          </AppIconButton>
+          <TopBarPopupAccountContent
+            userName={userName}
+            userAvatar={userAvatar}
+            onLogout={onLogout}
+          />
+        </Popup>
+      )}
       <Popup>
         <AppIconButton>
           <MoreIcon />
         </AppIconButton>
-        <TopBarPopupContent userName={userName} onLogout={onLogout} />
+        <TopBarPopupMoreContent />
       </Popup>
     </header>
   );
@@ -149,5 +171,6 @@ TopBar.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   showSearch: PropTypes.bool.isRequired,
   userName: PropTypes.string,
+  userAvatar: PropTypes.string,
   onLogout: PropTypes.func.isRequired,
 };

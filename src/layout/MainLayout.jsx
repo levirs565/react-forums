@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { TopBar } from "../components/TopBar";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUserState } from "../slices/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUserState } from "../slices/auth";
 
 export function MainLayout() {
   const [showSearch, setShowSearch] = useState(false);
+  const dispatch = useDispatch();
   const { user } = useSelector(selectUserState);
 
   return (
@@ -15,7 +16,8 @@ export function MainLayout() {
         searchQuery={""}
         onSearchChange={() => {}}
         userName={user?.name}
-        onLogout={() => {}}
+        userAvatar={user?.avatar}
+        onLogout={() => dispatch(logout())}
       />
       <Outlet
         context={{

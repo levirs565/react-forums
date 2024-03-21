@@ -20,6 +20,17 @@
   font-size: 18px;
 }
 
+.top-bar--avatar-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  margin: 3px;
+}
+
+.top-bar--avatar-header {
+  border-radius: 100%;
+}
+
 .top-bar--grow {
   flex-grow: 1;
 }

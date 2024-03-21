@@ -17,13 +17,15 @@ PopupContent.propTypes = {
   children: PropTypes.node,
 };
 
-export function PopupItem({ children, clickable, onClick }) {
+export function PopupItem({ children, clickable, onClick, isHeader }) {
   const As = clickable ? "button" : "div";
   return (
     <As
-      className={["popup-item", clickable ? "popup-item--clickable" : ""].join(
-        " "
-      )}
+      className={[
+        "popup-item",
+        clickable ? "popup-item--clickable" : "",
+        isHeader ? "popup-item--is-header" : "",
+      ].join(" ")}
       onClick={onClick}
     >
       {children}
@@ -35,6 +37,7 @@ PopupItem.propTypes = {
   children: PropTypes.node,
   clickable: PropTypes.bool,
   onClick: PropTypes.func,
+  isHeader: PropTypes.bool,
 };
 
 export function PopupItemIcon({ children }) {
