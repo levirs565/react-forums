@@ -15,7 +15,10 @@ import {
   ArrowUpCircleIcon,
   ArrowUpCircleIconFilled,
 } from "../icons/ArrowUpCircleIcon";
-import { ArrowDownCircleIcon } from "../icons/ArrowDownCircleIcon";
+import {
+  ArrowDownCircleIcon,
+  ArrowDownCircleIconFilled,
+} from "../icons/ArrowDownCircleIcon";
 
 function CommentItem({
   id,
@@ -25,6 +28,7 @@ function CommentItem({
   downVoteCount,
   onUpVote,
   onDownVote,
+  onNeutralizeVote,
   isUpVoted,
   isDownVoted,
 }) {
@@ -36,12 +40,22 @@ function CommentItem({
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
       <AppButtonGroup className="comment--footer">
-        <AppIconButton hasText onClick={() => onUpVote(id)}>
+        <AppIconButton
+          hasText
+          onClick={() => (isUpVoted ? onNeutralizeVote(id) : onUpVote(id))}
+        >
           {isUpVoted ? <ArrowUpCircleIconFilled /> : <ArrowUpCircleIcon />}
           <AppIconButtonText>{upVoteCount}</AppIconButtonText>
         </AppIconButton>
-        <AppIconButton hasText onClick={() => onDownVote(id)}>
-          {isDownVoted ? <ArrowUpCircleIconFilled /> : <ArrowDownCircleIcon />}
+        <AppIconButton
+          hasText
+          onClick={() => (isDownVoted ? onNeutralizeVote(id) : onDownVote(id))}
+        >
+          {isDownVoted ? (
+            <ArrowDownCircleIconFilled />
+          ) : (
+            <ArrowDownCircleIcon />
+          )}
           <AppIconButtonText>{downVoteCount}</AppIconButtonText>
         </AppIconButton>
       </AppButtonGroup>
@@ -59,6 +73,7 @@ CommentItem.propTypes = {
   isDownVoted: PropTypes.bool.isRequired,
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
+  onNeutralizeVote: PropTypes.func.isRequired,
 };
 
 function CommentItemShimmer({ contentLineCount }) {
@@ -88,7 +103,7 @@ CommentItemShimmer.propTypes = {
   contentLineCount: PropTypes.number.isRequired,
 };
 
-export function CommentList({ list, onUpVote, onDownVote }) {
+export function CommentList({ list, onUpVote, onDownVote, onNeutralizeVote }) {
   if (!list || list.length == 0) return <p>Komentar Kosong</p>;
   return (
     <ul className="comment-list">
@@ -104,6 +119,7 @@ export function CommentList({ list, onUpVote, onDownVote }) {
           downVoteCount={comment.downVoteCount}
           isDownVoted={comment.isDownVoted}
           onDownVote={onDownVote}
+          onNeutralizeVote={onNeutralizeVote}
         />
       ))}
     </ul>
@@ -114,6 +130,7 @@ CommentList.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object).isRequired,
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
+  onNeutralizeVote: PropTypes.func.isRequired,
 };
 
 export function CommentListShimmer() {

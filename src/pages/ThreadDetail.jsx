@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import {
   addComment,
   downVoteComment,
+  neutralizeVoteComment,
   selectAddCommentState,
   selectThreadDetail,
   upVoteComment,
@@ -84,6 +85,11 @@ export function ThreadDetailPage() {
           }
           onDownVote={(id) =>
             dispatch(downVoteComment({ threadId: param.id, commentId: id }))
+          }
+          onNeutralizeVote={(id) =>
+            dispatch(
+              neutralizeVoteComment({ threadId: param.id, commentId: id })
+            )
           }
         />
       )}

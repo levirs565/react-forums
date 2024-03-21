@@ -27,6 +27,17 @@ export const downVoteComment = createAsyncThunk(
       .vote
 );
 
+export const neutralizeVoteComment = createAsyncThunk(
+  "threadDetail/neutralVoteComment",
+  async ({ threadId, commentId }) =>
+    (
+      await postData(
+        `/threads/${threadId}/comments/${commentId}/neutral-vote`,
+        {}
+      )
+    ).vote
+);
+
 const slice = createSlice({
   name: "threadDetail",
   initialState: {
@@ -72,6 +83,19 @@ const slice = createSlice({
           comment.downVotesBy.push(action.payload.userId);
         const index = comment.upVotesBy.indexOf(action.payload.userId);
         if (index >= 0) comment.upVotesBy.splice(index, 1);
+      }
+    });
+    builder.addCase(neutralizeVoteComment.fulfilled, (state, action) => {
+      const comment = state.detail.detail.comments.find(
+        (comment) => comment.id === action.payload.commentId
+      );
+      if (comment) {
+        const downIndex = comment.downVotesBy.indexOf(action.payload.userId);
+        if (downIndex >= 0) {
+          comment.downVotesBy.splice(downIndex, 1);
+        }
+        const upIndex = comment.upVotesBy.indexOf(action.payload.userId);
+        if (upIndex >= 0) comment.upVotesBy.splice(upIndex, 1);
       }
     });
   },
