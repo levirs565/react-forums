@@ -4,21 +4,8 @@ import "./Comment.css";
 import { InnerShimmer, MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useMemo } from "react";
 import { ContentEditableInput } from "./ContentEditable";
-import {
-  AppButton,
-  AppButtonGroup,
-  AppButtonGroupSpacer,
-  AppIconButton,
-  AppIconButtonText,
-} from "./AppButton";
-import {
-  ArrowUpCircleIcon,
-  ArrowUpCircleIconFilled,
-} from "../icons/ArrowUpCircleIcon";
-import {
-  ArrowDownCircleIcon,
-  ArrowDownCircleIconFilled,
-} from "../icons/ArrowDownCircleIcon";
+import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
+import { VoteButtonGroup } from "./Vote";
 
 function CommentItem({
   id,
@@ -39,26 +26,16 @@ function CommentItem({
         <p className="comment--owner">{owner.name}</p>
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
-      <AppButtonGroup className="comment--footer">
-        <AppIconButton
-          hasText
-          onClick={() => (isUpVoted ? onNeutralizeVote(id) : onUpVote(id))}
-        >
-          {isUpVoted ? <ArrowUpCircleIconFilled /> : <ArrowUpCircleIcon />}
-          <AppIconButtonText>{upVoteCount}</AppIconButtonText>
-        </AppIconButton>
-        <AppIconButton
-          hasText
-          onClick={() => (isDownVoted ? onNeutralizeVote(id) : onDownVote(id))}
-        >
-          {isDownVoted ? (
-            <ArrowDownCircleIconFilled />
-          ) : (
-            <ArrowDownCircleIcon />
-          )}
-          <AppIconButtonText>{downVoteCount}</AppIconButtonText>
-        </AppIconButton>
-      </AppButtonGroup>
+      <VoteButtonGroup
+        className="comment--footer"
+        upVoteCount={upVoteCount}
+        downVoteCount={downVoteCount}
+        isUpVoted={isUpVoted}
+        isDownVoted={isDownVoted}
+        onUpVote={() => onUpVote(id)}
+        onDownVote={() => onDownVote(id)}
+        onNeutralizeVote={() => onNeutralizeVote(id)}
+      />
     </li>
   );
 }

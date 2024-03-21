@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getData, postData } from "../api";
-import { createProcessState, syncStateWithAsyncThunk } from "./utils";
+import {
+  createProcessState,
+  downVoteEntity,
+  neutralizeVoteEntity,
+  syncStateWithAsyncThunk,
+  upVoteEntity,
+} from "./utils";
 
 export const updateThreadDetail = createAsyncThunk(
   "threadDetail/update",
@@ -65,38 +71,19 @@ const slice = createSlice({
       const comment = state.detail.detail.comments.find(
         (comment) => comment.id === action.payload.commentId
       );
-      if (comment) {
-        if (!comment.upVotesBy.includes(action.payload.userId))
-          comment.upVotesBy.push(action.payload.userId);
-        const index = comment.downVotesBy.indexOf(action.payload.userId);
-        if (index >= 0) {
-          comment.downVotesBy.splice(index, 1);
-        }
-      }
+      if (comment) upVoteEntity(comment, action.payload.userId);
     });
     builder.addCase(downVoteComment.fulfilled, (state, action) => {
       const comment = state.detail.detail.comments.find(
         (comment) => comment.id === action.payload.commentId
       );
-      if (comment) {
-        if (!comment.downVotesBy.includes(action.payload.userId))
-          comment.downVotesBy.push(action.payload.userId);
-        const index = comment.upVotesBy.indexOf(action.payload.userId);
-        if (index >= 0) comment.upVotesBy.splice(index, 1);
-      }
+      if (comment) downVoteEntity(comment, action.payload.userId);
     });
     builder.addCase(neutralizeVoteComment.fulfilled, (state, action) => {
       const comment = state.detail.detail.comments.find(
         (comment) => comment.id === action.payload.commentId
       );
-      if (comment) {
-        const downIndex = comment.downVotesBy.indexOf(action.payload.userId);
-        if (downIndex >= 0) {
-          comment.downVotesBy.splice(downIndex, 1);
-        }
-        const upIndex = comment.upVotesBy.indexOf(action.payload.userId);
-        if (upIndex >= 0) comment.upVotesBy.splice(upIndex, 1);
-      }
+      if (comment) neutralizeVoteEntity(comment, action.payload.userId);
     });
   },
 });

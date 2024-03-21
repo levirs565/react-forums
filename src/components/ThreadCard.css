@@ -69,3 +69,11 @@
   line-clamp: 4;
   -webkit-box-orient: vertical;
 }
+
+.thread-card--footer {
+  justify-content: start !important;
+
+  & button {
+    z-index: 100;
+  }
+}

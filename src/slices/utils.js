@@ -26,3 +26,30 @@ export function syncStateWithAsyncThunk(
     onFullfiled(state, action);
   });
 }
+
+export function findThread(list, id) {
+  return list.find((value) => value.id === id);
+}
+
+export function upVoteEntity(entity, userId) {
+  if (!entity.upVotesBy.includes(userId)) entity.upVotesBy.push(userId);
+  const index = entity.downVotesBy.indexOf(userId);
+  if (index >= 0) {
+    entity.downVotesBy.splice(index, 1);
+  }
+}
+
+export function downVoteEntity(entity, userId) {
+  if (!entity.downVotesBy.includes(userId)) entity.downVotesBy.push(userId);
+  const index = entity.upVotesBy.indexOf(userId);
+  if (index >= 0) entity.upVotesBy.splice(index, 1);
+}
+
+export function neutralizeVoteEntity(entity, userId) {
+  const downIndex = entity.downVotesBy.indexOf(userId);
+  if (downIndex >= 0) {
+    entity.downVotesBy.splice(downIndex, 1);
+  }
+  const upIndex = entity.upVotesBy.indexOf(userId);
+  if (upIndex >= 0) entity.upVotesBy.splice(upIndex, 1);
+}

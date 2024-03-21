@@ -4,8 +4,22 @@ import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useFormatDate } from "../hook";
+import { VoteButtonGroup } from "./Vote";
 
-export function ThreadCard({ id, title, body, createdAt, highlightPattern }) {
+export function ThreadCard({
+  id,
+  title,
+  body,
+  createdAt,
+  upVoteCount,
+  downVoteCount,
+  onUpVote,
+  onDownVote,
+  onNeutralizeVote,
+  isUpVoted,
+  isDownVoted,
+  highlightPattern,
+}) {
   const location = useLocation();
   const formatDate = useFormatDate();
   return (
@@ -29,6 +43,16 @@ export function ThreadCard({ id, title, body, createdAt, highlightPattern }) {
       <div className="thread-card--body">
         <HighlightHTML text={body} pattern={highlightPattern} />
       </div>
+      <VoteButtonGroup
+        className="thread-card--footer"
+        upVoteCount={upVoteCount}
+        downVoteCount={downVoteCount}
+        isUpVoted={isUpVoted}
+        isDownVoted={isDownVoted}
+        onUpVote={() => onUpVote(id)}
+        onDownVote={() => onDownVote(id)}
+        onNeutralizeVote={() => onNeutralizeVote(id)}
+      />
     </li>
   );
 }
@@ -39,6 +63,13 @@ ThreadCard.propTypes = {
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   highlightPattern: PropTypes.string.isRequired,
+  upVoteCount: PropTypes.number.isRequired,
+  downVoteCount: PropTypes.number.isRequired,
+  isUpVoted: PropTypes.bool.isRequired,
+  isDownVoted: PropTypes.bool.isRequired,
+  onUpVote: PropTypes.func.isRequired,
+  onDownVote: PropTypes.func.isRequired,
+  onNeutralizeVote: PropTypes.func.isRequired,
 };
 
 export function ThreadCardShimmer({ bodyLineCount }) {
@@ -78,6 +109,9 @@ export function ThreadCardList({
   isLoading,
   highlightPattern,
   emptyMessage,
+  onDownVote,
+  onUpVote,
+  onNeutralizeVote,
 }) {
   if (isLoading)
     return (
@@ -94,23 +128,44 @@ export function ThreadCardList({
 
   return (
     <ul className="thread-card-list">
-      {list.map(({ id, title, body, createdAt }) => (
-        <ThreadCard
-          key={id}
-          id={id}
-          title={title}
-          body={body}
-          createdAt={createdAt}
-          highlightPattern={highlightPattern}
-        />
-      ))}
+      {list.map(
+        ({
+          id,
+          title,
+          body,
+          createdAt,
+          upVoteCount,
+          downVoteCount,
+          isUpVoted,
+          isDownVoted,
+        }) => (
+          <ThreadCard
+            key={id}
+            id={id}
+            title={title}
+            body={body}
+            createdAt={createdAt}
+            highlightPattern={highlightPattern}
+            upVoteCount={upVoteCount}
+            downVoteCount={downVoteCount}
+            isUpVoted={isUpVoted}
+            isDownVoted={isDownVoted}
+            onUpVote={onUpVote}
+            onDownVote={onDownVote}
+            onNeutralizeVote={onNeutralizeVote}
+          />
+        )
+      )}
     </ul>
   );
 }
 
 ThreadCardList.propTypes = {
-  list: PropTypes.array.isRequired,
+  list: PropTypes.arrayOf(PropTypes.object),
   highlightPattern: PropTypes.string.isRequired,
   emptyMessage: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  onUpVote: PropTypes.func.isRequired,
+  onDownVote: PropTypes.func.isRequired,
+  onNeutralizeVote: PropTypes.func.isRequired,
 };
