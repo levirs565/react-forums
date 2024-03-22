@@ -1,0 +1,30 @@
+.floating-action-button {
+  outline: none;
+  appearance: none;
+  border: none;
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  font-size: 32px;
+  line-height: 32px;
+  text-align: center;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  background-color: var(--color-green-500);
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--color-green-600);
+  }
+
+  &:active {
+    background-color: var(--color-green-700);
+  }
+}

@@ -9,6 +9,7 @@ import {
 } from "../slices/threads";
 import { ThreadCardList } from "../components/ThreadCard";
 import { selectUserState } from "../slices/auth";
+import { FloatingActionButton } from "../components/FloatingActionButton";
 
 export function ThreadListPage() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ export function ThreadListPage() {
         onDownVote={(id) => dispatch(downVoteThread({ id }))}
         onNeutralizeVote={(id) => dispatch(neutralizeVoteThread({ id }))}
       />
+      {user && <FloatingActionButton to="/thread/new">+</FloatingActionButton>}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/Login";
 import { MainLayout } from "./layout/MainLayout";
 import { useTheme } from "./provider/context";
 import { LeaderboardPage } from "./pages/Leaderboard";
+import { ThreadNewPage } from "./pages/ThreadNew";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <ThreadListPage />,
+      },
+      {
+        path: "/thread/new",
+        element: <ThreadNewPage />,
       },
       {
         path: "/thread/:id",

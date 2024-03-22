@@ -45,11 +45,18 @@ export const neutralizeVoteComment = createAsyncThunk(
     ).vote
 );
 
+export const newThread = createAsyncThunk(
+  "threadDetail/newThread",
+  async ({ title, body, category }) =>
+    (await postData("/threads", { title, body, category })).thread
+);
+
 const slice = createSlice({
   name: "threadDetail",
   initialState: {
     detail: createProcessState(),
     addComment: createProcessState(false),
+    createNew: createProcessState(false),
   },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
@@ -68,6 +75,7 @@ const slice = createSlice({
         state.detail.detail.comments.unshift(action.payload);
       }
     );
+    syncStateWithAsyncThunk(builder, newThread, "createNew");
     builder.addCase(upVoteThread.fulfilled, (state, action) => {
       if (action.payload.threadId != state.detail?.detail?.id) return;
       upVoteEntity(state.detail.detail, action.payload.userId);
@@ -103,5 +111,6 @@ const slice = createSlice({
 
 export const selectThreadDetail = (state) => state.threadDetail.detail;
 export const selectAddCommentState = (state) => state.threadDetail.addComment;
+export const selectNewThreadState = (state) => state.threadDetail.createNew;
 
 export default slice.reducer;

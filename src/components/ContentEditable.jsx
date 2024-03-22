@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import "./ContentEditable.css";
 import { AppInput, AppInputContainer } from "./AppInput";
@@ -27,8 +27,21 @@ ContentEditable.propTypes = {
   onValueChanged: PropTypes.func.isRequired,
 };
 
-export function ContentEditableInput({ value, onValueChanged, placeholder }) {
+export const ContentEditableInput = forwardRef(function ContentEditableInput(
+  { value, onValueChanged, placeholder, id },
+  ref
+) {
   const editableRef = useRef();
+
+  useImperativeHandle(ref, () => {
+    return {
+      focus() {
+        if (!editableRef.current) return;
+        editableRef.current.focus();
+      },
+    };
+  });
+
   return (
     <AppInputContainer
       onClick={() => {
@@ -40,6 +53,7 @@ export function ContentEditableInput({ value, onValueChanged, placeholder }) {
     >
       <AppInput as="div">
         <ContentEditable
+          id={id}
           as="div"
           contentEditable
           value={value}
@@ -50,10 +64,11 @@ export function ContentEditableInput({ value, onValueChanged, placeholder }) {
       </AppInput>
     </AppInputContainer>
   );
-}
+});
 
 ContentEditableInput.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChanged: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };

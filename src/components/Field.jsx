@@ -26,10 +26,10 @@ FieldInput.propTypes = {
   className: PropTypes.string,
 };
 
-export function FieldLabel({ children }) {
+export function FieldLabel({ children, onClick }) {
   const inputId = useContext(InputIdContext);
   return (
-    <label className="field--label" htmlFor={inputId}>
+    <label className="field--label" htmlFor={inputId} onClick={onClick}>
       {children}
     </label>
   );
@@ -37,6 +37,7 @@ export function FieldLabel({ children }) {
 
 FieldLabel.propTypes = {
   children: PropTypes.node,
+  onFocus: PropTypes.func,
 };
 
 export function FieldMessage({ children, error }) {
