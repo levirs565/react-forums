@@ -10,6 +10,7 @@
   cursor: pointer;
   font-weight: 500;
   transition: background-color 100ms ease-in-out;
+  text-decoration: none;
 }
 
 .app-button--normal {

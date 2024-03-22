@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./AppButton.css";
 import PropTypes from "prop-types";
 
@@ -21,6 +22,37 @@ AppButton.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+};
+
+export function AppButtonLink({
+  className,
+  variant,
+  children,
+  onClick,
+  disabled,
+  to,
+}) {
+  return (
+    <Link
+      className={`app-button app-button--${variant ?? "normal"} ${
+        className ? className : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+      to={to}
+    >
+      {children}
+    </Link>
+  );
+}
+
+AppButtonLink.propTypes = {
+  className: PropTypes.string,
+  variant: PropTypes.string,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+  to: PropTypes.string.isRequired,
 };
 
 export function AppButtonGroupSpacer() {

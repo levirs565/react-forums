@@ -3,7 +3,7 @@ import { SearchInput } from "./SearchInput";
 import "./TopBar.css";
 import PropTypes from "prop-types";
 import { MoreIcon } from "../icons/MoreIcon";
-import { AppIconButton } from "./AppButton";
+import { AppButtonLink, AppIconButton } from "./AppButton";
 import {
   Popup,
   PopupContent,
@@ -117,26 +117,24 @@ export function TopBar({
   return (
     <header className="top-bar">
       <h1 className="top-bar--title">Forums</h1>
-      {userName && (
-        <TopBarTabs>
-          <TopBarTabsItem
-            to={{
-              pathname: "/",
-              search: searchParam,
-            }}
-          >
-            {getText("activeNote")}
-          </TopBarTabsItem>
-          <TopBarTabsItem
-            to={{
-              pathname: "/archive",
-              search: searchParam,
-            }}
-          >
-            {getText("archiveNote")}
-          </TopBarTabsItem>
-        </TopBarTabs>
-      )}
+      <TopBarTabs>
+        <TopBarTabsItem
+          to={{
+            pathname: "/",
+            search: searchParam,
+          }}
+        >
+          Threads
+        </TopBarTabsItem>
+        <TopBarTabsItem
+          to={{
+            pathname: "/leaderboards",
+            search: searchParam,
+          }}
+        >
+          Leaderboards
+        </TopBarTabsItem>
+      </TopBarTabs>
       <div className="top-bar--grow" />
       {showSearch && (
         <SearchInput
@@ -144,7 +142,7 @@ export function TopBar({
           onChange={(el) => onSearchChange(el.target.value)}
         />
       )}
-      {userName && (
+      {userName ? (
         <Popup>
           <AppIconButton>
             <img className="top-bar--avatar-button" src={userAvatar} />
@@ -155,6 +153,8 @@ export function TopBar({
             onLogout={onLogout}
           />
         </Popup>
+      ) : (
+        <AppButtonLink to="/login">Login</AppButtonLink>
       )}
       <Popup>
         <AppIconButton>
