@@ -1,0 +1,41 @@
+@import "../base.css";
+
+.leaderboard-list {
+  list-style: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.leaderboard-item {
+  @mixin primary-surface;
+
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.leaderboard-item--avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.leaderboard-item--name {
+  flex-grow: 1;
+
+  & .shimmer {
+    display: inline-block;
+  }
+}
+
+.leaderboard-item--score {
+  font-size: 18px;
+}
+
+.leaderboard-item + .leaderboard-item {
+  margin-top: 8px;
+}
