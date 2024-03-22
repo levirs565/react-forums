@@ -22,8 +22,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { newThread, selectNewThreadState } from "../slices/threadDetail";
 import { useNavigate } from "react-router-dom";
+import { LoggedInGuard } from "../guard/LoginGuard";
 
-export function ThreadNewPage() {
+function ThreadNewPageContent() {
   const {
     register,
     control,
@@ -107,5 +108,13 @@ export function ThreadNewPage() {
         </CardFormFooter>
       </CardForm>
     </div>
+  );
+}
+
+export function ThreadNewPage() {
+  return (
+    <LoggedInGuard>
+      <ThreadNewPageContent />
+    </LoggedInGuard>
   );
 }
