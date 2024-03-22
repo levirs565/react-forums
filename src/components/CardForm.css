@@ -1,7 +1,7 @@
 @import "../base.css";
 
 .card-form {
-  min-height: 100vh;
+  min-height: calc(100vh - 48px);
   display: flex;
   flex-direction: row;
   align-items: center;
