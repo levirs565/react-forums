@@ -7,6 +7,15 @@
   align-items: center;
 }
 
+.card-form--fluid {
+  min-height: auto;
+  display: block;
+
+  & .card-form--form {
+    max-width: none;
+  }
+}
+
 .card-form--form {
   @mixin primary-surface;
   border-radius: 16px;

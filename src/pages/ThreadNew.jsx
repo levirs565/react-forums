@@ -46,6 +46,7 @@ export function ThreadNewPage() {
             })
             .catch(() => {})
         )}
+        isFluid
       >
         <CardFormHeader>
           <CardFormTitle>Buat Thread Baru</CardFormTitle>

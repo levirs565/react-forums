@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import "./CardForm.css";
 
-export function CardForm({ children, ...rest }) {
+export function CardForm({ children, isFluid, ...rest }) {
   return (
-    <div className="card-form">
+    <div className={["card-form", isFluid ? "card-form--fluid" : ""].join(" ")}>
       <form className="card-form--form" {...rest}>
         {children}
       </form>
@@ -13,6 +13,7 @@ export function CardForm({ children, ...rest }) {
 
 CardForm.propTypes = {
   children: PropTypes.node,
+  isFluid: PropTypes.bool,
 };
 
 export function CardFormTitle({ children }) {
