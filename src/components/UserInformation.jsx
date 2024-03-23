@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "./UserInformation.css";
+import { InnerShimmer, Shimmer } from "./Shimmer";
 
 export function UserInformation({ className, avatar, name }) {
   return (
@@ -14,4 +15,21 @@ UserInformation.propTypes = {
   className: PropTypes.string,
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+};
+
+export function UserInformationShimmer({ className }) {
+  return (
+    <div className={["user-info", className].join(" ")}>
+      <div className="user-info--avatar">
+        <InnerShimmer />
+      </div>
+      <Shimmer>
+        <p className="user-info--name">Name</p>
+      </Shimmer>
+    </div>
+  );
+}
+
+UserInformationShimmer.propTypes = {
+  className: PropTypes.string,
 };

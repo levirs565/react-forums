@@ -14,8 +14,6 @@
 
   padding: 8px 16px;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
   position: relative;
   transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
@@ -83,7 +81,7 @@
 
 .thread-card--footer {
   margin-top: 8px;
-  
+
   & button {
     z-index: 100;
   }

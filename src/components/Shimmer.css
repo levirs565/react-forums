@@ -21,6 +21,10 @@
   }
 }
 
+.shimmer--not-fill {
+  display: inline-block;
+}
+
 .shimmer--inner {
   display: block;
   width: 100%;

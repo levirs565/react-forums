@@ -4,18 +4,26 @@ import htmlToReact from "html-react-parser";
 import { useFormatDate } from "../hook";
 import "./ThreadDetail.css";
 import { VoteButtonGroup } from "./Vote";
-import { UserInformation } from "./UserInformation";
+import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { Category } from "./Category";
 
 export function ThreadDetailShimmer({ bodyLineCount }) {
   return (
     <div className="thread-detail">
+      <div className="thread-detail--header">
+        <UserInformationShimmer />
+        <Shimmer>
+          <time className="thread-detail--date">Date</time>
+        </Shimmer>
+      </div>
       <Shimmer>
         <h1 className="thread-detail--title">Title</h1>
       </Shimmer>
-      <Shimmer>
-        <time className="thread-detail--date">Date</time>
-      </Shimmer>
+      <div className="thread-detail--category">
+        <Shimmer isNotFill>
+          <Category as="span" text="Category" />
+        </Shimmer>
+      </div>
       <MultiLineShimmer
         lineCount={bodyLineCount}
         renderItem={(index) => (

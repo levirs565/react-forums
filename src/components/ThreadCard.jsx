@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useFormatDate } from "../hook";
 import { VoteButtonGroup } from "./Vote";
-import { UserInformation } from "./UserInformation";
+import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { Category } from "./Category";
 
 export function ThreadCard({
@@ -87,22 +87,30 @@ export function ThreadCardShimmer({ bodyLineCount }) {
   return (
     <li className="thread-card">
       <div className="thread-card--header">
-        <Shimmer>
-          <h3 className="thread-card--title">Title</h3>
-        </Shimmer>
+        <UserInformationShimmer />
         <Shimmer>
           <time className="thread-card--created-date">Date</time>
         </Shimmer>
-
-        <MultiLineShimmer
-          lineCount={bodyLineCount}
-          renderItem={(index) => (
-            <Shimmer key={index}>
-              <p className="thread-card--body">Body</p>
-            </Shimmer>
-          )}
-        />
       </div>
+
+      <Shimmer>
+        <h3 className="thread-card--title">Title</h3>
+      </Shimmer>
+
+      <div className="thread-card--category">
+        <Shimmer isNotFill>
+          <Category as="span" text="Category" />
+        </Shimmer>
+      </div>
+
+      <MultiLineShimmer
+        lineCount={bodyLineCount}
+        renderItem={(index) => (
+          <Shimmer key={index}>
+            <p className="thread-card--body">Body</p>
+          </Shimmer>
+        )}
+      />
     </li>
   );
 }

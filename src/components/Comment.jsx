@@ -14,7 +14,7 @@ import {
   ReactHookFieldMessage,
 } from "./Field";
 import { Controller } from "react-hook-form";
-import { UserInformation } from "./UserInformation";
+import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { useFormatDate } from "../hook";
 
 function CommentItem({
@@ -71,11 +71,9 @@ function CommentItemShimmer({ contentLineCount }) {
   return (
     <li className="comment">
       <div className="comment--header">
-        <div className="comment--avatar">
-          <InnerShimmer />
-        </div>
+        <UserInformationShimmer />
         <Shimmer>
-          <p className="comment--owner">Owner</p>
+          <time className="comment--date">Date</time>
         </Shimmer>
       </div>
       <MultiLineShimmer

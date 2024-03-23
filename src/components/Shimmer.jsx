@@ -1,9 +1,16 @@
 import "./Shimmer.css";
 import PropTypes from "prop-types";
 
-export function Shimmer({ className, children }) {
+export function Shimmer({ className, children, isNotFill }) {
   return (
-    <div className={["shimmer", className].join(" ")} inert="">
+    <div
+      className={[
+        "shimmer",
+        isNotFill ? "shimmer--not-fill" : "",
+        className,
+      ].join(" ")}
+      inert=""
+    >
       {children}
     </div>
   );
@@ -12,6 +19,7 @@ export function Shimmer({ className, children }) {
 Shimmer.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  isNotFill: PropTypes.bool,
 };
 
 export function InnerShimmer({ className, children }) {
