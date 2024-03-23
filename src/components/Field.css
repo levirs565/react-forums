@@ -7,6 +7,7 @@
 .field--label,
 .field--input {
   display: block;
+  width: 100%;
 }
 
 .field--label,
