@@ -22,6 +22,7 @@ import {
   neutralizeVoteThread,
   upVoteThread,
 } from "../slices/threads";
+import { ErrorView } from "../components/ErrorView";
 
 export function ThreadDetailPage() {
   const param = useParams();
@@ -42,6 +43,16 @@ export function ThreadDetailPage() {
   useEffect(() => {
     dispatch(updateThreadDetail({ id: param.id }));
   }, [param]);
+
+  if (error)
+    return (
+      <div className="app-main app-main--content">
+        <ErrorView
+          error={error}
+          onRefresh={() => dispatch(updateThreadDetail({ id: param.id }))}
+        />
+      </div>
+    );
 
   return (
     <div className="app-main app-main--content">

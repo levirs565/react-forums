@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { InnerShimmer, Shimmer } from "./Shimmer";
+import PropTypes from "prop-types";
 import "./Leaderboard.css";
 
 function LeaderboardItem({ userName, userAvatar, score }) {
@@ -11,6 +12,12 @@ function LeaderboardItem({ userName, userAvatar, score }) {
     </li>
   );
 }
+
+LeaderboardItem.propTypes = {
+  userName: PropTypes.string.isRequired,
+  userAvatar: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+};
 
 function LeaderboardItemShimmer() {
   return (
@@ -31,11 +38,11 @@ function LeaderboardItemShimmer() {
   );
 }
 
-export function Leaderboard({ list }) {
-  const shimmerItems = useMemo(() => new Array(10).fill(0));
+export function Leaderboard({ list, isLoading }) {
+  const shimmerItems = useMemo(() => new Array(10).fill(0), []);
   return (
     <ul className="leaderboard-list">
-      {list
+      {!isLoading
         ? list.map(({ user, score }) => (
             <LeaderboardItem
               key={user.id}
@@ -50,3 +57,8 @@ export function Leaderboard({ list }) {
     </ul>
   );
 }
+
+Leaderboard.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool.isRequired,
+};
