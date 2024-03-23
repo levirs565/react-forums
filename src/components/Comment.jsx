@@ -141,7 +141,7 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
     setFocus,
   } = form;
   return (
-    <CardForm isFluid onSubmit={handleSubmit(onSubmit)}>
+    <CardForm isFluid onSubmit={handleSubmit(onSubmit)} isSurface>
       <CardFormContent>
         <Field inputId="content">
           <FieldLabel onClick={() => setFocus("content")}>Komentar</FieldLabel>

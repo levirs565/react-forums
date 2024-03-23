@@ -25,6 +25,10 @@
   max-width: 48ch;
 }
 
+.card-form--surface .card-form--form {
+  @mixin surface;
+}
+
 .card-form--header,
 .card-form--content {
   margin-bottom: 16px;

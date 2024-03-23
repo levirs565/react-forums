@@ -1,10 +1,15 @@
+@import "../base.css";
+
 .comment-list {
   list-style: none;
   padding-inline: 0;
 }
 
 .comment {
-  border: 1px solid var(--color-zink-400);
+  @mixin surface;
+
+  border-width: 1px;
+  border-style: solid;
   border-radius: 16px;
   padding: 8px 16px;
 }
