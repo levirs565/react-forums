@@ -15,7 +15,10 @@ import { selectUserState } from "../slices/auth";
 import { FloatingActionButton } from "../components/FloatingActionButton";
 import { ErrorView } from "../components/ErrorView";
 import { updateUsers } from "../slices/users";
-import { CategorySelectionList } from "../components/Category";
+import {
+  CategoryListShimmer,
+  CategorySelectionList,
+} from "../components/Category";
 
 export function ThreadListPage() {
   const dispatch = useDispatch();
@@ -43,13 +46,17 @@ export function ThreadListPage() {
       ) : (
         <>
           <h2 className="subtitle">Kategori</h2>
-          <CategorySelectionList
-            list={categoryList}
-            selected={categoryFilter}
-            onSelected={(category) =>
-              dispatch(setThreadListCategoryFilter(category))
-            }
-          />
+          {loading ? (
+            <CategoryListShimmer count={3} />
+          ) : (
+            <CategorySelectionList
+              list={categoryList}
+              selected={categoryFilter}
+              onSelected={(category) =>
+                dispatch(setThreadListCategoryFilter(category))
+              }
+            />
+          )}
           <h2 className="subtitle">Threads</h2>
           <ThreadCardList
             emptyMessage="Kosong"

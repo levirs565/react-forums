@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import renderHtml from "html-react-parser";
 import "./Comment.css";
-import { InnerShimmer, MultiLineShimmer, Shimmer } from "./Shimmer";
+import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useMemo } from "react";
 import { ContentEditableInput } from "./ContentEditable";
 import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
