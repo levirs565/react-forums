@@ -58,6 +58,11 @@ const slice = createSlice({
     addComment: createProcessState(false),
     createNew: createProcessState(false),
   },
+  reducers: {
+    cleanCreateNewState: (state) => {
+      state.createNew = createProcessState(false);
+    },
+  },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
       builder,
@@ -75,7 +80,14 @@ const slice = createSlice({
         state.detail.detail.comments.unshift(action.payload);
       }
     );
-    syncStateWithAsyncThunk(builder, newThread, "createNew");
+    syncStateWithAsyncThunk(
+      builder,
+      newThread,
+      "createNew",
+      (state, action) => {
+        state.createNew.newId = action.payload.id;
+      }
+    );
     builder.addCase(upVoteThread.fulfilled, (state, action) => {
       if (action.payload.threadId != state.detail?.detail?.id) return;
       upVoteEntity(state.detail.detail, action.payload.userId);
@@ -109,8 +121,12 @@ const slice = createSlice({
   },
 });
 
+const actions = slice.actions;
+
 export const selectThreadDetail = (state) => state.threadDetail.detail;
 export const selectAddCommentState = (state) => state.threadDetail.addComment;
 export const selectNewThreadState = (state) => state.threadDetail.createNew;
+
+export const cleanCreateNewThreadState = actions.cleanCreateNewState;
 
 export default slice.reducer;

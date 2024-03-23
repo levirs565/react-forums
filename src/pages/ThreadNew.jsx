@@ -20,9 +20,14 @@ import {
   AppButtonGroupSpacer,
 } from "../components/AppButton";
 import { useDispatch, useSelector } from "react-redux";
-import { newThread, selectNewThreadState } from "../slices/threadDetail";
+import {
+  cleanCreateNewThreadState,
+  newThread,
+  selectNewThreadState,
+} from "../slices/threadDetail";
 import { useNavigate } from "react-router-dom";
 import { LoggedInGuard } from "../guard/LoginGuard";
+import { useEffect } from "react";
 
 function ThreadNewPageContent() {
   const {
@@ -32,21 +37,21 @@ function ThreadNewPageContent() {
     handleSubmit,
     setFocus,
   } = useForm();
-  const { loading, error } = useSelector(selectNewThreadState);
+  const { loading, error, newId } = useSelector(selectNewThreadState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (newId) {
+      dispatch(cleanCreateNewThreadState());
+      navigate(`/thread/${newId}`);
+    }
+  }, [newId, dispatch, navigate]);
 
   return (
     <div className="app-main app-main--content">
       <CardForm
-        onSubmit={handleSubmit((data) =>
-          dispatch(newThread(data))
-            .unwrap()
-            .then((thread) => {
-              navigate(`/thread/${thread.id}`);
-            })
-            .catch(() => {})
-        )}
+        onSubmit={handleSubmit((data) => dispatch(newThread(data)))}
         isFluid
       >
         <CardFormHeader>
