@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   downVoteThread,
   neutralizeVoteThread,
+  selectCategoryList,
+  selectThreadListCategoryFilter,
   selectThreadsList,
+  setThreadListCategoryFilter,
   upVoteThread,
   updateThreads,
 } from "../slices/threads";
@@ -12,6 +15,7 @@ import { selectUserState } from "../slices/auth";
 import { FloatingActionButton } from "../components/FloatingActionButton";
 import { ErrorView } from "../components/ErrorView";
 import { updateUsers } from "../slices/users";
+import { CategorySelectionList } from "../components/Category";
 
 export function ThreadListPage() {
   const dispatch = useDispatch();
@@ -23,6 +27,8 @@ export function ThreadListPage() {
   }, []);
 
   const { loading, list, error } = useSelector(selectThreadsList);
+  const categoryFilter = useSelector(selectThreadListCategoryFilter);
+  const categoryList = useSelector(selectCategoryList);
 
   return (
     <div className="app-main app-main--content">
@@ -35,37 +41,48 @@ export function ThreadListPage() {
           }}
         />
       ) : (
-        <ThreadCardList
-          emptyMessage="Kosong"
-          highlightPattern=""
-          isLoading={loading}
-          list={list?.map(
-            ({
-              id,
-              title,
-              body,
-              createdAt,
-              upVotesBy,
-              downVotesBy,
-              owner,
-              category,
-            }) => ({
-              id,
-              title,
-              body,
-              createdAt,
-              owner,
-              upVoteCount: upVotesBy.length,
-              downVoteCount: downVotesBy.length,
-              isUpVoted: upVotesBy.includes(user?.id),
-              isDownVoted: downVotesBy.includes(user?.id),
-              category,
-            })
-          )}
-          onUpVote={(id) => dispatch(upVoteThread({ id }))}
-          onDownVote={(id) => dispatch(downVoteThread({ id }))}
-          onNeutralizeVote={(id) => dispatch(neutralizeVoteThread({ id }))}
-        />
+        <>
+          <h2 className="subtitle">Kategori</h2>
+          <CategorySelectionList
+            list={categoryList}
+            selected={categoryFilter}
+            onSelected={(category) =>
+              dispatch(setThreadListCategoryFilter(category))
+            }
+          />
+          <h2 className="subtitle">Threads</h2>
+          <ThreadCardList
+            emptyMessage="Kosong"
+            highlightPattern=""
+            isLoading={loading}
+            list={list?.map(
+              ({
+                id,
+                title,
+                body,
+                createdAt,
+                upVotesBy,
+                downVotesBy,
+                owner,
+                category,
+              }) => ({
+                id,
+                title,
+                body,
+                createdAt,
+                owner,
+                upVoteCount: upVotesBy.length,
+                downVoteCount: downVotesBy.length,
+                isUpVoted: upVotesBy.includes(user?.id),
+                isDownVoted: downVotesBy.includes(user?.id),
+                category,
+              })
+            )}
+            onUpVote={(id) => dispatch(upVoteThread({ id }))}
+            onDownVote={(id) => dispatch(downVoteThread({ id }))}
+            onNeutralizeVote={(id) => dispatch(neutralizeVoteThread({ id }))}
+          />
+        </>
       )}
       {user && <FloatingActionButton to="/thread/new">+</FloatingActionButton>}
     </div>

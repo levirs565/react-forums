@@ -1,6 +1,37 @@
+@import "../base.css";
+
 .category {
   border-radius: 8px;
   padding: 4px 8px;
   border: 1px solid var(--text-color);
   display: inline-block;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-inline: 0;
+  gap: 8px;
+}
+
+.category--selectable {
+  @mixin transparent-button;
+  cursor: pointer;
+}
+
+.category--selected {
+  background-color: var(--color-fuchsia-300);
+
+  &:hover {
+    background-color: var(--color-fuchsia-500);
+  }
+
+  @mixin dark-theme {
+    background-color: var(--color-fuchsia-500);
+
+    &:hover {
+      background-color: var(--color-fuchsia-700);
+    }
+  }
 }

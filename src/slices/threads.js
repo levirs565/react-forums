@@ -36,7 +36,16 @@ export const neutralizeVoteThread = createAsyncThunk(
 
 const slice = createSlice({
   name: "threads",
-  initialState: createProcessState(),
+  initialState: {
+    ...createProcessState(),
+    list: null,
+    categoryFilter: null,
+  },
+  reducers: {
+    setCategoryFilter: (state, action) => {
+      state.categoryFilter = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(builder, updateThreads, null, (state, action) => {
       state.list = action.payload;
@@ -78,15 +87,31 @@ export const selectThreadsList = createSelector(
       };
     const userList = userListState.list;
     const threadList = rawThreadList.list;
+    let list = threadList.map(({ ownerId, ...rest }) => ({
+      owner: userList.find(({ id }) => id === ownerId),
+      ...rest,
+    }));
+    if (rawThreadList.categoryFilter)
+      list = list.filter(
+        ({ category }) => category === rawThreadList.categoryFilter
+      );
     return {
       loading: false,
       error: null,
-      list: threadList.map(({ ownerId, ...rest }) => ({
-        owner: userList.find(({ id }) => id === ownerId),
-        ...rest,
-      })),
+      list,
     };
   }
 );
+
+export const selectCategoryList = createSelector(
+  [selectRawThreadsList],
+  ({ list }) => {
+    return Array.from(new Set((list ?? []).map(({ category }) => category)));
+  }
+);
+
+export const selectThreadListCategoryFilter = (state) =>
+  selectRawThreadsList(state).categoryFilter;
+export const setThreadListCategoryFilter = slice.actions.setCategoryFilter;
 
 export default slice.reducer;
