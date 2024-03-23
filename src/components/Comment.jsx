@@ -6,6 +6,14 @@ import { useMemo } from "react";
 import { ContentEditableInput } from "./ContentEditable";
 import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
 import { VoteButtonGroup } from "./Vote";
+import { CardForm, CardFormContent, CardFormFooter } from "./CardForm";
+import {
+  Field,
+  FieldLabel,
+  FieldMessage,
+  ReactHookFieldMessage,
+} from "./Field";
+import { Controller } from "react-hook-form";
 
 function CommentItem({
   id,
@@ -125,27 +133,61 @@ export function CommentListShimmer() {
   );
 }
 
-export function NewCommentForm({ value, onValueChanged, isLoading, onSubmit }) {
+export function NewCommentForm({ form, isLoading, onSubmit, error }) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setFocus,
+  } = form;
   return (
-    <div className="new-comment">
-      <ContentEditableInput
-        value={value}
-        onValueChanged={onValueChanged}
-        placeholder="Masukkan Komentar"
-      />
-      <AppButtonGroup className="new-comment--button-group">
-        <AppButtonGroupSpacer />
-        <AppButton variant="primary" onClick={onSubmit} disabled={isLoading}>
-          Kirim
-        </AppButton>
-      </AppButtonGroup>
-    </div>
+    <CardForm isFluid onSubmit={handleSubmit(onSubmit)}>
+      <CardFormContent>
+        <Field inputId="content">
+          <FieldLabel onClick={() => setFocus("content")}>Komentar</FieldLabel>
+          <Controller
+            control={control}
+            name="content"
+            rules={{
+              required: {
+                value: true,
+                message: "Konten tidak boleh kosong",
+              },
+            }}
+            render={({ field }) => (
+              <ContentEditableInput
+                value={field.value ?? ""}
+                onValueChanged={(value) => {
+                  field.onChange(value);
+                  field.onBlur();
+                }}
+                ref={field.ref}
+                placeholder=""
+              />
+            )}
+          />
+
+          <ReactHookFieldMessage error={errors.content} />
+        </Field>
+        <Field inputId="">
+          {error && <FieldMessage error>{error}</FieldMessage>}
+        </Field>
+      </CardFormContent>
+      <CardFormFooter>
+        <AppButtonGroup>
+          <AppButtonGroupSpacer />
+          <AppButton variant="primary" disabled={isLoading}>
+            Buat Komentar
+          </AppButton>
+        </AppButtonGroup>
+      </CardFormFooter>
+    </CardForm>
   );
 }
 
 NewCommentForm.propTypes = {
-  value: PropTypes.string.isRequired,
-  onValueChanged: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
 };

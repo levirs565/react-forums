@@ -37,7 +37,7 @@ export function FieldLabel({ children, onClick }) {
 
 FieldLabel.propTypes = {
   children: PropTypes.node,
-  onFocus: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export function FieldMessage({ children, error }) {

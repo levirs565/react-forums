@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -23,6 +23,7 @@ import {
   upVoteThread,
 } from "../slices/threads";
 import { ErrorView } from "../components/ErrorView";
+import { useForm } from "react-hook-form";
 
 export function ThreadDetailPage() {
   const param = useParams();
@@ -31,14 +32,14 @@ export function ThreadDetailPage() {
   const { loading: addCommentLoading, error: addCommentError } = useSelector(
     selectAddCommentState
   );
-  const [newComment, setNewComment] = useState("");
+  const newCommentForm = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!addCommentLoading) {
-      setNewComment("");
+    if (!addCommentLoading && !addCommentError) {
+      newCommentForm.reset();
     }
-  }, [addCommentLoading]);
+  }, [addCommentLoading, newCommentForm, addCommentError]);
 
   useEffect(() => {
     dispatch(updateThreadDetail({ id: param.id }));
@@ -79,12 +80,12 @@ export function ThreadDetailPage() {
         <>
           <h2 className="subtitle">Komentar Baru</h2>
           <NewCommentForm
-            value={newComment}
-            onValueChanged={(value) => setNewComment(value)}
+            form={newCommentForm}
             isLoading={addCommentLoading}
-            onSubmit={() =>
-              dispatch(addComment({ threadId: param.id, content: newComment }))
+            onSubmit={({ content }) =>
+              dispatch(addComment({ threadId: param.id, content }))
             }
+            error={addCommentError}
           />
         </>
       )}
