@@ -16,7 +16,6 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   position: relative;
   transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
@@ -34,10 +33,22 @@
   }
 }
 
+.thread-card--header {
+  display: flex;
+  direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .thread-card--title {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 4px;
+}
+
+.thread-card--category {
+  margin-bottom: 8px;
 }
 
 .thread-card--link {
@@ -71,6 +82,8 @@
 }
 
 .thread-card--footer {
+  margin-top: 8px;
+  
   & button {
     z-index: 100;
   }

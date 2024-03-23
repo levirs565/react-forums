@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useFormatDate } from "../hook";
 import { VoteButtonGroup } from "./Vote";
+import { UserInformation } from "./UserInformation";
+import { Category } from "./Category";
 
 export function ThreadCard({
   id,
@@ -19,26 +21,33 @@ export function ThreadCard({
   isUpVoted,
   isDownVoted,
   highlightPattern,
+  owner,
+  category,
 }) {
   const location = useLocation();
   const formatDate = useFormatDate();
   return (
     <li className="thread-card">
       <div className="thread-card--header">
-        <h3 className="thread-card--title">
-          <Link
-            to={`/thread/${id}`}
-            state={{
-              backgroundLocation: location,
-            }}
-            className="thread-card--link"
-          >
-            <HighlightHTML text={title} pattern={highlightPattern} />
-          </Link>
-        </h3>
+        <UserInformation avatar={owner.avatar} name={owner.name} />
+        <div className="dot-divider"></div>
         <time className="thread-card--created-date">
           {formatDate(createdAt)}
         </time>
+      </div>
+      <h3 className="thread-card--title">
+        <Link
+          to={`/thread/${id}`}
+          state={{
+            backgroundLocation: location,
+          }}
+          className="thread-card--link"
+        >
+          <HighlightHTML text={title} pattern={highlightPattern} />
+        </Link>
+      </h3>
+      <div className="thread-card--category">
+        <Category as="span" text={category} />
       </div>
       <div className="thread-card--body">
         <HighlightHTML text={body} pattern={highlightPattern} />
@@ -70,6 +79,8 @@ ThreadCard.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
+  owner: PropTypes.object.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export function ThreadCardShimmer({ bodyLineCount }) {
@@ -134,6 +145,8 @@ export function ThreadCardList({
           title,
           body,
           createdAt,
+          owner,
+          category,
           upVoteCount,
           downVoteCount,
           isUpVoted,
@@ -145,6 +158,8 @@ export function ThreadCardList({
             title={title}
             body={body}
             createdAt={createdAt}
+            owner={owner}
+            category={category}
             highlightPattern={highlightPattern}
             upVoteCount={upVoteCount}
             downVoteCount={downVoteCount}

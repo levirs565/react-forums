@@ -19,23 +19,15 @@
 }
 
 .comment--header {
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
 }
 
-.comment--owner {
+.comment--date {
   font-size: 14px;
-  font-weight: 500;
-}
-
-.comment--avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 100%;
-  overflow: hidden;
 }
 
 .comment--footer {

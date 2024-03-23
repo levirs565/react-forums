@@ -14,6 +14,8 @@ import {
   ReactHookFieldMessage,
 } from "./Field";
 import { Controller } from "react-hook-form";
+import { UserInformation } from "./UserInformation";
+import { useFormatDate } from "../hook";
 
 function CommentItem({
   id,
@@ -26,12 +28,15 @@ function CommentItem({
   onNeutralizeVote,
   isUpVoted,
   isDownVoted,
+  createdAt,
 }) {
+  const formatDate = useFormatDate();
   return (
     <li className="comment">
       <div className="comment--header">
-        <img className="comment--avatar" src={owner.avatar} />
-        <p className="comment--owner">{owner.name}</p>
+        <UserInformation name={owner.name} avatar={owner.avatar} />
+        <div className="dot-divider"></div>
+        <time className="comment--date">{formatDate(createdAt)}</time>
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
       <VoteButtonGroup
@@ -59,6 +64,7 @@ CommentItem.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 function CommentItemShimmer({ contentLineCount }) {
@@ -105,6 +111,7 @@ export function CommentList({ list, onUpVote, onDownVote, onNeutralizeVote }) {
           isDownVoted={comment.isDownVoted}
           onDownVote={onDownVote}
           onNeutralizeVote={onNeutralizeVote}
+          createdAt={comment.createdAt}
         />
       ))}
     </ul>

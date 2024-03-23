@@ -15,10 +15,20 @@
   margin-bottom: 4px;
 }
 
+.thread-detail--header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+
 .thread-detail--date {
   font-size: 14px;
+}
+
+.thread-detail--category {
   margin-bottom: 8px;
-  display: block;
 }
 
 .thread-detail--body {

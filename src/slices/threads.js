@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import {
   createProcessState,
   downVoteEntity,
@@ -8,6 +12,7 @@ import {
   upVoteEntity,
 } from "./utils";
 import { getData, postData } from "../api";
+import { selectUsersList } from "./users";
 
 export const updateThreads = createAsyncThunk(
   "threads/update",
@@ -51,6 +56,37 @@ const slice = createSlice({
   },
 });
 
-export const selectThreadsList = (state) => state.threads;
+export const selectRawThreadsList = (state) => state.threads;
+
+export const selectThreadsList = createSelector(
+  [selectRawThreadsList, selectUsersList],
+  (rawThreadList, userListState) => {
+    if (rawThreadList.loading || userListState.loading)
+      return {
+        loading: true,
+        error: null,
+      };
+    if (rawThreadList.error)
+      return {
+        loading: false,
+        error: rawThreadList.error,
+      };
+    if (userListState.error)
+      return {
+        loading: false,
+        error: userListState.error,
+      };
+    const userList = userListState.list;
+    const threadList = rawThreadList.list;
+    return {
+      loading: false,
+      error: null,
+      list: threadList.map(({ ownerId, ...rest }) => ({
+        owner: userList.find(({ id }) => id === ownerId),
+        ...rest,
+      })),
+    };
+  }
+);
 
 export default slice.reducer;

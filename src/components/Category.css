@@ -1,0 +1,6 @@
+.category {
+  border-radius: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--text-color);
+  display: inline-block;
+}

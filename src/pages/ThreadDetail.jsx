@@ -73,6 +73,8 @@ export function ThreadDetailPage() {
           onNeutralizeVote={() =>
             dispatch(neutralizeVoteThread({ id: param.id }))
           }
+          owner={detail.owner}
+          category={detail.category}
         />
       )}
 
@@ -96,10 +98,11 @@ export function ThreadDetailPage() {
       ) : (
         <CommentList
           list={detail.comments.map(
-            ({ id, owner, content, upVotesBy, downVotesBy }) => ({
+            ({ id, owner, content, upVotesBy, downVotesBy, createdAt }) => ({
               id,
               owner,
               content,
+              createdAt,
               upVoteCount: upVotesBy.length,
               downVoteCount: downVotesBy.length,
               isUpVoted: upVotesBy.includes(user?.id),

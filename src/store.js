@@ -3,6 +3,7 @@ import auth, { listenerMiddleware, updateCurrentUser } from "./slices/auth";
 import threads from "./slices/threads";
 import threadDetail from "./slices/threadDetail";
 import leaderboard from "./slices/leaderboard";
+import users from "./slices/users";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     threads,
     threadDetail,
     leaderboard,
+    users,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().prepend(listenerMiddleware.middleware),

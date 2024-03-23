@@ -28,3 +28,10 @@
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
+.dot-divider {
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background-color: var(--text-color);
+}

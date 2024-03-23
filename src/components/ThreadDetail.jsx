@@ -4,6 +4,8 @@ import htmlToReact from "html-react-parser";
 import { useFormatDate } from "../hook";
 import "./ThreadDetail.css";
 import { VoteButtonGroup } from "./Vote";
+import { UserInformation } from "./UserInformation";
+import { Category } from "./Category";
 
 export function ThreadDetailShimmer({ bodyLineCount }) {
   return (
@@ -41,12 +43,21 @@ export function ThreadDetial({
   onNeutralizeVote,
   isUpVoted,
   isDownVoted,
+  owner,
+  category,
 }) {
   const formatDate = useFormatDate();
   return (
     <div className="thread-detail">
+      <div className="thread-detail--header">
+        <UserInformation name={owner.name} avatar={owner.avatar} />
+        <div className="dot-divider"></div>
+        <time className="thread-detail--date">{formatDate(createdAt)}</time>
+      </div>
       <h1 className="thread-detail--title">{title}</h1>
-      <time className="thread-detail--date">{formatDate(createdAt)}</time>
+      <div className="thread-detail--category">
+        <Category as="span" text={category} />
+      </div>
       <div className="thread-detail--body">{htmlToReact(body)}</div>
       <VoteButtonGroup
         className="thread-detail--footer"
@@ -73,4 +84,6 @@ ThreadDetial.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
+  owner: PropTypes.object.isRequired,
+  category: PropTypes.string.isRequired,
 };
