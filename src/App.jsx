@@ -8,6 +8,7 @@ import { MainLayout } from "./layout/MainLayout";
 import { useTheme } from "./provider/context";
 import { LeaderboardPage } from "./pages/Leaderboard";
 import { ThreadNewPage } from "./pages/ThreadNew";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },

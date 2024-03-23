@@ -1,0 +1,34 @@
+.not-found-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.not-found-page--image {
+  width: min(90%, 48ch);
+}
+
+@media (min-width: 960px) {
+  .not-found-page {
+    flex-direction: row;
+  }
+
+  .not-found-page--image {
+    width: 50%;
+  }
+
+  .not-found-page--content {
+    flex-grow: 1;
+  }
+}
+
+.not-found-page--title,
+.not-found-page--text {
+  text-align: center;
+}
+
+.not-found-page--title {
+  font-weight: 400;
+  font-size: 32px;
+}
