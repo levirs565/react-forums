@@ -20,15 +20,14 @@ import {
   AppButtonGroupSpacer,
 } from "../components/AppButton";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  cleanCreateNewThreadState,
-  newThread,
-  selectNewThreadState,
-} from "../slices/threadDetail";
 import { useNavigate } from "react-router-dom";
 import { LoggedInGuard } from "../guard/LoginGuard";
 import { useEffect } from "react";
 import { useI8n } from "../provider/context";
+import newThread, {
+  cleanNewThreadState,
+  selectNewThreadState,
+} from "../slices/newThread";
 
 function ThreadNewPageContent() {
   const {
@@ -45,7 +44,7 @@ function ThreadNewPageContent() {
 
   useEffect(() => {
     if (newId) {
-      dispatch(cleanCreateNewThreadState());
+      dispatch(cleanNewThreadState());
       navigate(`/thread/${newId}`);
     }
   }, [newId, dispatch, navigate]);

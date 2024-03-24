@@ -1,25 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  downVoteThread,
-  neutralizeVoteThread,
   selectCategoryList,
   selectThreadListCategoryFilter,
   selectThreadsList,
   setThreadListCategoryFilter,
-  upVoteThread,
   updateThreads,
+  updateThreadsUsers,
 } from "../slices/threads";
 import { ThreadCardList } from "../components/ThreadCard";
 import { selectUserState } from "../slices/auth";
 import { FloatingActionButton } from "../components/FloatingActionButton";
 import { ErrorView } from "../components/ErrorView";
-import { updateUsers } from "../slices/users";
 import {
   CategoryListShimmer,
   CategorySelectionList,
 } from "../components/Category";
 import { useI8n } from "../provider/context";
+import {
+  downVoteThread,
+  neutralizeVoteThread,
+  upVoteThread,
+} from "../slices/threadsVote";
 
 export function ThreadListPage() {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ export function ThreadListPage() {
 
   useEffect(() => {
     dispatch(updateThreads());
-    dispatch(updateUsers());
+    dispatch(updateThreadsUsers());
   }, []);
 
   const { loading, list, error } = useSelector(selectThreadsList);
@@ -42,7 +44,7 @@ export function ThreadListPage() {
           error={error}
           onRefresh={() => {
             dispatch(updateThreads());
-            dispatch(updateUsers());
+            dispatch(updateThreadsUsers());
           }}
         />
       ) : (

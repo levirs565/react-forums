@@ -17,14 +17,14 @@ import {
 } from "../components/Comment";
 import { ThreadDetailShimmer, ThreadDetial } from "../components/ThreadDetail";
 import { selectUserState } from "../slices/auth";
+import { ErrorView } from "../components/ErrorView";
+import { useForm } from "react-hook-form";
+import { useI8n } from "../provider/context";
 import {
   downVoteThread,
   neutralizeVoteThread,
   upVoteThread,
-} from "../slices/threads";
-import { ErrorView } from "../components/ErrorView";
-import { useForm } from "react-hook-form";
-import { useI8n } from "../provider/context";
+} from "../slices/threadsVote";
 
 export function ThreadDetailPage() {
   const param = useParams();

@@ -7,7 +7,11 @@ import {
   syncStateWithAsyncThunk,
   upVoteEntity,
 } from "./utils";
-import { downVoteThread, neutralizeVoteThread, upVoteThread } from "./threads";
+import {
+  downVoteThread,
+  neutralizeVoteThread,
+  upVoteThread,
+} from "./threadsVote";
 
 export const updateThreadDetail = createAsyncThunk(
   "threadDetail/update",
@@ -45,23 +49,11 @@ export const neutralizeVoteComment = createAsyncThunk(
     ).vote
 );
 
-export const newThread = createAsyncThunk(
-  "threadDetail/newThread",
-  async ({ title, body, category }) =>
-    (await postData("/threads", { title, body, category })).thread
-);
-
 const slice = createSlice({
   name: "threadDetail",
   initialState: {
     detail: createProcessState(),
     addComment: createProcessState(false),
-    createNew: createProcessState(false),
-  },
-  reducers: {
-    cleanCreateNewState: (state) => {
-      state.createNew = createProcessState(false);
-    },
   },
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
@@ -78,14 +70,6 @@ const slice = createSlice({
       "addComment",
       (state, action) => {
         state.detail.detail.comments.unshift(action.payload);
-      }
-    );
-    syncStateWithAsyncThunk(
-      builder,
-      newThread,
-      "createNew",
-      (state, action) => {
-        state.createNew.newId = action.payload.id;
       }
     );
     builder.addCase(upVoteThread.fulfilled, (state, action) => {
@@ -121,12 +105,7 @@ const slice = createSlice({
   },
 });
 
-const actions = slice.actions;
-
 export const selectThreadDetail = (state) => state.threadDetail.detail;
 export const selectAddCommentState = (state) => state.threadDetail.addComment;
-export const selectNewThreadState = (state) => state.threadDetail.createNew;
-
-export const cleanCreateNewThreadState = actions.cleanCreateNewState;
 
 export default slice.reducer;
