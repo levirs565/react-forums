@@ -31,6 +31,21 @@ export function findThread(list, id) {
   return list?.find((value) => value.id === id);
 }
 
+export function saveOldVote(entity) {
+  entity.oldUpVotesBy = [...entity.upVotesBy];
+  entity.oldDownVotesBy = [...entity.downVotesBy];
+}
+
+export function resetOldVote(entity) {
+  entity.oldUpVotesBy = undefined;
+  entity.oldDownVotesBy = undefined;
+}
+
+export function undoOldVote(entity) {
+  entity.upVotesBy = entity.oldUpVotesBy;
+  entity.downVotesBy = entity.oldDownVotesBy;
+}
+
 export function upVoteEntity(entity, userId) {
   if (!entity.upVotesBy.includes(userId)) entity.upVotesBy.push(userId);
   const index = entity.downVotesBy.indexOf(userId);

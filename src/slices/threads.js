@@ -8,7 +8,10 @@ import {
   downVoteEntity,
   findThread,
   neutralizeVoteEntity,
+  resetOldVote,
+  saveOldVote,
   syncStateWithAsyncThunk,
+  undoOldVote,
   upVoteEntity,
 } from "./utils";
 import { getData } from "../api";
@@ -27,6 +30,29 @@ export const updateThreadsUsers = createAsyncThunk(
   "threads/updateUsers",
   async () => (await getData("/users")).users
 );
+
+function addVoteReducer(builder, thunk, voteFunction) {
+  builder.addCase(thunk.pending, (state, action) => {
+    const thread = findThread(state.threads.list, action.meta.arg.id);
+    if (thread) {
+      saveOldVote(thread);
+      voteFunction(thread, action.meta.userId);
+    }
+  });
+  builder.addCase(thunk.rejected, (state, action) => {
+    const thread = findThread(state.threads.list, action.meta.arg.id);
+    if (thread) {
+      undoOldVote(thread);
+      resetOldVote(thread);
+    }
+  });
+  builder.addCase(thunk.fulfilled, (state, action) => {
+    const thread = findThread(state.threads.list, action.meta.arg.id);
+    if (thread) {
+      resetOldVote(thread);
+    }
+  });
+}
 
 const slice = createSlice({
   name: "threads",
@@ -64,22 +90,15 @@ const slice = createSlice({
         state.users.list = action.payload;
       }
     );
-    builder.addCase(upVoteThread.fulfilled, (state, action) => {
-      const thread = findThread(state.threads.list, action.payload.threadId);
-      if (thread) upVoteEntity(thread, action.payload.userId);
-    });
-    builder.addCase(downVoteThread.fulfilled, (state, action) => {
-      const thread = findThread(state.threads.list, action.payload.threadId);
-      if (thread) downVoteEntity(thread, action.payload.userId);
-    });
-    builder.addCase(neutralizeVoteThread.fulfilled, (state, action) => {
-      const thread = findThread(state.threads.list, action.payload.threadId);
-      if (thread) neutralizeVoteEntity(thread, action.payload.userId);
-    });
+    addVoteReducer(builder, upVoteThread, upVoteEntity);
+    addVoteReducer(builder, downVoteThread, downVoteEntity);
+    addVoteReducer(builder, neutralizeVoteThread, neutralizeVoteEntity);
   },
 });
 
 const selectCurrentState = (state) => state.threads;
+
+export const selectRawThreads = (state) => selectCurrentState(state).threads;
 
 export const selectThreadsList = createSelector(
   [selectCurrentState],
