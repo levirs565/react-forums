@@ -1,12 +1,12 @@
-import { useMemo } from "react";
-import { InnerShimmer, Shimmer } from "./Shimmer";
-import PropTypes from "prop-types";
-import "./Leaderboard.css";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { InnerShimmer, Shimmer } from './Shimmer';
+import './Leaderboard.css';
 
 function LeaderboardItem({ userName, userAvatar, score }) {
   return (
     <li className="leaderboard-item">
-      <img className="leaderboard-item--avatar" src={userAvatar} />
+      <img alt={`${userName} avatar`} className="leaderboard-item--avatar" src={userAvatar} />
       <p className="leaderboard-item--name">{userName}</p>
       <p className="leaderboard-item--score">{score}</p>
     </li>
@@ -38,27 +38,32 @@ function LeaderboardItemShimmer() {
   );
 }
 
-export function Leaderboard({ list, isLoading }) {
+export default function Leaderboard({ list, isLoading }) {
   const shimmerItems = useMemo(() => new Array(10).fill(0), []);
   return (
     <ul className="leaderboard-list">
       {!isLoading
         ? list.map(({ user, score }) => (
-            <LeaderboardItem
-              key={user.id}
-              score={score}
-              userName={user.name}
-              userAvatar={user.avatar}
-            />
-          ))
+          <LeaderboardItem
+            key={user.id}
+            score={score}
+            userName={user.name}
+            userAvatar={user.avatar}
+          />
+        ))
         : shimmerItems.map((_, index) => (
-            <LeaderboardItemShimmer key={index} />
-          ))}
+          // eslint-disable-next-line react/no-array-index-key
+          <LeaderboardItemShimmer key={index} />
+        ))}
     </ul>
   );
 }
 
 Leaderboard.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object),
+  list: PropTypes.arrayOf(LeaderboardItem.propTypes),
   isLoading: PropTypes.bool.isRequired,
+};
+
+Leaderboard.defaultProps = {
+  list: null,
 };

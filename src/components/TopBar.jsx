@@ -1,33 +1,30 @@
-import { NavLink } from "react-router-dom";
-import { SearchInput } from "./SearchInput";
-import "./TopBar.css";
-import PropTypes from "prop-types";
-import { MoreIcon } from "../icons/MoreIcon";
-import { AppButtonLink, AppIconButton } from "./AppButton";
+import { NavLink } from 'react-router-dom';
+import './TopBar.css';
+import PropTypes from 'prop-types';
+import React from 'react';
+import MoreIcon from '../icons/MoreIcon';
+import { AppButtonLink, AppIconButton } from './AppButton';
 import {
   Popup,
   PopupContent,
   PopupItem,
   PopupItemIcon,
   PopupItemText,
-} from "./Popup";
-import { LogoutCircleIcon } from "../icons/LogoutCircleIcon";
-import { MoonIcon } from "../icons/MoonIcon";
-import { SunIcon } from "../icons/SunIcon";
-import React from "react";
-import { useI8n, useTheme } from "../provider/context";
-import { TranslateIcon } from "../icons/TranslateIcon";
+} from './Popup';
+import LogoutCircleIcon from '../icons/LogoutCircleIcon';
+import MoonIcon from '../icons/MoonIcon';
+import SunIcon from '../icons/SunIcon';
+import { useI8n, useTheme } from '../provider/context';
+import TranslateIcon from '../icons/TranslateIcon';
 
 export function TopBarTabsItem({ to, children }) {
   return (
     <li className="top-bar-tabs--item">
       <NavLink
-        className={({ isActive }) =>
-          [
-            "top-bar-tabs--item-link",
-            isActive ? "top-bar-tabs--item-link--active" : "",
-          ].join(" ")
-        }
+        className={({ isActive }) => [
+          'top-bar-tabs--item-link',
+          isActive ? 'top-bar-tabs--item-link--active' : '',
+        ].join(' ')}
         to={to}
       >
         {children}
@@ -37,8 +34,8 @@ export function TopBarTabsItem({ to, children }) {
 }
 
 TopBarTabsItem.propTypes = {
-  to: PropTypes.object.isRequired,
-  children: PropTypes.node,
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export function TopBarTabs({ children }) {
@@ -46,7 +43,7 @@ export function TopBarTabs({ children }) {
 }
 
 TopBarTabs.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function TopBarPopupAccountContent({ userName, userAvatar, onLogout }) {
@@ -55,10 +52,10 @@ export function TopBarPopupAccountContent({ userName, userAvatar, onLogout }) {
   return (
     <PopupContent>
       {userName && (
-        <React.Fragment>
+        <>
           <PopupItem isHeader>
             <PopupItemIcon>
-              <img className="top-bar--avatar-header" src={userAvatar} />
+              <img alt="current user avatar" className="top-bar--avatar-header" src={userAvatar} />
             </PopupItemIcon>
             <PopupItemText>{userName}</PopupItemText>
           </PopupItem>
@@ -66,9 +63,9 @@ export function TopBarPopupAccountContent({ userName, userAvatar, onLogout }) {
             <PopupItemIcon>
               <LogoutCircleIcon />
             </PopupItemIcon>
-            <PopupItemText>{getText("logout")}</PopupItemText>
+            <PopupItemText>{getText('logout')}</PopupItemText>
           </PopupItem>
-        </React.Fragment>
+        </>
       )}
     </PopupContent>
   );
@@ -88,64 +85,48 @@ export function TopBarPopupMoreContent() {
     <PopupContent>
       <PopupItem clickable onClick={toggleTheme}>
         <PopupItemIcon>
-          {theme === "dark" ? <MoonIcon /> : <SunIcon />}
+          {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
         </PopupItemIcon>
         <PopupItemText>
-          {getText(theme === "dark" ? "lightTheme" : "darkTheme")}
+          {getText(theme === 'dark' ? 'lightTheme' : 'darkTheme')}
         </PopupItemText>
       </PopupItem>
       <PopupItem clickable onClick={toggleLang}>
         <PopupItemIcon>
           <TranslateIcon />
         </PopupItemIcon>
-        <PopupItemText>{getText("langName")}</PopupItemText>
+        <PopupItemText>{getText('langName')}</PopupItemText>
       </PopupItem>
     </PopupContent>
   );
 }
 
 export function TopBar({
-  showSearch,
-  searchQuery,
-  onSearchChange,
   userName,
   userAvatar,
   onLogout,
 }) {
   const { getText } = useI8n();
-  const searchParam = null;
   return (
     <header className="top-bar">
       <h1 className="top-bar--title">Forums</h1>
       <TopBarTabs>
         <TopBarTabsItem
-          to={{
-            pathname: "/",
-            search: searchParam,
-          }}
+          to="/"
         >
-          {getText("threadList")}
+          {getText('threadList')}
         </TopBarTabsItem>
         <TopBarTabsItem
-          to={{
-            pathname: "/leaderboards",
-            search: searchParam,
-          }}
+          to="/leaderboards"
         >
-          {getText("leaderboard")}
+          {getText('leaderboard')}
         </TopBarTabsItem>
       </TopBarTabs>
       <div className="top-bar--grow" />
-      {showSearch && (
-        <SearchInput
-          value={searchQuery}
-          onChange={(el) => onSearchChange(el.target.value)}
-        />
-      )}
       {userName ? (
         <Popup>
           <AppIconButton>
-            <img className="top-bar--avatar-button" src={userAvatar} />
+            <img alt="current user avatar" className="top-bar--avatar-button" src={userAvatar} />
           </AppIconButton>
           <TopBarPopupAccountContent
             userName={userName}
@@ -154,7 +135,7 @@ export function TopBar({
           />
         </Popup>
       ) : (
-        <AppButtonLink to="/login">{getText("loginAction")}</AppButtonLink>
+        <AppButtonLink to="/login">{getText('loginAction')}</AppButtonLink>
       )}
       <Popup>
         <AppIconButton>
@@ -167,10 +148,12 @@ export function TopBar({
 }
 
 TopBar.propTypes = {
-  searchQuery: PropTypes.string.isRequired,
-  onSearchChange: PropTypes.func.isRequired,
-  showSearch: PropTypes.bool.isRequired,
   userName: PropTypes.string,
   userAvatar: PropTypes.string,
   onLogout: PropTypes.func.isRequired,
+};
+
+TopBar.defaultProps = {
+  userName: '',
+  userAvatar: '',
 };

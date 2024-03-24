@@ -1,5 +1,5 @@
-const rootUrl = "https://forum-api.dicoding.dev/v1";
-const accessTokenKey = "accessToken";
+const rootUrl = 'https://forum-api.dicoding.dev/v1';
+const accessTokenKey = 'accessToken';
 
 async function customFetch(path, { headers, ...moreOptions }) {
   const accessToken = localStorage.getItem(accessTokenKey);
@@ -25,9 +25,9 @@ export function getData(path) {
 
 export function postData(path, data) {
   return customFetch(path, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });

@@ -1,5 +1,7 @@
-import { useForm } from "react-hook-form";
-import { useI8n } from "../provider/context";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useI8n } from '../provider/context';
 import {
   CardForm,
   CardFormContent,
@@ -7,23 +9,22 @@ import {
   CardFormHeader,
   CardFormMessage,
   CardFormTitle,
-} from "../components/CardForm";
-import { FancyLink } from "../components/FancyLink";
+} from '../components/CardForm';
+import FancyLink from '../components/FancyLink';
 import {
   Field,
   FieldInput,
   FieldLabel,
   FieldMessage,
   ReactHookFieldMessage,
-} from "../components/Field";
+} from '../components/Field';
 import {
   AppButton,
   AppButtonGroup,
   AppButtonGroupSpacer,
-} from "../components/AppButton";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectLoginState } from "../slices/auth";
-import { NotLoggedInGuard } from "../guard/LoginGuard";
+} from '../components/AppButton';
+import { login, selectLoginState } from '../slices/auth';
+import { NotLoggedInGuard } from '../guard/LoginGuard';
 
 function LoginPageContent() {
   const dispatch = useDispatch();
@@ -34,44 +35,48 @@ function LoginPageContent() {
   } = useForm();
   const { getText } = useI8n();
   const { isLoading, error } = useSelector(selectLoginState);
+  register();
 
   return (
     <CardForm
-      onSubmit={handleSubmit((data) =>
-        dispatch(login({ email: data.email, password: data.password }))
+      onSubmit={handleSubmit(
+        (data) => dispatch(login({ email: data.email, password: data.password })),
       )}
     >
       <CardFormHeader>
-        <CardFormTitle>{getText("loginAction")}</CardFormTitle>
+        <CardFormTitle>{getText('loginAction')}</CardFormTitle>
       </CardFormHeader>
       <CardFormContent>
         <CardFormMessage>
-          {getText("notHaveAccountMessage")}{" "}
-          <FancyLink to="/register">{getText("registerAction")}</FancyLink>
+          {getText('notHaveAccountMessage')}
+          {' '}
+          <FancyLink to="/register">{getText('registerAction')}</FancyLink>
         </CardFormMessage>
         <Field inputId="email">
-          <FieldLabel>{getText("emailField")}</FieldLabel>
+          <FieldLabel>{getText('emailField')}</FieldLabel>
           <FieldInput
             type="email"
-            {...register("email", {
+            name="email"
+            rules={{
               required: {
                 value: true,
-                message: getText("emailCannotBlankMessage"),
+                message: getText('emailCannotBlankMessage'),
               },
-            })}
+            }}
           />
           <ReactHookFieldMessage error={errors.email} />
         </Field>
         <Field inputId="password">
-          <FieldLabel>{getText("passwordField")}</FieldLabel>
+          <FieldLabel>{getText('passwordField')}</FieldLabel>
           <FieldInput
             type="password"
-            {...register("password", {
+            name="password"
+            rules={{
               required: {
                 value: true,
-                message: getText("passwordCannotBlankMessage"),
+                message: getText('passwordCannotBlankMessage'),
               },
-            })}
+            }}
           />
           <ReactHookFieldMessage error={errors.password} />
         </Field>
@@ -83,7 +88,7 @@ function LoginPageContent() {
         <AppButtonGroup>
           <AppButtonGroupSpacer />
           <AppButton variant="primary" disabled={isLoading}>
-            {getText("loginAction")}
+            {getText('loginAction')}
           </AppButton>
         </AppButtonGroup>
       </CardFormFooter>
@@ -91,7 +96,7 @@ function LoginPageContent() {
   );
 }
 
-export function LoginPage() {
+export default function LoginPage() {
   return (
     <NotLoggedInGuard>
       <LoginPageContent />

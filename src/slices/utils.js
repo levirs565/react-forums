@@ -1,5 +1,3 @@
-import { selectUserState } from "./auth";
-
 export function createProcessState(isLoading = true) {
   return {
     loading: isLoading,
@@ -11,7 +9,7 @@ export function syncStateWithAsyncThunk(
   builder,
   asyncThunk,
   stateKey,
-  onFullfiled = () => {}
+  onFullfiled = () => {},
 ) {
   const acessor = stateKey ? (state) => state[stateKey] : (state) => state;
   builder.addCase(asyncThunk.pending, (state) => {
@@ -72,7 +70,7 @@ export function neutralizeVoteEntity(entity, userId) {
 }
 
 export function createAddVoteReducer(getEntity) {
-  return function (builder, thunk, voteFunction) {
+  return (builder, thunk, voteFunction) => {
     builder.addCase(thunk.pending, (state, action) => {
       const entity = getEntity(state, action);
       if (entity) {
@@ -95,7 +93,3 @@ export function createAddVoteReducer(getEntity) {
     });
   };
 }
-
-export const getUserIdMeta = (_, { getState }) => ({
-  userId: selectUserState(getState()).user?.id,
-});

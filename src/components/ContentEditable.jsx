@@ -1,21 +1,24 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import PropTypes from "prop-types";
-import "./ContentEditable.css";
-import { AppInput, AppInputContainer } from "./AppInput";
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import PropTypes from 'prop-types';
+import './ContentEditable.css';
+import { AppInput, AppInputContainer } from './AppInput';
 
-export const ContentEditable = forwardRef(function ContentEditable(
-  { as, className, value, onValueChanged, ...props },
-  ref
-) {
+export const ContentEditable = forwardRef((
+  {
+    as, className, value, onValueChanged, disabled, placeholder,
+  },
+  ref,
+) => {
   const As = as;
 
   return (
     <As
-      className={["content-editable", className].join(" ")}
+      className={['content-editable', className].join(' ')}
       dangerouslySetInnerHTML={{ __html: value }}
       onBlur={(e) => onValueChanged(e.target.innerHTML)}
       ref={ref}
-      {...props}
+      contentEditable={!disabled}
+      placeholder={placeholder}
     />
   );
 });
@@ -25,35 +28,41 @@ ContentEditable.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   onValueChanged: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
-export const ContentEditableInput = forwardRef(function ContentEditableInput(
-  { value, onValueChanged, placeholder, id },
-  ref
-) {
+ContentEditable.defaultProps = {
+  className: '',
+  disabled: false,
+  placeholder: null,
+};
+
+export const ContentEditableInput = forwardRef((
+  {
+    value, onValueChanged, placeholder,
+  },
+  ref,
+) => {
   const editableRef = useRef();
 
-  useImperativeHandle(ref, () => {
-    return {
-      focus() {
-        if (!editableRef.current) return;
-        editableRef.current.focus();
-      },
-    };
-  });
+  useImperativeHandle(ref, () => ({
+    focus() {
+      if (!editableRef.current) return;
+      editableRef.current.focus();
+    },
+  }));
 
   return (
     <AppInputContainer
       onClick={() => {
         if (!editableRef.current) return;
-        if (editableRef.current != document.activeElement)
-          editableRef.current.focus();
+        if (editableRef.current !== document.activeElement) editableRef.current.focus();
       }}
       className="content-editable-input"
     >
       <AppInput as="div">
         <ContentEditable
-          id={id}
           as="div"
           contentEditable
           value={value}
@@ -69,6 +78,9 @@ export const ContentEditableInput = forwardRef(function ContentEditableInput(
 ContentEditableInput.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChanged: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  id: PropTypes.string,
+  placeholder: PropTypes.string,
+};
+
+ContentEditableInput.defaultProps = {
+  placeholder: null,
 };

@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { TopBar } from "../components/TopBar";
-import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUserState } from "../slices/auth";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { TopBar } from '../components/TopBar';
+import { logout, selectUserState } from '../slices/auth';
 
-export function MainLayout() {
+export default function MainLayout() {
   const [showSearch, setShowSearch] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector(selectUserState);
 
   return (
-    <React.Fragment>
+    <>
       <TopBar
         showSearch={showSearch}
-        searchQuery={""}
+        searchQuery=""
         onSearchChange={() => {}}
         userName={user?.name}
         userAvatar={user?.avatar}
@@ -25,6 +25,6 @@ export function MainLayout() {
           setShowSearch,
         }}
       />
-    </React.Fragment>
+    </>
   );
 }

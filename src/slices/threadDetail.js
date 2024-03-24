@@ -1,68 +1,64 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getData, postData } from "../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getData, postData } from '../api';
 import {
   createAddVoteReducer,
   createProcessState,
   downVoteEntity,
-  getUserIdMeta,
   neutralizeVoteEntity,
   syncStateWithAsyncThunk,
   upVoteEntity,
-} from "./utils";
+} from './utils';
 import {
   downVoteThread,
   neutralizeVoteThread,
   upVoteThread,
-} from "./threadsVote";
+} from './threadsVote';
+import { getUserIdMeta } from './auth';
 
 export const updateThreadDetail = createAsyncThunk(
-  "threadDetail/update",
-  async ({ id }) => (await getData(`/threads/${id}`)).detailThread
+  'threadDetail/update',
+  async ({ id }) => (await getData(`/threads/${id}`)).detailThread,
 );
 
 export const addComment = createAsyncThunk(
-  "threadDetail/addComment",
-  async ({ threadId, content }) =>
-    (await postData(`/threads/${threadId}/comments`, { content })).comment
+  'threadDetail/addComment',
+  async ({ threadId, content }) => (await postData(`/threads/${threadId}/comments`, { content })).comment,
 );
 
 export const upVoteComment = createAsyncThunk(
-  "threadDetail/upVoteComment",
-  async ({ threadId, commentId }) =>
-    (await postData(`/threads/${threadId}/comments/${commentId}/up-vote`, {}))
-      .vote,
+  'threadDetail/upVoteComment',
+  async ({ threadId, commentId }) => (await postData(`/threads/${threadId}/comments/${commentId}/up-vote`, {}))
+    .vote,
   {
     getPendingMeta: getUserIdMeta,
-  }
+  },
 );
 
 export const downVoteComment = createAsyncThunk(
-  "threadDetail/downVoteComment",
-  async ({ threadId, commentId }) =>
-    (await postData(`/threads/${threadId}/comments/${commentId}/down-vote`, {}))
-      .vote,
+  'threadDetail/downVoteComment',
+  async ({ threadId, commentId }) => (await postData(`/threads/${threadId}/comments/${commentId}/down-vote`, {}))
+    .vote,
 
   {
     getPendingMeta: getUserIdMeta,
-  }
+  },
 );
 
 export const neutralizeVoteComment = createAsyncThunk(
-  "threadDetail/neutralVoteComment",
-  async ({ threadId, commentId }) =>
-    (
-      await postData(
-        `/threads/${threadId}/comments/${commentId}/neutral-vote`,
-        {}
-      )
-    ).vote,
+  'threadDetail/neutralVoteComment',
+  async ({ threadId, commentId }) => (
+    await postData(
+      `/threads/${threadId}/comments/${commentId}/neutral-vote`,
+      {},
+    )
+  ).vote,
   {
     getPendingMeta: getUserIdMeta,
-  }
+  },
 );
 
 const slice = createSlice({
-  name: "threadDetail",
+  name: 'threadDetail',
   initialState: {
     detail: createProcessState(),
     addComment: createProcessState(false),
@@ -71,35 +67,35 @@ const slice = createSlice({
     syncStateWithAsyncThunk(
       builder,
       updateThreadDetail,
-      "detail",
+      'detail',
       (state, action) => {
         state.detail.detail = action.payload;
-      }
+      },
     );
     syncStateWithAsyncThunk(
       builder,
       addComment,
-      "addComment",
+      'addComment',
       (state, action) => {
         state.detail.detail.comments.unshift(action.payload);
-      }
+      },
     );
 
-    const addVoteReducer = createAddVoteReducer((state, action) =>
-      action.meta.arg.id === state.detail?.detail?.id
+    const addVoteReducer = createAddVoteReducer(
+      (state, action) => (action.meta.arg.id === state.detail?.detail?.id
         ? state.detail.detail
-        : null
+        : null),
     );
     addVoteReducer(builder, upVoteThread, upVoteEntity);
     addVoteReducer(builder, downVoteThread, downVoteEntity);
     addVoteReducer(builder, neutralizeVoteThread, neutralizeVoteEntity);
 
-    const addCommentVoteReducer = createAddVoteReducer((state, action) =>
-      action.meta.arg.threadId === state.detail?.detail?.id
+    const addCommentVoteReducer = createAddVoteReducer(
+      (state, action) => (action.meta.arg.threadId === state.detail?.detail?.id
         ? state.detail.detail.comments.find(
-            (comment) => comment.id === action.meta.arg.commentId
-          )
-        : null
+          (comment) => comment.id === action.meta.arg.commentId,
+        )
+        : null),
     );
     addCommentVoteReducer(builder, upVoteComment, upVoteEntity);
     addCommentVoteReducer(builder, downVoteComment, downVoteEntity);

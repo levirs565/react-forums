@@ -1,18 +1,21 @@
-import { useLocalStorageState } from "../hook";
-import { ThemeContext } from "./context";
-import PropTypes from "prop-types";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { useLocalStorageState } from '../hook';
+import { ThemeContext } from './context';
 
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useLocalStorageState("theme", "");
-  const toggleTheme = () =>
-    setTheme((prevTheme) => (prevTheme === "dark" ? "" : "dark"));
+export default function ThemeProvider({ children }) {
+  const [theme, setTheme] = useLocalStorageState('theme', '');
+  const value = useMemo(() => ({
+    theme,
+    toggleTheme: () => setTheme((prevTheme) => (prevTheme === 'dark' ? '' : 'dark')),
+  }), [theme, setTheme]);
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
 ThemeProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

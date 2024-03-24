@@ -1,8 +1,9 @@
-import { AppButton } from "./AppButton";
-import PropTypes from "prop-types";
-import "./ErrorView.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { AppButton } from './AppButton';
+import './ErrorView.css';
 
-export function ErrorView({ error, onRefresh }) {
+export default function ErrorView({ error, onRefresh }) {
   return (
     <div className="error-view">
       <h1 className="error-view--title">Kesalahan!</h1>

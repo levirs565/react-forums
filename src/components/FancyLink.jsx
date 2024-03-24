@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import "./FancyLink.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import './FancyLink.css';
 
-export function FancyLink({ to, children }) {
+export default function FancyLink({ to, children }) {
   return (
     <Link className="fancy-link" to={to}>
       {children}
@@ -12,5 +13,5 @@ export function FancyLink({ to, children }) {
 
 FancyLink.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

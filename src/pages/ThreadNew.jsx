@@ -1,37 +1,37 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import {
   Field,
   FieldInput,
   FieldLabel,
   FieldMessage,
   ReactHookFieldMessage,
-} from "../components/Field";
-import { ContentEditableInput } from "../components/ContentEditable";
+} from '../components/Field';
+import { ContentEditableInput } from '../components/ContentEditable';
 import {
   CardForm,
   CardFormContent,
   CardFormFooter,
   CardFormHeader,
   CardFormTitle,
-} from "../components/CardForm";
+} from '../components/CardForm';
 import {
   AppButton,
   AppButtonGroup,
   AppButtonGroupSpacer,
-} from "../components/AppButton";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { LoggedInGuard } from "../guard/LoginGuard";
-import { useEffect } from "react";
-import { useI8n } from "../provider/context";
-import newThread, {
+} from '../components/AppButton';
+import { LoggedInGuard } from '../guard/LoginGuard';
+import { useI8n } from '../provider/context';
+import {
+  submitNewThread,
   cleanNewThreadState,
   selectNewThreadState,
-} from "../slices/newThread";
+} from '../slices/newThread';
 
 function ThreadNewPageContent() {
   const {
-    register,
     control,
     formState: { errors },
     handleSubmit,
@@ -52,32 +52,34 @@ function ThreadNewPageContent() {
   return (
     <div className="app-main app-main--content">
       <CardForm
-        onSubmit={handleSubmit((data) => dispatch(newThread(data)))}
+        onSubmit={handleSubmit((data) => dispatch(submitNewThread(data)))}
         isFluid
       >
         <CardFormHeader>
-          <CardFormTitle>{getText("newThreadAction")}</CardFormTitle>
+          <CardFormTitle>{getText('newThreadAction')}</CardFormTitle>
         </CardFormHeader>
         <CardFormContent>
           <Field inputId="title">
-            <FieldLabel>{getText("threadTitleField")}</FieldLabel>
+            <FieldLabel>{getText('threadTitleField')}</FieldLabel>
             <FieldInput
-              {...register("title", {
+              control={control}
+              name="title"
+              rules={{
                 required: {
                   value: true,
-                  message: getText("threadTitleCannotBlankMessage"),
+                  message: getText('threadTitleCannotBlankMessage'),
                 },
-              })}
+              }}
             />
             <ReactHookFieldMessage error={errors.title} />
           </Field>
           <Field inputId="category">
-            <FieldLabel>{getText("category")}</FieldLabel>
-            <FieldInput {...register("category")} />
+            <FieldLabel>{getText('category')}</FieldLabel>
+            <FieldInput control={control} name="category" />
           </Field>
           <Field inputId="body">
-            <FieldLabel onClick={() => setFocus("body")}>
-              {getText("threadContentField")}
+            <FieldLabel onClick={() => setFocus('body')}>
+              {getText('threadContentField')}
             </FieldLabel>
             <Controller
               control={control}
@@ -85,18 +87,17 @@ function ThreadNewPageContent() {
               rules={{
                 required: {
                   value: true,
-                  message: getText("threadContentCannotBlankMessage"),
+                  message: getText('threadContentCannotBlankMessage'),
                 },
               }}
               render={({ field }) => (
                 <ContentEditableInput
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                   onValueChanged={(value) => {
                     field.onChange(value);
                     field.onBlur();
                   }}
                   ref={field.ref}
-                  placeholder=""
                 />
               )}
             />
@@ -110,7 +111,7 @@ function ThreadNewPageContent() {
           <AppButtonGroup>
             <AppButtonGroupSpacer />
             <AppButton variant="primary" disabled={loading}>
-              {getText("createAction")}
+              {getText('createAction')}
             </AppButton>
           </AppButtonGroup>
         </CardFormFooter>
@@ -119,7 +120,7 @@ function ThreadNewPageContent() {
   );
 }
 
-export function ThreadNewPage() {
+export default function ThreadNewPage() {
   return (
     <LoggedInGuard>
       <ThreadNewPageContent />

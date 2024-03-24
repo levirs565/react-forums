@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import "./Category.css";
-import { useMemo } from "react";
-import { Shimmer } from "./Shimmer";
+import PropTypes from 'prop-types';
+import './Category.css';
+import React, { useMemo } from 'react';
+import { Shimmer } from './Shimmer';
 
 export function Category({
   className,
@@ -16,14 +16,15 @@ export function Category({
   return (
     <As
       className={[
-        "category",
-        isSelectable ? "category--selectable" : "",
-        isSelected ? "category--selected" : "",
+        'category',
+        isSelectable ? 'category--selectable' : '',
+        isSelected ? 'category--selected' : '',
         className,
-      ].join(" ")}
+      ].join(' ')}
       onClick={onClick}
     >
-      #{text}
+      #
+      {text}
     </As>
   );
 }
@@ -37,6 +38,13 @@ Category.propTypes = {
   onClick: PropTypes.func,
 };
 
+Category.defaultProps = {
+  className: '',
+  isSelectable: false,
+  isSelected: false,
+  onClick: null,
+};
+
 export function CategorySelectionList({ list, selected, onSelected }) {
   return (
     <ul className="category-list">
@@ -47,9 +55,7 @@ export function CategorySelectionList({ list, selected, onSelected }) {
           text={category}
           isSelectable
           isSelected={selected === category}
-          onClick={() =>
-            selected === category ? onSelected(null) : onSelected(category)
-          }
+          onClick={() => (selected === category ? onSelected(null) : onSelected(category))}
         />
       ))}
     </ul>
@@ -62,11 +68,16 @@ CategorySelectionList.propTypes = {
   onSelected: PropTypes.func.isRequired,
 };
 
+CategorySelectionList.defaultProps = {
+  selected: null,
+};
+
 export function CategoryListShimmer({ count }) {
   const list = useMemo(() => new Array(count).fill(0), [count]);
   return (
     <div className="category-list">
       {list.map((_, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Shimmer key={index}>
           <Category as="span" text="Category" />
         </Shimmer>

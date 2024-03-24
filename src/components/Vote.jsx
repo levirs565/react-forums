@@ -1,15 +1,16 @@
-import PropTypes from "prop-types";
-import { AppIconButton, AppIconButtonText } from "./AppButton";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { AppIconButton, AppIconButtonText } from './AppButton';
 import {
   ArrowUpCircleIcon,
   ArrowUpCircleIconFilled,
-} from "../icons/ArrowUpCircleIcon";
+} from '../icons/ArrowUpCircleIcon';
 import {
   ArrowDownCircleIcon,
   ArrowDownCircleIconFilled,
-} from "../icons/ArrowDownCircleIcon";
+} from '../icons/ArrowDownCircleIcon';
 
-export function VoteButtons({
+export default function VoteButtons({
   upVoteCount,
   downVoteCount,
   onUpVote,
@@ -39,7 +40,6 @@ export function VoteButtons({
 }
 
 VoteButtons.propTypes = {
-  className: PropTypes.string,
   upVoteCount: PropTypes.number.isRequired,
   downVoteCount: PropTypes.number.isRequired,
   isUpVoted: PropTypes.bool.isRequired,

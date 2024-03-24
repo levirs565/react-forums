@@ -1,11 +1,16 @@
-import { forwardRef } from "react";
-import "./AppInput.css";
-import PropTypes from "prop-types";
+import React, { forwardRef } from 'react';
+import './AppInput.css';
+import PropTypes from 'prop-types';
 
+// onClick hanya digunakan untuk memfokuskan ke input di dalam kontainer
 export function AppInputContainer({ className, children, onClick }) {
   return (
+    /* eslint-disable-next-line
+    jsx-a11y/click-events-have-key-events,
+    jsx-a11y/no-static-element-interactions
+    */
     <div
-      className={`app-input ${className ? className : ""}`}
+      className={`app-input ${className}`}
       onClick={onClick}
     >
       {children}
@@ -19,16 +24,28 @@ AppInputContainer.propTypes = {
   onClick: PropTypes.func,
 };
 
-export const AppInput = forwardRef(function AppInput(
-  { as, className, ...rest },
-  ref
-) {
-  const Component = as ? as : "input";
+AppInputContainer.defaultProps = {
+  className: '',
+  children: null,
+  onClick: () => {},
+};
+
+export const AppInput = forwardRef((
+  {
+    as, className, value, disabled, onBlur, onChange, type,
+  },
+  ref,
+) => {
+  const Component = as;
   return (
     <Component
-      className={["app-input--input", className ?? ""].join(" ")}
-      {...rest}
+      className={['app-input--input', className].join(' ')}
       ref={ref}
+      value={value}
+      disabled={disabled}
+      onBlur={onBlur}
+      onChange={onChange}
+      type={type}
     />
   );
 });
@@ -36,4 +53,19 @@ export const AppInput = forwardRef(function AppInput(
 AppInput.propTypes = {
   as: PropTypes.string,
   className: PropTypes.string,
+  value: PropTypes.string,
+  disabled: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  type: PropTypes.string,
+};
+
+AppInput.defaultProps = {
+  as: 'input',
+  className: '',
+  value: '',
+  disabled: false,
+  onBlur: null,
+  onChange: null,
+  type: null,
 };

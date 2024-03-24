@@ -3,39 +3,38 @@ import {
   createListenerMiddleware,
   createSlice,
   isFulfilled,
-} from "@reduxjs/toolkit";
-import { getData, postData, setToken } from "../api";
-import { createProcessState, syncStateWithAsyncThunk } from "./utils";
+} from '@reduxjs/toolkit';
+import { getData, postData, setToken } from '../api';
+import { createProcessState, syncStateWithAsyncThunk } from './utils';
 
 export const login = createAsyncThunk(
-  "auth/login",
+  'auth/login',
   async ({ email, password }) => {
-    const result = await postData("login", {
+    const result = await postData('login', {
       email,
       password,
     });
     setToken(result.token);
     return result.token;
-  }
+  },
 );
 
 export const register = createAsyncThunk(
-  "auth/register",
-  async ({ email, name, password }) =>
-    await postData("register", {
-      email,
-      name,
-      password,
-    })
+  'auth/register',
+  async ({ email, name, password }) => postData('register', {
+    email,
+    name,
+    password,
+  }),
 );
 
 export const updateCurrentUser = createAsyncThunk(
-  "auth/updateCurrentUser",
-  async () => (await getData("users/me")).user
+  'auth/updateCurrentUser',
+  async () => (await getData('users/me')).user,
 );
 
 const slice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     userState: createProcessState(),
     loginState: createProcessState(),
@@ -51,13 +50,13 @@ const slice = createSlice({
     syncStateWithAsyncThunk(
       builder,
       updateCurrentUser,
-      "userState",
+      'userState',
       (state, action) => {
         state.userState.user = action.payload;
-      }
+      },
     );
-    syncStateWithAsyncThunk(builder, login, "loginState");
-    syncStateWithAsyncThunk(builder, register, "registerState");
+    syncStateWithAsyncThunk(builder, login, 'loginState');
+    syncStateWithAsyncThunk(builder, register, 'registerState');
   },
 });
 
@@ -65,15 +64,18 @@ export const selectUserState = (state) => state.auth.userState;
 export const selectLoginState = (state) => state.auth.loginState;
 export const selectRegisterState = (state) => state.auth.registerState;
 
-export const logout = slice.actions.logout;
+export const { logout } = slice.actions;
 
 export const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({
   matcher: isFulfilled(login),
   effect: async (action, listenerApi) => {
-    console.log("Login success");
     listenerApi.dispatch(updateCurrentUser());
   },
+});
+
+export const getUserIdMeta = (_, { getState }) => ({
+  userId: selectUserState(getState()).user?.id,
 });
 
 export default slice.reducer;

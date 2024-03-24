@@ -1,186 +1,188 @@
-import { useLocalStorageState } from "../hook";
-import PropTypes from "prop-types";
-import { I8nContext } from "./context";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { useLocalStorageState } from '../hook';
+import { I8nContext } from './context';
 
 const resources = {
   logout: {
-    id: "Keluar",
-    en: "Logout",
+    id: 'Keluar',
+    en: 'Logout',
   },
   lightTheme: {
-    id: "Tema Terang",
-    en: "Light Theme",
+    id: 'Tema Terang',
+    en: 'Light Theme',
   },
   darkTheme: {
-    id: "Tema Gelap",
-    en: "Dark Theme",
+    id: 'Tema Gelap',
+    en: 'Dark Theme',
   },
   langName: {
-    id: "Bahasa Indonesia",
-    en: "English Language",
+    id: 'Bahasa Indonesia',
+    en: 'English Language',
   },
   searchPlaceholder: {
-    id: "Cari...",
-    en: "Search....",
+    id: 'Cari...',
+    en: 'Search....',
   },
   threadTitleField: {
-    id: "Judul",
-    en: "Title",
+    id: 'Judul',
+    en: 'Title',
   },
   threadTitleCannotBlankMessage: {
-    id: "Email tidak boleh kosong",
-    en: "Email cannot blank",
+    id: 'Email tidak boleh kosong',
+    en: 'Email cannot blank',
   },
   threadContentField: {
-    id: "Isi",
-    en: "Content",
+    id: 'Isi',
+    en: 'Content',
   },
   threadContentCannotBlankMessage: {
-    id: "Isi tidak boleh kosong",
-    en: "Content cannot blank",
+    id: 'Isi tidak boleh kosong',
+    en: 'Content cannot blank',
   },
   notHaveAccountMessage: {
-    id: "Tidak punya akun?",
-    en: "Does not have account?",
+    id: 'Tidak punya akun?',
+    en: 'Does not have account?',
   },
   createAction: {
-    id: "Buat",
-    en: "Create",
+    id: 'Buat',
+    en: 'Create',
   },
   registerAction: {
-    id: "Daftar",
-    en: "Register",
+    id: 'Daftar',
+    en: 'Register',
   },
   emailField: {
-    id: "Pos-el",
-    en: "Email",
+    id: 'Pos-el',
+    en: 'Email',
   },
   emailCannotBlankMessage: {
-    id: "Email tidak boleh kosong",
-    en: "Email cannot blank",
+    id: 'Email tidak boleh kosong',
+    en: 'Email cannot blank',
   },
   passwordField: {
-    id: "Sandi",
-    en: "Password",
+    id: 'Sandi',
+    en: 'Password',
   },
   passwordCannotBlankMessage: {
-    id: "Sandi tidak boleh kosong",
-    en: "Password cannot blank",
+    id: 'Sandi tidak boleh kosong',
+    en: 'Password cannot blank',
   },
   loginAction: {
-    id: "Masuk",
-    en: "Login",
+    id: 'Masuk',
+    en: 'Login',
   },
   haveAccountMessage: {
-    id: "Sudah punya akun?",
-    en: "Have account?",
+    id: 'Sudah punya akun?',
+    en: 'Have account?',
   },
   nameField: {
-    id: "Nama",
-    en: "Name",
+    id: 'Nama',
+    en: 'Name',
   },
   nameCannotBlankMessage: {
-    id: "Nama tidak boleh kosong",
-    en: "Name cannot blank",
+    id: 'Nama tidak boleh kosong',
+    en: 'Name cannot blank',
   },
   passwordMinimalMessage: {
-    id: "Sandi minimal 8 karakter",
-    en: "Password must have 8 character",
+    id: 'Sandi minimal 8 karakter',
+    en: 'Password must have 8 character',
   },
   repeatPasswordField: {
-    id: "Ulangi Sandi",
-    en: "Repeat Password",
+    id: 'Ulangi Sandi',
+    en: 'Repeat Password',
   },
   passwordMustEqualMessage: {
-    id: "Sandi harus sama",
-    en: "Password must equal",
+    id: 'Sandi harus sama',
+    en: 'Password must equal',
   },
   notFoundTitle: {
-    id: "Halaman tidak ada!",
-    en: "Page not found!",
+    id: 'Halaman tidak ada!',
+    en: 'Page not found!',
   },
   checkUrlMessage: {
-    id: "Coba cek URL lagi. Bisa saja ada kesalahan penulisan",
-    en: "Try check URL again. Probably there typo",
+    id: 'Coba cek URL lagi. Bisa saja ada kesalahan penulisan',
+    en: 'Try check URL again. Probably there typo',
   },
   homeAction: {
-    id: "Beranda",
-    en: "Home",
+    id: 'Beranda',
+    en: 'Home',
   },
   createNewAction: {
-    id: "Buat Baru",
-    en: "Create New",
+    id: 'Buat Baru',
+    en: 'Create New',
   },
   threadList: {
-    id: "Diskusi",
-    en: "Threads",
+    id: 'Diskusi',
+    en: 'Threads',
   },
   leaderboard: {
-    id: "Peringkat",
-    en: "Leaderboard",
+    id: 'Peringkat',
+    en: 'Leaderboard',
   },
   category: {
-    id: "Kategori",
-    en: "Category",
+    id: 'Kategori',
+    en: 'Category',
   },
   availableThread: {
-    id: "Diskusi Tersedia",
-    en: "Available Threads",
+    id: 'Diskusi Tersedia',
+    en: 'Available Threads',
   },
   newThreadAction: {
-    id: "Diskusi Baru",
-    en: "New Thread",
+    id: 'Diskusi Baru',
+    en: 'New Thread',
   },
   threadListBlank: {
-    id: "Tidak ada diskusi tersedia",
-    en: "No threads found",
+    id: 'Tidak ada diskusi tersedia',
+    en: 'No threads found',
   },
   newComment: {
-    id: "Komentar Baru",
-    en: "New Comment",
+    id: 'Komentar Baru',
+    en: 'New Comment',
   },
   comments: {
-    id: "Komentar",
-    en: "Comments",
+    id: 'Komentar',
+    en: 'Comments',
   },
   commentField: {
-    id: "Komentar",
-    en: "Comment",
+    id: 'Komentar',
+    en: 'Comment',
   },
   commentCannotBlank: {
-    id: "Komentar tidak boleh kosong",
-    en: "Comment cannot blank",
+    id: 'Komentar tidak boleh kosong',
+    en: 'Comment cannot blank',
   },
   createCommentAction: {
-    id: "Buat Komentar",
-    en: "Create Comment",
+    id: 'Buat Komentar',
+    en: 'Create Comment',
   },
   commentListBlank: {
-    id: "Belum ada komentar",
-    en: "No comments yet",
+    id: 'Belum ada komentar',
+    en: 'No comments yet',
   },
 };
 
-export function I8nProvider({ children }) {
-  const [lang, setLang] = useLocalStorageState("lang", "id");
-  const toggleLang = () =>
-    setLang((prevLang) => (prevLang === "id" ? "en" : "id"));
-  const getText = (name) => {
-    const resource = resources[name];
+export default function I8nProvider({ children }) {
+  const [lang, setLang] = useLocalStorageState('lang', 'id');
+  const value = useMemo(() => ({
+    lang,
+    toggleLang: () => setLang((prevLang) => (prevLang === 'id' ? 'en' : 'id')),
+    getText: (name) => {
+      const resource = resources[name];
 
-    if (!resource || !resource[lang])
-      throw new Error(`Text resource not found with name ${name}`);
+      if (!resource || !resource[lang]) throw new Error(`Text resource not found with name ${name}`);
 
-    return resource[lang];
-  };
+      return resource[lang];
+    },
+  }), [lang, setLang]);
 
   return (
-    <I8nContext.Provider value={{ lang, toggleLang, getText }}>
+    <I8nContext.Provider value={value}>
       {children}
     </I8nContext.Provider>
   );
 }
 
 I8nProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

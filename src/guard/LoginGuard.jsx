@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { selectUserState } from "../slices/auth";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { selectUserState } from '../slices/auth';
 
 export function LoggedInGuard({ children }) {
   const { user, loading } = useSelector(selectUserState);
@@ -14,7 +15,7 @@ export function LoggedInGuard({ children }) {
 }
 
 LoggedInGuard.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function NotLoggedInGuard({ children }) {
@@ -28,5 +29,5 @@ export function NotLoggedInGuard({ children }) {
 }
 
 NotLoggedInGuard.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

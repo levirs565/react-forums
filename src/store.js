@@ -1,11 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import auth, { listenerMiddleware, updateCurrentUser } from "./slices/auth";
-import threads from "./slices/threads";
-import threadDetail from "./slices/threadDetail";
-import leaderboard from "./slices/leaderboard";
-import newThread from "./slices/newThread";
+import { configureStore } from '@reduxjs/toolkit';
+import auth, { listenerMiddleware, updateCurrentUser } from './slices/auth';
+import threads from './slices/threads';
+import threadDetail from './slices/threadDetail';
+import leaderboard from './slices/leaderboard';
+import newThread from './slices/newThread';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     auth,
     threads,
@@ -13,8 +13,10 @@ export const store = configureStore({
     newThread,
     leaderboard,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .prepend(listenerMiddleware.middleware),
 });
 
 store.dispatch(updateCurrentUser());
+
+export default store;

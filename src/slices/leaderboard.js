@@ -1,14 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createProcessState, syncStateWithAsyncThunk } from "./utils";
-import { getData } from "../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createProcessState, syncStateWithAsyncThunk } from './utils';
+import { getData } from '../api';
 
 export const updateLeaderboard = createAsyncThunk(
-  "leaderboard/update",
-  async () => (await getData("/leaderboards")).leaderboards
+  'leaderboard/update',
+  async () => (await getData('/leaderboards')).leaderboards,
 );
 
 const slice = createSlice({
-  name: "leaderboard",
+  name: 'leaderboard',
   initialState: createProcessState(),
   extraReducers: (builder) => {
     syncStateWithAsyncThunk(
@@ -17,7 +17,7 @@ const slice = createSlice({
       null,
       (state, action) => {
         state.list = action.payload;
-      }
+      },
     );
   },
 });

@@ -1,16 +1,19 @@
-import PropTypes from "prop-types";
-import "./CardForm.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './CardForm.css';
 
-export function CardForm({ children, isFluid, isSurface, ...rest }) {
+export function CardForm({
+  children, isFluid, isSurface, onSubmit,
+}) {
   return (
     <div
       className={[
-        "card-form",
-        isFluid ? "card-form--fluid" : "",
-        isSurface ? "card-form--surface" : "",
-      ].join(" ")}
+        'card-form',
+        isFluid ? 'card-form--fluid' : '',
+        isSurface ? 'card-form--surface' : '',
+      ].join(' ')}
     >
-      <form className="card-form--form" {...rest}>
+      <form className="card-form--form" onSubmit={onSubmit}>
         {children}
       </form>
     </div>
@@ -18,9 +21,15 @@ export function CardForm({ children, isFluid, isSurface, ...rest }) {
 }
 
 CardForm.propTypes = {
-  children: PropTypes.node,
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   isFluid: PropTypes.bool,
   isSurface: PropTypes.bool,
+};
+
+CardForm.defaultProps = {
+  isFluid: false,
+  isSurface: false,
 };
 
 export function CardFormTitle({ children }) {
@@ -28,7 +37,7 @@ export function CardFormTitle({ children }) {
 }
 
 CardFormTitle.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function CardFormHeader({ children }) {
@@ -36,7 +45,7 @@ export function CardFormHeader({ children }) {
 }
 
 CardFormHeader.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function CardFormContent({ children }) {
@@ -44,7 +53,7 @@ export function CardFormContent({ children }) {
 }
 
 CardFormContent.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function CardFormFooter({ children }) {
@@ -52,7 +61,7 @@ export function CardFormFooter({ children }) {
 }
 
 CardFormFooter.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function CardFormMessage({ children }) {
@@ -60,5 +69,5 @@ export function CardFormMessage({ children }) {
 }
 
 CardFormMessage.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

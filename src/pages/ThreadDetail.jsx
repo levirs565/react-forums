@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import {
   addComment,
   downVoteComment,
@@ -9,29 +10,28 @@ import {
   selectThreadDetail,
   upVoteComment,
   updateThreadDetail,
-} from "../slices/threadDetail";
+} from '../slices/threadDetail';
 import {
   CommentList,
   CommentListShimmer,
   NewCommentForm,
-} from "../components/Comment";
-import { ThreadDetailShimmer, ThreadDetial } from "../components/ThreadDetail";
-import { selectUserState } from "../slices/auth";
-import { ErrorView } from "../components/ErrorView";
-import { useForm } from "react-hook-form";
-import { useI8n } from "../provider/context";
+} from '../components/Comment';
+import { ThreadDetailShimmer, ThreadDetial } from '../components/ThreadDetail';
+import { selectUserState } from '../slices/auth';
+import ErrorView from '../components/ErrorView';
+import { useI8n } from '../provider/context';
 import {
   downVoteThread,
   neutralizeVoteThread,
   upVoteThread,
-} from "../slices/threadsVote";
+} from '../slices/threadsVote';
 
-export function ThreadDetailPage() {
+export default function ThreadDetailPage() {
   const param = useParams();
   const { user } = useSelector(selectUserState);
   const { loading, error, detail } = useSelector(selectThreadDetail);
   const { loading: addCommentLoading, error: addCommentError } = useSelector(
-    selectAddCommentState
+    selectAddCommentState,
   );
   const newCommentForm = useForm();
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export function ThreadDetailPage() {
     dispatch(updateThreadDetail({ id: param.id }));
   }, [param]);
 
-  if (error)
+  if (error) {
     return (
       <div className="app-main app-main--content">
         <ErrorView
@@ -56,6 +56,7 @@ export function ThreadDetailPage() {
         />
       </div>
     );
+  }
 
   return (
     <div className="app-main app-main--content">
@@ -72,9 +73,7 @@ export function ThreadDetailPage() {
           isDownVoted={detail.downVotesBy.includes(user?.id)}
           onUpVote={() => dispatch(upVoteThread({ id: param.id }))}
           onDownVote={() => dispatch(downVoteThread({ id: param.id }))}
-          onNeutralizeVote={() =>
-            dispatch(neutralizeVoteThread({ id: param.id }))
-          }
+          onNeutralizeVote={() => dispatch(neutralizeVoteThread({ id: param.id }))}
           owner={detail.owner}
           category={detail.category}
         />
@@ -82,25 +81,25 @@ export function ThreadDetailPage() {
 
       {user && !loading && (
         <>
-          <h2 className="subtitle">{getText("newComment")}</h2>
+          <h2 className="subtitle">{getText('newComment')}</h2>
           <NewCommentForm
             form={newCommentForm}
             isLoading={addCommentLoading}
-            onSubmit={({ content }) =>
-              dispatch(addComment({ threadId: param.id, content }))
-            }
+            onSubmit={({ content }) => dispatch(addComment({ threadId: param.id, content }))}
             error={addCommentError}
           />
         </>
       )}
 
-      <h2 className="subtitle">{getText("comments")}</h2>
+      <h2 className="subtitle">{getText('comments')}</h2>
       {loading ? (
         <CommentListShimmer />
       ) : (
         <CommentList
           list={detail.comments.map(
-            ({ id, owner, content, upVotesBy, downVotesBy, createdAt }) => ({
+            ({
+              id, owner, content, upVotesBy, downVotesBy, createdAt,
+            }) => ({
               id,
               owner,
               content,
@@ -109,19 +108,13 @@ export function ThreadDetailPage() {
               downVoteCount: downVotesBy.length,
               isUpVoted: upVotesBy.includes(user?.id),
               isDownVoted: downVotesBy.includes(user?.id),
-            })
+            }),
           )}
-          onUpVote={(id) =>
-            dispatch(upVoteComment({ threadId: param.id, commentId: id }))
-          }
-          onDownVote={(id) =>
-            dispatch(downVoteComment({ threadId: param.id, commentId: id }))
-          }
-          onNeutralizeVote={(id) =>
-            dispatch(
-              neutralizeVoteComment({ threadId: param.id, commentId: id })
-            )
-          }
+          onUpVote={(id) => dispatch(upVoteComment({ threadId: param.id, commentId: id }))}
+          onDownVote={(id) => dispatch(downVoteComment({ threadId: param.id, commentId: id }))}
+          onNeutralizeVote={(id) => dispatch(
+            neutralizeVoteComment({ threadId: param.id, commentId: id }),
+          )}
         />
       )}
     </div>

@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import "./FloatingActionButton.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import './FloatingActionButton.css';
 
-export function FloatingActionButton({ children, ...props }) {
+export default function FloatingActionButton({ children, to }) {
   return (
-    <Link className="floating-action-button" {...props}>
+    <Link className="floating-action-button" to={to}>
       {children}
     </Link>
   );
 }
 
 FloatingActionButton.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+  to: PropTypes.string.isRequired,
 };

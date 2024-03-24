@@ -1,14 +1,15 @@
-import "./Shimmer.css";
-import PropTypes from "prop-types";
+import './Shimmer.css';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export function Shimmer({ className, children, isNotFill }) {
   return (
     <div
       className={[
-        "shimmer",
-        isNotFill ? "shimmer--not-fill" : "",
+        'shimmer',
+        isNotFill ? 'shimmer--not-fill' : '',
         className,
-      ].join(" ")}
+      ].join(' ')}
       inert=""
     >
       {children}
@@ -18,13 +19,18 @@ export function Shimmer({ className, children, isNotFill }) {
 
 Shimmer.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   isNotFill: PropTypes.bool,
+};
+
+Shimmer.defaultProps = {
+  className: '',
+  isNotFill: false,
 };
 
 export function InnerShimmer({ className, children }) {
   return (
-    <Shimmer className={["shimmer--inner", className].join(" ")}>
+    <Shimmer className={['shimmer--inner', className].join(' ')}>
       {children}
     </Shimmer>
   );
@@ -32,7 +38,11 @@ export function InnerShimmer({ className, children }) {
 
 InnerShimmer.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+};
+
+InnerShimmer.defaultProps = {
+  className: '',
 };
 
 export function MultiLineShimmer({ renderItem, lineCount }) {

@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "@fontsource-variable/montserrat";
-import "./index.css";
-import { Provider } from "react-redux";
-import { store } from "./store.js";
-import { I8nProvider } from "./provider/i8n.jsx";
-import { ThemeProvider } from "./provider/theme.jsx";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import App from './App';
+import '@fontsource-variable/montserrat';
+import './index.css';
+import store from './store';
+import I8nProvider from './provider/i8n';
+import ThemeProvider from './provider/theme';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider>
       <I8nProvider>
@@ -17,5 +17,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Provider>
       </I8nProvider>
     </ThemeProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

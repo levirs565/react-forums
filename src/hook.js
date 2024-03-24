@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useI8n } from "./provider/context";
+import { useEffect, useState } from 'react';
+import { useI8n } from './provider/context';
 
 export function useLocalStorageState(name, defaultValue) {
   const [value, setter] = useState(
-    () => localStorage.getItem(name) ?? defaultValue
+    () => localStorage.getItem(name) ?? defaultValue,
   );
 
   useEffect(() => {
@@ -12,14 +12,14 @@ export function useLocalStorageState(name, defaultValue) {
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.key && event.key != name) return;
-      if (event.storageArea != localStorage) return;
-      if (event.newValue == value) return;
+      if (event.key && event.key !== name) return;
+      if (event.storageArea !== localStorage) return;
+      if (event.newValue === value) return;
       setter(event.newValue);
     };
-    window.addEventListener("storage", listener);
+    window.addEventListener('storage', listener);
     return () => {
-      window.removeEventListener("storage", listener);
+      window.removeEventListener('storage', listener);
     };
   }, [value, name]);
 
@@ -30,14 +30,14 @@ export function useFormatDate() {
   const { lang } = useI8n();
   return (date) => {
     const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     };
     return new Date(date).toLocaleDateString(
-      lang === "id" ? "id-ID" : "en-US",
-      options
+      lang === 'id' ? 'id-ID' : 'en-US',
+      options,
     );
   };
 }
@@ -50,6 +50,7 @@ export function useActionState() {
     setIsPerformed(true);
     promise
       .catch((e) => {
+        // eslint-disable-next-line no-console
         console.error(e);
         setError(e.message);
       })

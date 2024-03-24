@@ -1,12 +1,13 @@
-import PropTypes from "prop-types";
-import "./Popup.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './Popup.css';
 
 export function Popup({ children }) {
   return <div className="popup">{children}</div>;
 }
 
 Popup.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function PopupContent({ children }) {
@@ -14,18 +15,20 @@ export function PopupContent({ children }) {
 }
 
 PopupContent.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
-export function PopupItem({ children, clickable, onClick, isHeader }) {
-  const As = clickable ? "button" : "div";
+export function PopupItem({
+  children, clickable, onClick, isHeader,
+}) {
+  const As = clickable ? 'button' : 'div';
   return (
     <As
       className={[
-        "popup-item",
-        clickable ? "popup-item--clickable" : "",
-        isHeader ? "popup-item--is-header" : "",
-      ].join(" ")}
+        'popup-item',
+        clickable ? 'popup-item--clickable' : '',
+        isHeader ? 'popup-item--is-header' : '',
+      ].join(' ')}
       onClick={onClick}
     >
       {children}
@@ -34,10 +37,16 @@ export function PopupItem({ children, clickable, onClick, isHeader }) {
 }
 
 PopupItem.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   clickable: PropTypes.bool,
   onClick: PropTypes.func,
   isHeader: PropTypes.bool,
+};
+
+PopupItem.defaultProps = {
+  clickable: false,
+  onClick: null,
+  isHeader: false,
 };
 
 export function PopupItemIcon({ children }) {
@@ -45,7 +54,7 @@ export function PopupItemIcon({ children }) {
 }
 
 PopupItemIcon.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export function PopupItemText({ children }) {
@@ -53,5 +62,5 @@ export function PopupItemText({ children }) {
 }
 
 PopupItemText.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

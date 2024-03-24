@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
-import "./AppButton.css";
-import PropTypes from "prop-types";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './AppButton.css';
+import PropTypes from 'prop-types';
 
-export function AppButton({ className, variant, children, onClick, disabled }) {
+export function AppButton({
+  className, variant, children, onClick, disabled, isSubmit,
+}) {
   return (
     <button
-      className={`app-button app-button--${variant ?? "normal"} ${
-        className ? className : ""
+      className={`app-button app-button--${variant} ${
+        className || ''
       }`}
       onClick={onClick}
       disabled={disabled}
+      type={isSubmit ? 'submit' : 'button'}
     >
       {children}
     </button>
@@ -19,9 +23,18 @@ export function AppButton({ className, variant, children, onClick, disabled }) {
 AppButton.propTypes = {
   className: PropTypes.string,
   variant: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  isSubmit: PropTypes.bool,
+};
+
+AppButton.defaultProps = {
+  className: '',
+  variant: 'normal',
+  isSubmit: false,
+  disabled: false,
+  onClick: null,
 };
 
 export function AppButtonLink({
@@ -34,8 +47,8 @@ export function AppButtonLink({
 }) {
   return (
     <Link
-      className={`app-button app-button--${variant ?? "normal"} ${
-        className ? className : ""
+      className={`app-button app-button--${variant} ${
+        className || ''
       }`}
       onClick={onClick}
       disabled={disabled}
@@ -49,14 +62,21 @@ export function AppButtonLink({
 AppButtonLink.propTypes = {
   className: PropTypes.string,
   variant: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   to: PropTypes.string.isRequired,
 };
 
+AppButtonLink.defaultProps = {
+  className: '',
+  variant: 'normal',
+  onClick: null,
+  disabled: false,
+};
+
 export function AppButtonGroupSpacer() {
-  return <div className="app-button-group-spacer"></div>;
+  return <div className="app-button-group-spacer" />;
 }
 
 export function AppButtonGroup({ className, children }) {
@@ -65,17 +85,24 @@ export function AppButtonGroup({ className, children }) {
 
 AppButtonGroup.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
-export function AppIconButton({ children, onClick, hasText }) {
+AppButtonGroup.defaultProps = {
+  className: '',
+};
+
+export function AppIconButton({
+  children, onClick, hasText, isSubmit,
+}) {
   return (
     <button
       className={[
-        "app-icon-button",
-        hasText && "app-icon-button--has-text",
-      ].join(" ")}
+        'app-icon-button',
+        hasText && 'app-icon-button--has-text',
+      ].join(' ')}
       onClick={onClick}
+      type={isSubmit ? 'submit' : 'button'}
     >
       {children}
     </button>
@@ -83,9 +110,16 @@ export function AppIconButton({ children, onClick, hasText }) {
 }
 
 AppIconButton.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   hasText: PropTypes.bool,
+  isSubmit: PropTypes.bool,
+};
+
+AppIconButton.defaultProps = {
+  onClick: null,
+  hasText: false,
+  isSubmit: false,
 };
 
 export function AppIconButtonText({ children }) {
@@ -93,5 +127,5 @@ export function AppIconButtonText({ children }) {
 }
 
 AppIconButtonText.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };

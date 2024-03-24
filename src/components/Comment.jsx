@@ -1,22 +1,22 @@
-import PropTypes from "prop-types";
-import renderHtml from "html-react-parser";
-import "./Comment.css";
-import { MultiLineShimmer, Shimmer } from "./Shimmer";
-import { useMemo } from "react";
-import { ContentEditableInput } from "./ContentEditable";
-import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
-import { CardForm, CardFormContent, CardFormFooter } from "./CardForm";
+import PropTypes from 'prop-types';
+import renderHtml from 'html-react-parser';
+import './Comment.css';
+import React, { useMemo } from 'react';
+import { Controller } from 'react-hook-form';
+import { MultiLineShimmer, Shimmer } from './Shimmer';
+import { ContentEditableInput } from './ContentEditable';
+import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from './AppButton';
+import { CardForm, CardFormContent, CardFormFooter } from './CardForm';
 import {
   Field,
   FieldLabel,
   FieldMessage,
   ReactHookFieldMessage,
-} from "./Field";
-import { Controller } from "react-hook-form";
-import { UserInformation, UserInformationShimmer } from "./UserInformation";
-import { useFormatDate } from "../hook";
-import { useI8n } from "../provider/context";
-import { VoteButtons } from "./Vote";
+} from './Field';
+import { UserInformation, UserInformationShimmer } from './UserInformation';
+import { useFormatDate } from '../hook';
+import { useI8n } from '../provider/context';
+import VoteButtons from './Vote';
 
 function CommentItem({
   id,
@@ -36,7 +36,7 @@ function CommentItem({
     <li className="comment">
       <div className="comment--header">
         <UserInformation name={owner.name} avatar={owner.avatar} />
-        <div className="dot-divider"></div>
+        <div className="dot-divider" />
         <time className="comment--date">{formatDate(createdAt)}</time>
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
@@ -58,7 +58,10 @@ function CommentItem({
 
 CommentItem.propTypes = {
   id: PropTypes.string.isRequired,
-  owner: PropTypes.object.isRequired,
+  owner: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
   content: PropTypes.string.isRequired,
   upVoteCount: PropTypes.number.isRequired,
   downVoteCount: PropTypes.number.isRequired,
@@ -95,9 +98,11 @@ CommentItemShimmer.propTypes = {
   contentLineCount: PropTypes.number.isRequired,
 };
 
-export function CommentList({ list, onUpVote, onDownVote, onNeutralizeVote }) {
+export function CommentList({
+  list, onUpVote, onDownVote, onNeutralizeVote,
+}) {
   const { getText } = useI8n();
-  if (!list || list.length == 0) return <p>{getText("commentListBlank")}</p>;
+  if (!list || list.length === 0) return <p>{getText('commentListBlank')}</p>;
   return (
     <ul className="comment-list">
       {list.map((comment) => (
@@ -121,7 +126,7 @@ export function CommentList({ list, onUpVote, onDownVote, onNeutralizeVote }) {
 }
 
 CommentList.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  list: PropTypes.arrayOf(CommentItem.propTypes).isRequired,
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
@@ -130,19 +135,22 @@ CommentList.propTypes = {
 export function CommentListShimmer() {
   const lineCount = useMemo(
     () => [1, 1, 2, 2, 3, 3].sort(() => 0.5 - Math.random()),
-    []
+    [],
   );
 
   return (
     <ul className="comment-list">
       {lineCount.map((value, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <CommentItemShimmer key={index} contentLineCount={value} />
       ))}
     </ul>
   );
 }
 
-export function NewCommentForm({ form, isLoading, onSubmit, error }) {
+export function NewCommentForm({
+  form, isLoading, onSubmit, error,
+}) {
   const { getText } = useI8n();
   const {
     control,
@@ -154,8 +162,8 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
     <CardForm isFluid onSubmit={handleSubmit(onSubmit)} isSurface>
       <CardFormContent>
         <Field inputId="content">
-          <FieldLabel onClick={() => setFocus("content")}>
-            {getText("commentField")}
+          <FieldLabel onClick={() => setFocus('content')}>
+            {getText('commentField')}
           </FieldLabel>
           <Controller
             control={control}
@@ -163,18 +171,17 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
             rules={{
               required: {
                 value: true,
-                message: getText("commentCannotBlank"),
+                message: getText('commentCannotBlank'),
               },
             }}
             render={({ field }) => (
               <ContentEditableInput
-                value={field.value ?? ""}
+                value={field.value ?? ''}
                 onValueChanged={(value) => {
                   field.onChange(value);
                   field.onBlur();
                 }}
                 ref={field.ref}
-                placeholder=""
               />
             )}
           />
@@ -189,7 +196,7 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
         <AppButtonGroup>
           <AppButtonGroupSpacer />
           <AppButton variant="primary" disabled={isLoading}>
-            {getText("createCommentAction")}
+            {getText('createCommentAction')}
           </AppButton>
         </AppButtonGroup>
       </CardFormFooter>
@@ -198,8 +205,13 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
 }
 
 NewCommentForm.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   form: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.string,
+};
+
+NewCommentForm.defaultProps = {
+  error: '',
 };

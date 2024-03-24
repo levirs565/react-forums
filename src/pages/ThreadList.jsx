@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCategoryList,
   selectThreadListCategoryFilter,
@@ -7,23 +7,23 @@ import {
   setThreadListCategoryFilter,
   updateThreads,
   updateThreadsUsers,
-} from "../slices/threads";
-import { ThreadCardList } from "../components/ThreadCard";
-import { selectUserState } from "../slices/auth";
-import { FloatingActionButton } from "../components/FloatingActionButton";
-import { ErrorView } from "../components/ErrorView";
+} from '../slices/threads';
+import { ThreadCardList } from '../components/ThreadCard';
+import { selectUserState } from '../slices/auth';
+import FloatingActionButton from '../components/FloatingActionButton';
+import ErrorView from '../components/ErrorView';
 import {
   CategoryListShimmer,
   CategorySelectionList,
-} from "../components/Category";
-import { useI8n } from "../provider/context";
+} from '../components/Category';
+import { useI8n } from '../provider/context';
 import {
   downVoteThread,
   neutralizeVoteThread,
   upVoteThread,
-} from "../slices/threadsVote";
+} from '../slices/threadsVote';
 
-export function ThreadListPage() {
+export default function ThreadListPage() {
   const dispatch = useDispatch();
   const { user } = useSelector(selectUserState);
 
@@ -49,22 +49,19 @@ export function ThreadListPage() {
         />
       ) : (
         <>
-          <h2 className="subtitle">{getText("category")}</h2>
+          <h2 className="subtitle">{getText('category')}</h2>
           {loading ? (
             <CategoryListShimmer count={3} />
           ) : (
             <CategorySelectionList
               list={categoryList}
               selected={categoryFilter}
-              onSelected={(category) =>
-                dispatch(setThreadListCategoryFilter(category))
-              }
+              onSelected={(category) => dispatch(setThreadListCategoryFilter(category))}
             />
           )}
-          <h2 className="subtitle">{getText("availableThread")}</h2>
+          <h2 className="subtitle">{getText('availableThread')}</h2>
           <ThreadCardList
-            emptyMessage={getText("threadListBlank")}
-            highlightPattern=""
+            emptyMessage={getText('threadListBlank')}
             isLoading={loading}
             list={list?.map(
               ({
@@ -89,7 +86,7 @@ export function ThreadListPage() {
                 isDownVoted: downVotesBy.includes(user?.id),
                 category,
                 totalComments,
-              })
+              }),
             )}
             onUpVote={(id) => dispatch(upVoteThread({ id }))}
             onDownVote={(id) => dispatch(downVoteThread({ id }))}

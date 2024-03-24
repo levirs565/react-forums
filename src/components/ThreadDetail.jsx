@@ -1,12 +1,13 @@
-import { MultiLineShimmer, Shimmer } from "./Shimmer";
-import PropTypes from "prop-types";
-import htmlToReact from "html-react-parser";
-import { useFormatDate } from "../hook";
-import "./ThreadDetail.css";
-import { UserInformation, UserInformationShimmer } from "./UserInformation";
-import { Category } from "./Category";
-import { VoteButtons } from "./Vote";
-import { AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
+import React from 'react';
+import PropTypes from 'prop-types';
+import htmlToReact from 'html-react-parser';
+import { MultiLineShimmer, Shimmer } from './Shimmer';
+import { useFormatDate } from '../hook';
+import './ThreadDetail.css';
+import { UserInformation, UserInformationShimmer } from './UserInformation';
+import { Category } from './Category';
+import VoteButtons from './Vote';
+import { AppButtonGroup, AppButtonGroupSpacer } from './AppButton';
 
 export function ThreadDetailShimmer({ bodyLineCount }) {
   return (
@@ -60,7 +61,7 @@ export function ThreadDetial({
     <div className="thread-detail">
       <div className="thread-detail--header">
         <UserInformation name={owner.name} avatar={owner.avatar} />
-        <div className="dot-divider"></div>
+        <div className="dot-divider" />
         <time className="thread-detail--date">{formatDate(createdAt)}</time>
       </div>
       <h1 className="thread-detail--title">{title}</h1>
@@ -95,6 +96,9 @@ ThreadDetial.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
-  owner: PropTypes.object.isRequired,
+  owner: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
   category: PropTypes.string.isRequired,
 };

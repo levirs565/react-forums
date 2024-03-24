@@ -1,15 +1,16 @@
-import { HighlightHTML } from "./HighlightHTML";
-import "./ThreadCard.css";
-import { Link, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
-import { MultiLineShimmer, Shimmer } from "./Shimmer";
-import { useFormatDate } from "../hook";
-import { VoteButtons } from "./Vote";
-import { UserInformation, UserInformationShimmer } from "./UserInformation";
-import { Category } from "./Category";
-import { AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
-import { IconLabel, IconLabelText } from "./IconLabel";
-import { ChatIcon } from "../icons/ChatIcon";
+import './ThreadCard.css';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import htmlToReact from 'html-react-parser';
+import { MultiLineShimmer, Shimmer } from './Shimmer';
+import { useFormatDate } from '../hook';
+import VoteButtons from './Vote';
+import { UserInformation, UserInformationShimmer } from './UserInformation';
+import { Category } from './Category';
+import { AppButtonGroup, AppButtonGroupSpacer } from './AppButton';
+import { IconLabel, IconLabelText } from './IconLabel';
+import ChatIcon from '../icons/ChatIcon';
 
 export function ThreadCard({
   id,
@@ -23,7 +24,6 @@ export function ThreadCard({
   onNeutralizeVote,
   isUpVoted,
   isDownVoted,
-  highlightPattern,
   owner,
   category,
   totalComments,
@@ -34,7 +34,7 @@ export function ThreadCard({
     <li className="thread-card">
       <div className="thread-card--header">
         <UserInformation avatar={owner.avatar} name={owner.name} />
-        <div className="dot-divider"></div>
+        <div className="dot-divider" />
         <time className="thread-card--created-date">
           {formatDate(createdAt)}
         </time>
@@ -47,14 +47,14 @@ export function ThreadCard({
           }}
           className="thread-card--link"
         >
-          <HighlightHTML text={title} pattern={highlightPattern} />
+          {htmlToReact(title)}
         </Link>
       </h3>
       <div className="thread-card--category">
         <Category as="span" text={category} />
       </div>
       <div className="thread-card--body">
-        <HighlightHTML text={body} pattern={highlightPattern} />
+        {htmlToReact(body)}
       </div>
       <AppButtonGroup className="thread-card--footer">
         <VoteButtons
@@ -81,7 +81,6 @@ ThreadCard.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  highlightPattern: PropTypes.string.isRequired,
   upVoteCount: PropTypes.number.isRequired,
   downVoteCount: PropTypes.number.isRequired,
   isUpVoted: PropTypes.bool.isRequired,
@@ -89,7 +88,10 @@ ThreadCard.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
-  owner: PropTypes.object.isRequired,
+  owner: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
   category: PropTypes.string.isRequired,
   totalComments: PropTypes.number.isRequired,
 };
@@ -131,26 +133,27 @@ ThreadCardShimmer.propTypes = {
 };
 
 const noteListShimmerBodyLineCount = [1, 1, 2, 2, 3, 3].sort(
-  () => 0.5 - Math.random()
+  () => 0.5 - Math.random(),
 );
 
 export function ThreadCardList({
   list,
   isLoading,
-  highlightPattern,
   emptyMessage,
   onDownVote,
   onUpVote,
   onNeutralizeVote,
 }) {
-  if (isLoading)
+  if (isLoading) {
     return (
       <ul className="thread-card-list">
         {noteListShimmerBodyLineCount.map((value, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <ThreadCardShimmer key={index} bodyLineCount={value} />
         ))}
       </ul>
     );
+  }
 
   if (!list || list.length === 0) {
     return <p className="thread-card-list-empty">{emptyMessage}</p>;
@@ -180,7 +183,6 @@ export function ThreadCardList({
             createdAt={createdAt}
             owner={owner}
             category={category}
-            highlightPattern={highlightPattern}
             upVoteCount={upVoteCount}
             downVoteCount={downVoteCount}
             isUpVoted={isUpVoted}
@@ -190,18 +192,21 @@ export function ThreadCardList({
             onNeutralizeVote={onNeutralizeVote}
             totalComments={totalComments}
           />
-        )
+        ),
       )}
     </ul>
   );
 }
 
 ThreadCardList.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object),
-  highlightPattern: PropTypes.string.isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape(ThreadCard.propTypes)),
   emptyMessage: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
+};
+
+ThreadCardList.defaultProps = {
+  list: null,
 };
