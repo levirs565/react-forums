@@ -19,6 +19,7 @@ import {
   CategoryListShimmer,
   CategorySelectionList,
 } from "../components/Category";
+import { useI8n } from "../provider/context";
 
 export function ThreadListPage() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export function ThreadListPage() {
   const { loading, list, error } = useSelector(selectThreadsList);
   const categoryFilter = useSelector(selectThreadListCategoryFilter);
   const categoryList = useSelector(selectCategoryList);
+  const { getText } = useI8n();
 
   return (
     <div className="app-main app-main--content">
@@ -45,7 +47,7 @@ export function ThreadListPage() {
         />
       ) : (
         <>
-          <h2 className="subtitle">Kategori</h2>
+          <h2 className="subtitle">{getText("category")}</h2>
           {loading ? (
             <CategoryListShimmer count={3} />
           ) : (
@@ -57,9 +59,9 @@ export function ThreadListPage() {
               }
             />
           )}
-          <h2 className="subtitle">Threads</h2>
+          <h2 className="subtitle">{getText("availableThread")}</h2>
           <ThreadCardList
-            emptyMessage="Kosong"
+            emptyMessage={getText("threadListBlank")}
             highlightPattern=""
             isLoading={loading}
             list={list?.map(

@@ -24,6 +24,7 @@ import {
 } from "../slices/threads";
 import { ErrorView } from "../components/ErrorView";
 import { useForm } from "react-hook-form";
+import { useI8n } from "../provider/context";
 
 export function ThreadDetailPage() {
   const param = useParams();
@@ -34,6 +35,7 @@ export function ThreadDetailPage() {
   );
   const newCommentForm = useForm();
   const dispatch = useDispatch();
+  const { getText } = useI8n();
 
   useEffect(() => {
     if (!addCommentLoading && !addCommentError) {
@@ -80,7 +82,7 @@ export function ThreadDetailPage() {
 
       {user && !loading && (
         <>
-          <h2 className="subtitle">Komentar Baru</h2>
+          <h2 className="subtitle">{getText("newComment")}</h2>
           <NewCommentForm
             form={newCommentForm}
             isLoading={addCommentLoading}
@@ -92,7 +94,7 @@ export function ThreadDetailPage() {
         </>
       )}
 
-      <h2 className="subtitle">Komentar</h2>
+      <h2 className="subtitle">{getText("comments")}</h2>
       {loading ? (
         <CommentListShimmer />
       ) : (

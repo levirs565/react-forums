@@ -3,14 +3,6 @@ import PropTypes from "prop-types";
 import { I8nContext } from "./context";
 
 const resources = {
-  activeNote: {
-    id: "Aktif",
-    en: "Active",
-  },
-  archiveNote: {
-    id: "Arsip",
-    en: "Archive",
-  },
   logout: {
     id: "Keluar",
     en: "Logout",
@@ -31,61 +23,29 @@ const resources = {
     id: "Cari...",
     en: "Search....",
   },
-  noteTitlePlaceholder: {
+  threadTitleField: {
     id: "Judul",
     en: "Title",
   },
-  noteBodyPlaceholder: {
-    id: "Catatan",
-    en: "Note",
+  threadTitleCannotBlankMessage: {
+    id: "Email tidak boleh kosong",
+    en: "Email cannot blank",
   },
-  closeAction: {
-    id: "Keluar",
-    en: "Close",
+  threadContentField: {
+    id: "Isi",
+    en: "Content",
   },
-  saveAction: {
-    id: "Simpan",
-    en: "Save",
-  },
-  remainingLength: {
-    id: "% tersisa",
-    en: "% remaining",
-  },
-  editAction: {
-    id: "Ubah",
-    en: "Edit",
-  },
-  unarchiveAction: {
-    id: "Batal Arsip",
-    en: "Unarchive",
-  },
-  archiveAction: {
-    id: "Arsipkan",
-    en: "Archive",
-  },
-  deleteAction: {
-    id: "Hapus",
-    en: "Delete",
-  },
-  noteBlankMessage: {
-    id: "Catatan kosong",
-    en: "Note empty",
-  },
-  noteFindNotFoundMessage: {
-    id: "Catatan tidak ditemukan",
-    en: "Note not found",
-  },
-  archiveBlankMessage: {
-    id: "Arsip catatan kosong",
-    en: "Note archive empty",
-  },
-  archiveFindNotFoundMessage: {
-    id: "Catatan terarsip tidak ditemukan",
-    en: "Archived note not found",
+  threadContentCannotBlankMessage: {
+    id: "Isi tidak boleh kosong",
+    en: "Content cannot blank",
   },
   notHaveAccountMessage: {
     id: "Tidak punya akun?",
     en: "Does not have account?",
+  },
+  createAction: {
+    id: "Buat",
+    en: "Create",
   },
   registerAction: {
     id: "Daftar",
@@ -147,13 +107,57 @@ const resources = {
     id: "Beranda",
     en: "Home",
   },
-  noteNotFoundMessage: {
-    id: "Catatan tidak ada!",
-    en: "Note not found!",
-  },
   createNewAction: {
     id: "Buat Baru",
     en: "Create New",
+  },
+  threadList: {
+    id: "Diskusi",
+    en: "Threads",
+  },
+  leaderboard: {
+    id: "Peringkat",
+    en: "Leaderboard",
+  },
+  category: {
+    id: "Kategori",
+    en: "Category",
+  },
+  availableThread: {
+    id: "Diskusi Tersedia",
+    en: "Available Threads",
+  },
+  newThreadAction: {
+    id: "Diskusi Baru",
+    en: "New Thread",
+  },
+  threadListBlank: {
+    id: "Tidak ada diskusi tersedia",
+    en: "No threads found",
+  },
+  newComment: {
+    id: "Komentar Baru",
+    en: "New Comment",
+  },
+  comments: {
+    id: "Komentar",
+    en: "Comments",
+  },
+  commentField: {
+    id: "Komentar",
+    en: "Comment",
+  },
+  commentCannotBlank: {
+    id: "Komentar tidak boleh kosong",
+    en: "Comment cannot blank",
+  },
+  createCommentAction: {
+    id: "Buat Komentar",
+    en: "Create Comment",
+  },
+  commentListBlank: {
+    id: "Belum ada komentar",
+    en: "No comments yet",
   },
 };
 

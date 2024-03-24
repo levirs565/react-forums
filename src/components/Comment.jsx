@@ -16,6 +16,7 @@ import {
 import { Controller } from "react-hook-form";
 import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { useFormatDate } from "../hook";
+import { useI8n } from "../provider/context";
 
 function CommentItem({
   id,
@@ -93,7 +94,8 @@ CommentItemShimmer.propTypes = {
 };
 
 export function CommentList({ list, onUpVote, onDownVote, onNeutralizeVote }) {
-  if (!list || list.length == 0) return <p>Komentar Kosong</p>;
+  const { getText } = useI8n();
+  if (!list || list.length == 0) return <p>{getText("commentListBlank")}</p>;
   return (
     <ul className="comment-list">
       {list.map((comment) => (
@@ -139,6 +141,7 @@ export function CommentListShimmer() {
 }
 
 export function NewCommentForm({ form, isLoading, onSubmit, error }) {
+  const { getText } = useI8n();
   const {
     control,
     handleSubmit,
@@ -149,14 +152,16 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
     <CardForm isFluid onSubmit={handleSubmit(onSubmit)} isSurface>
       <CardFormContent>
         <Field inputId="content">
-          <FieldLabel onClick={() => setFocus("content")}>Komentar</FieldLabel>
+          <FieldLabel onClick={() => setFocus("content")}>
+            {getText("commentField")}
+          </FieldLabel>
           <Controller
             control={control}
             name="content"
             rules={{
               required: {
                 value: true,
-                message: "Konten tidak boleh kosong",
+                message: getText("commentCannotBlank"),
               },
             }}
             render={({ field }) => (
@@ -182,7 +187,7 @@ export function NewCommentForm({ form, isLoading, onSubmit, error }) {
         <AppButtonGroup>
           <AppButtonGroupSpacer />
           <AppButton variant="primary" disabled={isLoading}>
-            Buat Komentar
+            {getText("createCommentAction")}
           </AppButton>
         </AppButtonGroup>
       </CardFormFooter>

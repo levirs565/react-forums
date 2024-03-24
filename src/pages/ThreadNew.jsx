@@ -28,6 +28,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { LoggedInGuard } from "../guard/LoginGuard";
 import { useEffect } from "react";
+import { useI8n } from "../provider/context";
 
 function ThreadNewPageContent() {
   const {
@@ -40,6 +41,7 @@ function ThreadNewPageContent() {
   const { loading, error, newId } = useSelector(selectNewThreadState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { getText } = useI8n();
 
   useEffect(() => {
     if (newId) {
@@ -55,34 +57,36 @@ function ThreadNewPageContent() {
         isFluid
       >
         <CardFormHeader>
-          <CardFormTitle>Buat Thread Baru</CardFormTitle>
+          <CardFormTitle>{getText("newThreadAction")}</CardFormTitle>
         </CardFormHeader>
         <CardFormContent>
           <Field inputId="title">
-            <FieldLabel>Judul</FieldLabel>
+            <FieldLabel>{getText("threadTitleField")}</FieldLabel>
             <FieldInput
               {...register("title", {
                 required: {
                   value: true,
-                  message: "Judul tidak boleh kosong",
+                  message: getText("threadTitleCannotBlankMessage"),
                 },
               })}
             />
             <ReactHookFieldMessage error={errors.title} />
           </Field>
           <Field inputId="category">
-            <FieldLabel>Kategori</FieldLabel>
+            <FieldLabel>{getText("category")}</FieldLabel>
             <FieldInput {...register("category")} />
           </Field>
           <Field inputId="body">
-            <FieldLabel onClick={() => setFocus("body")}>Isi</FieldLabel>
+            <FieldLabel onClick={() => setFocus("body")}>
+              {getText("threadContentField")}
+            </FieldLabel>
             <Controller
               control={control}
               name="body"
               rules={{
                 required: {
                   value: true,
-                  message: "Isi tidak boleh kosong",
+                  message: getText("threadContentCannotBlankMessage"),
                 },
               }}
               render={({ field }) => (
@@ -107,7 +111,7 @@ function ThreadNewPageContent() {
           <AppButtonGroup>
             <AppButtonGroupSpacer />
             <AppButton variant="primary" disabled={loading}>
-              Buat
+              {getText("createAction")}
             </AppButton>
           </AppButtonGroup>
         </CardFormFooter>

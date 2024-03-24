@@ -124,7 +124,7 @@ export function TopBar({
             search: searchParam,
           }}
         >
-          Threads
+          {getText("threadList")}
         </TopBarTabsItem>
         <TopBarTabsItem
           to={{
@@ -132,7 +132,7 @@ export function TopBar({
             search: searchParam,
           }}
         >
-          Leaderboards
+          {getText("leaderboard")}
         </TopBarTabsItem>
       </TopBarTabs>
       <div className="top-bar--grow" />
@@ -154,7 +154,7 @@ export function TopBar({
           />
         </Popup>
       ) : (
-        <AppButtonLink to="/login">Login</AppButtonLink>
+        <AppButtonLink to="/login">{getText("loginAction")}</AppButtonLink>
       )}
       <Popup>
         <AppIconButton>
