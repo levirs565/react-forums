@@ -76,7 +76,7 @@ export function ThreadCard({
   );
 }
 
-ThreadCard.propTypes = {
+const ThreadItemPropTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
@@ -85,15 +85,19 @@ ThreadCard.propTypes = {
   downVoteCount: PropTypes.number.isRequired,
   isUpVoted: PropTypes.bool.isRequired,
   isDownVoted: PropTypes.bool.isRequired,
-  onUpVote: PropTypes.func.isRequired,
-  onDownVote: PropTypes.func.isRequired,
-  onNeutralizeVote: PropTypes.func.isRequired,
   owner: PropTypes.shape({
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
   }).isRequired,
   category: PropTypes.string.isRequired,
   totalComments: PropTypes.number.isRequired,
+};
+
+ThreadCard.propTypes = {
+  onUpVote: PropTypes.func.isRequired,
+  onDownVote: PropTypes.func.isRequired,
+  onNeutralizeVote: PropTypes.func.isRequired,
+  ...ThreadItemPropTypes,
 };
 
 export function ThreadCardShimmer({ bodyLineCount }) {
@@ -199,7 +203,7 @@ export function ThreadCardList({
 }
 
 ThreadCardList.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.shape(ThreadCard.propTypes)),
+  list: PropTypes.arrayOf(PropTypes.shape(ThreadItemPropTypes)),
   emptyMessage: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onUpVote: PropTypes.func.isRequired,

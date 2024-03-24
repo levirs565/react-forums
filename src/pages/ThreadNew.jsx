@@ -98,6 +98,7 @@ function ThreadNewPageContent() {
                     field.onBlur();
                   }}
                   ref={field.ref}
+                  editable
                 />
               )}
             />
@@ -110,7 +111,7 @@ function ThreadNewPageContent() {
         <CardFormFooter>
           <AppButtonGroup>
             <AppButtonGroupSpacer />
-            <AppButton variant="primary" disabled={loading}>
+            <AppButton isSubmit variant="primary" disabled={loading}>
               {getText('createAction')}
             </AppButton>
           </AppButtonGroup>

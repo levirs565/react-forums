@@ -60,7 +60,14 @@ export default function Leaderboard({ list, isLoading }) {
 }
 
 Leaderboard.propTypes = {
-  list: PropTypes.arrayOf(LeaderboardItem.propTypes),
+  list: PropTypes.arrayOf(PropTypes.shape({
+    score: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired,
+    }),
+  })),
   isLoading: PropTypes.bool.isRequired,
 };
 

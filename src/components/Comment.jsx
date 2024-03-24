@@ -56,7 +56,7 @@ function CommentItem({
   );
 }
 
-CommentItem.propTypes = {
+const CommentItemPropTypes = {
   id: PropTypes.string.isRequired,
   owner: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -67,10 +67,14 @@ CommentItem.propTypes = {
   downVoteCount: PropTypes.number.isRequired,
   isUpVoted: PropTypes.bool.isRequired,
   isDownVoted: PropTypes.bool.isRequired,
+  createdAt: PropTypes.string.isRequired,
+};
+
+CommentItem.propTypes = {
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  ...CommentItemPropTypes,
 };
 
 function CommentItemShimmer({ contentLineCount }) {
@@ -126,7 +130,7 @@ export function CommentList({
 }
 
 CommentList.propTypes = {
-  list: PropTypes.arrayOf(CommentItem.propTypes).isRequired,
+  list: PropTypes.arrayOf(PropTypes.shape(CommentItemPropTypes)).isRequired,
   onUpVote: PropTypes.func.isRequired,
   onDownVote: PropTypes.func.isRequired,
   onNeutralizeVote: PropTypes.func.isRequired,
@@ -176,6 +180,7 @@ export function NewCommentForm({
             }}
             render={({ field }) => (
               <ContentEditableInput
+                editable
                 value={field.value ?? ''}
                 onValueChanged={(value) => {
                   field.onChange(value);
@@ -195,7 +200,7 @@ export function NewCommentForm({
       <CardFormFooter>
         <AppButtonGroup>
           <AppButtonGroupSpacer />
-          <AppButton variant="primary" disabled={isLoading}>
+          <AppButton isSubmit variant="primary" disabled={isLoading}>
             {getText('createCommentAction')}
           </AppButton>
         </AppButtonGroup>

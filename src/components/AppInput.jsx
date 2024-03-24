@@ -32,7 +32,7 @@ AppInputContainer.defaultProps = {
 
 export const AppInput = forwardRef((
   {
-    as, className, value, disabled, onBlur, onChange, type,
+    as, className, value, disabled, onBlur, onChange, type, children,
   },
   ref,
 ) => {
@@ -46,7 +46,9 @@ export const AppInput = forwardRef((
       onBlur={onBlur}
       onChange={onChange}
       type={type}
-    />
+    >
+      {children}
+    </Component>
   );
 });
 
@@ -58,6 +60,7 @@ AppInput.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   type: PropTypes.string,
+  children: PropTypes.node,
 };
 
 AppInput.defaultProps = {
@@ -68,4 +71,5 @@ AppInput.defaultProps = {
   onBlur: null,
   onChange: null,
   type: null,
+  children: null,
 };

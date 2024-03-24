@@ -113,6 +113,7 @@ function RegisterPageContent() {
         <Field inputId="passwordRetry">
           <FieldLabel>{getText('repeatPasswordField')}</FieldLabel>
           <FieldInput
+            control={control}
             type="password"
             name="passwordRetry"
             rules={{
@@ -131,7 +132,7 @@ function RegisterPageContent() {
       <CardFormFooter>
         <AppButtonGroup>
           <AppButtonGroupSpacer />
-          <AppButton variant="primary" disabled={isLoading}>
+          <AppButton isSubmit variant="primary" disabled={isLoading}>
             {getText('registerAction')}
           </AppButton>
         </AppButtonGroup>

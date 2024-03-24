@@ -26,7 +26,7 @@ const slice = createSlice({
   },
 });
 
-export const selectNewThreadState = (state) => state.threadDetail.createNew;
+export const selectNewThreadState = (state) => state.newThread;
 export const cleanNewThreadState = slice.actions.cleanState;
 
 export default slice.reducer;

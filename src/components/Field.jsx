@@ -100,5 +100,9 @@ export function Field({ inputId, children }) {
 
 Field.propTypes = {
   inputId: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
+};
+
+Field.defaultProps = {
+  children: null,
 };

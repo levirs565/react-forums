@@ -19,26 +19,24 @@ export function Shimmer({ className, children, isNotFill }) {
 
 Shimmer.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   isNotFill: PropTypes.bool,
 };
 
 Shimmer.defaultProps = {
   className: '',
   isNotFill: false,
+  children: null,
 };
 
-export function InnerShimmer({ className, children }) {
+export function InnerShimmer({ className }) {
   return (
-    <Shimmer className={['shimmer--inner', className].join(' ')}>
-      {children}
-    </Shimmer>
+    <Shimmer className={['shimmer--inner', className].join(' ')} />
   );
 }
 
 InnerShimmer.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
 };
 
 InnerShimmer.defaultProps = {

@@ -5,7 +5,7 @@ import { AppInput, AppInputContainer } from './AppInput';
 
 export const ContentEditable = forwardRef((
   {
-    as, className, value, onValueChanged, disabled, placeholder,
+    as, className, value, onValueChanged, editable, placeholder,
   },
   ref,
 ) => {
@@ -17,7 +17,7 @@ export const ContentEditable = forwardRef((
       dangerouslySetInnerHTML={{ __html: value }}
       onBlur={(e) => onValueChanged(e.target.innerHTML)}
       ref={ref}
-      contentEditable={!disabled}
+      contentEditable={editable}
       placeholder={placeholder}
     />
   );
@@ -28,19 +28,19 @@ ContentEditable.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   onValueChanged: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
+  editable: PropTypes.bool,
   placeholder: PropTypes.string,
 };
 
 ContentEditable.defaultProps = {
   className: '',
-  disabled: false,
+  editable: false,
   placeholder: null,
 };
 
 export const ContentEditableInput = forwardRef((
   {
-    value, onValueChanged, placeholder,
+    value, onValueChanged, placeholder, editable,
   },
   ref,
 ) => {
@@ -64,11 +64,11 @@ export const ContentEditableInput = forwardRef((
       <AppInput as="div">
         <ContentEditable
           as="div"
-          contentEditable
           value={value}
           onValueChanged={onValueChanged}
           placeholder={placeholder}
           ref={editableRef}
+          editable={editable}
         />
       </AppInput>
     </AppInputContainer>
@@ -79,8 +79,10 @@ ContentEditableInput.propTypes = {
   value: PropTypes.string.isRequired,
   onValueChanged: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  editable: PropTypes.bool,
 };
 
 ContentEditableInput.defaultProps = {
   placeholder: null,
+  editable: false,
 };

@@ -29,6 +29,7 @@ import { NotLoggedInGuard } from '../guard/LoginGuard';
 function LoginPageContent() {
   const dispatch = useDispatch();
   const {
+    control,
     register,
     formState: { errors },
     handleSubmit,
@@ -55,6 +56,7 @@ function LoginPageContent() {
         <Field inputId="email">
           <FieldLabel>{getText('emailField')}</FieldLabel>
           <FieldInput
+            control={control}
             type="email"
             name="email"
             rules={{
@@ -69,6 +71,7 @@ function LoginPageContent() {
         <Field inputId="password">
           <FieldLabel>{getText('passwordField')}</FieldLabel>
           <FieldInput
+            control={control}
             type="password"
             name="password"
             rules={{
@@ -87,7 +90,7 @@ function LoginPageContent() {
       <CardFormFooter>
         <AppButtonGroup>
           <AppButtonGroupSpacer />
-          <AppButton variant="primary" disabled={isLoading}>
+          <AppButton isSubmit variant="primary" disabled={isLoading}>
             {getText('loginAction')}
           </AppButton>
         </AppButtonGroup>

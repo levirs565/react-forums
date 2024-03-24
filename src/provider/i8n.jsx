@@ -29,8 +29,8 @@ const resources = {
     en: 'Title',
   },
   threadTitleCannotBlankMessage: {
-    id: 'Email tidak boleh kosong',
-    en: 'Email cannot blank',
+    id: 'Judul tidak boleh kosong',
+    en: 'Title cannot blank',
   },
   threadContentField: {
     id: 'Isi',
