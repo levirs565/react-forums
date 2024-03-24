@@ -4,14 +4,12 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import {
+  createAddVoteReducer,
   createProcessState,
   downVoteEntity,
   findThread,
   neutralizeVoteEntity,
-  resetOldVote,
-  saveOldVote,
   syncStateWithAsyncThunk,
-  undoOldVote,
   upVoteEntity,
 } from "./utils";
 import { getData } from "../api";
@@ -30,29 +28,6 @@ export const updateThreadsUsers = createAsyncThunk(
   "threads/updateUsers",
   async () => (await getData("/users")).users
 );
-
-function addVoteReducer(builder, thunk, voteFunction) {
-  builder.addCase(thunk.pending, (state, action) => {
-    const thread = findThread(state.threads.list, action.meta.arg.id);
-    if (thread) {
-      saveOldVote(thread);
-      voteFunction(thread, action.meta.userId);
-    }
-  });
-  builder.addCase(thunk.rejected, (state, action) => {
-    const thread = findThread(state.threads.list, action.meta.arg.id);
-    if (thread) {
-      undoOldVote(thread);
-      resetOldVote(thread);
-    }
-  });
-  builder.addCase(thunk.fulfilled, (state, action) => {
-    const thread = findThread(state.threads.list, action.meta.arg.id);
-    if (thread) {
-      resetOldVote(thread);
-    }
-  });
-}
 
 const slice = createSlice({
   name: "threads",
@@ -89,6 +64,10 @@ const slice = createSlice({
       (state, action) => {
         state.users.list = action.payload;
       }
+    );
+
+    const addVoteReducer = createAddVoteReducer((state, action) =>
+      findThread(state.threads.list, action.meta.arg.id)
     );
     addVoteReducer(builder, upVoteThread, upVoteEntity);
     addVoteReducer(builder, downVoteThread, downVoteEntity);

@@ -1,3 +1,5 @@
+import { selectUserState } from "./auth";
+
 export function createProcessState(isLoading = true) {
   return {
     loading: isLoading,
@@ -68,3 +70,32 @@ export function neutralizeVoteEntity(entity, userId) {
   const upIndex = entity.upVotesBy.indexOf(userId);
   if (upIndex >= 0) entity.upVotesBy.splice(upIndex, 1);
 }
+
+export function createAddVoteReducer(getEntity) {
+  return function (builder, thunk, voteFunction) {
+    builder.addCase(thunk.pending, (state, action) => {
+      const entity = getEntity(state, action);
+      if (entity) {
+        saveOldVote(entity);
+        voteFunction(entity, action.meta.userId);
+      }
+    });
+    builder.addCase(thunk.rejected, (state, action) => {
+      const entity = getEntity(state, action);
+      if (entity) {
+        undoOldVote(entity);
+        resetOldVote(entity);
+      }
+    });
+    builder.addCase(thunk.fulfilled, (state, action) => {
+      const entity = getEntity(state, action);
+      if (entity) {
+        resetOldVote(entity);
+      }
+    });
+  };
+}
+
+export const getUserIdMeta = (_, { getState }) => ({
+  userId: selectUserState(getState()).user?.id,
+});

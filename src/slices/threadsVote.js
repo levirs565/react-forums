@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { postData } from "../api";
-import { selectUserState } from "./auth";
-
-const getUserIdMeta = (_, { getState }) => ({
-  userId: selectUserState(getState()).user?.id,
-});
+import { getUserIdMeta } from "./utils";
 
 export const upVoteThread = createAsyncThunk(
   "threads/upVoteThread",

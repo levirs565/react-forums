@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getData, postData } from "../api";
 import {
+  createAddVoteReducer,
   createProcessState,
   downVoteEntity,
+  getUserIdMeta,
   neutralizeVoteEntity,
   syncStateWithAsyncThunk,
   upVoteEntity,
@@ -28,14 +30,21 @@ export const upVoteComment = createAsyncThunk(
   "threadDetail/upVoteComment",
   async ({ threadId, commentId }) =>
     (await postData(`/threads/${threadId}/comments/${commentId}/up-vote`, {}))
-      .vote
+      .vote,
+  {
+    getPendingMeta: getUserIdMeta,
+  }
 );
 
 export const downVoteComment = createAsyncThunk(
   "threadDetail/downVoteComment",
   async ({ threadId, commentId }) =>
     (await postData(`/threads/${threadId}/comments/${commentId}/down-vote`, {}))
-      .vote
+      .vote,
+
+  {
+    getPendingMeta: getUserIdMeta,
+  }
 );
 
 export const neutralizeVoteComment = createAsyncThunk(
@@ -46,7 +55,10 @@ export const neutralizeVoteComment = createAsyncThunk(
         `/threads/${threadId}/comments/${commentId}/neutral-vote`,
         {}
       )
-    ).vote
+    ).vote,
+  {
+    getPendingMeta: getUserIdMeta,
+  }
 );
 
 const slice = createSlice({
@@ -72,36 +84,26 @@ const slice = createSlice({
         state.detail.detail.comments.unshift(action.payload);
       }
     );
-    builder.addCase(upVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail?.detail?.id) return;
-      upVoteEntity(state.detail.detail, action.payload.userId);
-    });
-    builder.addCase(downVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail?.detail?.id) return;
-      downVoteEntity(state.detail.detail, action.payload.userId);
-    });
-    builder.addCase(neutralizeVoteThread.fulfilled, (state, action) => {
-      if (action.payload.threadId != state.detail?.detail?.id) return;
-      neutralizeVoteEntity(state.detail.detail, action.payload.userId);
-    });
-    builder.addCase(upVoteComment.fulfilled, (state, action) => {
-      const comment = state.detail.detail.comments.find(
-        (comment) => comment.id === action.payload.commentId
-      );
-      if (comment) upVoteEntity(comment, action.payload.userId);
-    });
-    builder.addCase(downVoteComment.fulfilled, (state, action) => {
-      const comment = state.detail.detail.comments.find(
-        (comment) => comment.id === action.payload.commentId
-      );
-      if (comment) downVoteEntity(comment, action.payload.userId);
-    });
-    builder.addCase(neutralizeVoteComment.fulfilled, (state, action) => {
-      const comment = state.detail.detail.comments.find(
-        (comment) => comment.id === action.payload.commentId
-      );
-      if (comment) neutralizeVoteEntity(comment, action.payload.userId);
-    });
+
+    const addVoteReducer = createAddVoteReducer((state, action) =>
+      action.meta.arg.id === state.detail?.detail?.id
+        ? state.detail.detail
+        : null
+    );
+    addVoteReducer(builder, upVoteThread, upVoteEntity);
+    addVoteReducer(builder, downVoteThread, downVoteEntity);
+    addVoteReducer(builder, neutralizeVoteThread, neutralizeVoteEntity);
+
+    const addCommentVoteReducer = createAddVoteReducer((state, action) =>
+      action.meta.arg.threadId === state.detail?.detail?.id
+        ? state.detail.detail.comments.find(
+            (comment) => comment.id === action.meta.arg.commentId
+          )
+        : null
+    );
+    addCommentVoteReducer(builder, upVoteComment, upVoteEntity);
+    addCommentVoteReducer(builder, downVoteComment, downVoteEntity);
+    addCommentVoteReducer(builder, neutralizeVoteComment, neutralizeVoteEntity);
   },
 });
 
