@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { AppButtonGroup, AppIconButton, AppIconButtonText } from "./AppButton";
+import { AppIconButton, AppIconButtonText } from "./AppButton";
 import {
   ArrowUpCircleIcon,
   ArrowUpCircleIconFilled,
@@ -8,10 +8,8 @@ import {
   ArrowDownCircleIcon,
   ArrowDownCircleIconFilled,
 } from "../icons/ArrowDownCircleIcon";
-import "./Vote.css";
 
-export function VoteButtonGroup({
-  className,
+export function VoteButtons({
   upVoteCount,
   downVoteCount,
   onUpVote,
@@ -21,7 +19,7 @@ export function VoteButtonGroup({
   isDownVoted,
 }) {
   return (
-    <AppButtonGroup className={["vote-button-group", className].join(" ")}>
+    <>
       <AppIconButton
         hasText
         onClick={() => (isUpVoted ? onNeutralizeVote() : onUpVote())}
@@ -36,11 +34,11 @@ export function VoteButtonGroup({
         {isDownVoted ? <ArrowDownCircleIconFilled /> : <ArrowDownCircleIcon />}
         <AppIconButtonText>{downVoteCount}</AppIconButtonText>
       </AppIconButton>
-    </AppButtonGroup>
+    </>
   );
 }
 
-VoteButtonGroup.propTypes = {
+VoteButtons.propTypes = {
   className: PropTypes.string,
   upVoteCount: PropTypes.number.isRequired,
   downVoteCount: PropTypes.number.isRequired,

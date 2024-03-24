@@ -5,7 +5,6 @@ import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useMemo } from "react";
 import { ContentEditableInput } from "./ContentEditable";
 import { AppButton, AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
-import { VoteButtonGroup } from "./Vote";
 import { CardForm, CardFormContent, CardFormFooter } from "./CardForm";
 import {
   Field,
@@ -17,6 +16,7 @@ import { Controller } from "react-hook-form";
 import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { useFormatDate } from "../hook";
 import { useI8n } from "../provider/context";
+import { VoteButtons } from "./Vote";
 
 function CommentItem({
   id,
@@ -40,16 +40,18 @@ function CommentItem({
         <time className="comment--date">{formatDate(createdAt)}</time>
       </div>
       <div className="comment--body">{renderHtml(content)}</div>
-      <VoteButtonGroup
-        className="comment--footer"
-        upVoteCount={upVoteCount}
-        downVoteCount={downVoteCount}
-        isUpVoted={isUpVoted}
-        isDownVoted={isDownVoted}
-        onUpVote={() => onUpVote(id)}
-        onDownVote={() => onDownVote(id)}
-        onNeutralizeVote={() => onNeutralizeVote(id)}
-      />
+      <AppButtonGroup className="comment--footer">
+        <VoteButtons
+          upVoteCount={upVoteCount}
+          downVoteCount={downVoteCount}
+          isUpVoted={isUpVoted}
+          isDownVoted={isDownVoted}
+          onUpVote={() => onUpVote(id)}
+          onDownVote={() => onDownVote(id)}
+          onNeutralizeVote={() => onNeutralizeVote(id)}
+        />
+        <AppButtonGroupSpacer />
+      </AppButtonGroup>
     </li>
   );
 }

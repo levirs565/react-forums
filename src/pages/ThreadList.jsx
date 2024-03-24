@@ -76,6 +76,7 @@ export function ThreadListPage() {
                 downVotesBy,
                 owner,
                 category,
+                totalComments,
               }) => ({
                 id,
                 title,
@@ -87,6 +88,7 @@ export function ThreadListPage() {
                 isUpVoted: upVotesBy.includes(user?.id),
                 isDownVoted: downVotesBy.includes(user?.id),
                 category,
+                totalComments,
               })
             )}
             onUpVote={(id) => dispatch(upVoteThread({ id }))}

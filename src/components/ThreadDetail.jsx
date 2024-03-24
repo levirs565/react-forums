@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import htmlToReact from "html-react-parser";
 import { useFormatDate } from "../hook";
 import "./ThreadDetail.css";
-import { VoteButtonGroup } from "./Vote";
 import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { Category } from "./Category";
+import { VoteButtons } from "./Vote";
+import { AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
 
 export function ThreadDetailShimmer({ bodyLineCount }) {
   return (
@@ -67,16 +68,18 @@ export function ThreadDetial({
         <Category as="span" text={category} />
       </div>
       <div className="thread-detail--body">{htmlToReact(body)}</div>
-      <VoteButtonGroup
-        className="thread-detail--footer"
-        upVoteCount={upVoteCount}
-        downVoteCount={downVoteCount}
-        isUpVoted={isUpVoted}
-        isDownVoted={isDownVoted}
-        onUpVote={onUpVote}
-        onDownVote={onDownVote}
-        onNeutralizeVote={onNeutralizeVote}
-      />
+      <AppButtonGroup className="thread-detail--footer">
+        <VoteButtons
+          upVoteCount={upVoteCount}
+          downVoteCount={downVoteCount}
+          isUpVoted={isUpVoted}
+          isDownVoted={isDownVoted}
+          onUpVote={onUpVote}
+          onDownVote={onDownVote}
+          onNeutralizeVote={onNeutralizeVote}
+        />
+        <AppButtonGroupSpacer />
+      </AppButtonGroup>
     </div>
   );
 }

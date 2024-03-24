@@ -4,9 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { MultiLineShimmer, Shimmer } from "./Shimmer";
 import { useFormatDate } from "../hook";
-import { VoteButtonGroup } from "./Vote";
+import { VoteButtons } from "./Vote";
 import { UserInformation, UserInformationShimmer } from "./UserInformation";
 import { Category } from "./Category";
+import { AppButtonGroup, AppButtonGroupSpacer } from "./AppButton";
+import { IconLabel, IconLabelText } from "./IconLabel";
+import { ChatIcon } from "../icons/ChatIcon";
 
 export function ThreadCard({
   id,
@@ -23,6 +26,7 @@ export function ThreadCard({
   highlightPattern,
   owner,
   category,
+  totalComments,
 }) {
   const location = useLocation();
   const formatDate = useFormatDate();
@@ -52,16 +56,22 @@ export function ThreadCard({
       <div className="thread-card--body">
         <HighlightHTML text={body} pattern={highlightPattern} />
       </div>
-      <VoteButtonGroup
-        className="thread-card--footer"
-        upVoteCount={upVoteCount}
-        downVoteCount={downVoteCount}
-        isUpVoted={isUpVoted}
-        isDownVoted={isDownVoted}
-        onUpVote={() => onUpVote(id)}
-        onDownVote={() => onDownVote(id)}
-        onNeutralizeVote={() => onNeutralizeVote(id)}
-      />
+      <AppButtonGroup className="thread-card--footer">
+        <VoteButtons
+          upVoteCount={upVoteCount}
+          downVoteCount={downVoteCount}
+          isUpVoted={isUpVoted}
+          isDownVoted={isDownVoted}
+          onUpVote={() => onUpVote(id)}
+          onDownVote={() => onDownVote(id)}
+          onNeutralizeVote={() => onNeutralizeVote(id)}
+        />
+        <IconLabel>
+          <ChatIcon />
+          <IconLabelText>{totalComments}</IconLabelText>
+        </IconLabel>
+        <AppButtonGroupSpacer />
+      </AppButtonGroup>
     </li>
   );
 }
@@ -81,6 +91,7 @@ ThreadCard.propTypes = {
   onNeutralizeVote: PropTypes.func.isRequired,
   owner: PropTypes.object.isRequired,
   category: PropTypes.string.isRequired,
+  totalComments: PropTypes.number.isRequired,
 };
 
 export function ThreadCardShimmer({ bodyLineCount }) {
@@ -159,6 +170,7 @@ export function ThreadCardList({
           downVoteCount,
           isUpVoted,
           isDownVoted,
+          totalComments,
         }) => (
           <ThreadCard
             key={id}
@@ -176,6 +188,7 @@ export function ThreadCardList({
             onUpVote={onUpVote}
             onDownVote={onDownVote}
             onNeutralizeVote={onNeutralizeVote}
+            totalComments={totalComments}
           />
         )
       )}

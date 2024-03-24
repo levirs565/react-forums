@@ -1,0 +1,18 @@
+.icon-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > svg {
+    height: 20px;
+    width: 20px;
+    margin: 8px;
+    color: var(--text-color);
+  }
+}
+
+.icon-label--text {
+  margin-right: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
