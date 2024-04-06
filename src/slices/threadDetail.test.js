@@ -1,7 +1,8 @@
 import {
-  describe, it, expect,
+  describe, it, expect, vi, beforeEach,
 } from 'vitest';
 import threadDetailReducer, { upVoteComment } from './threadDetail';
+import { postData } from '../api';
 
 const initialState = {
   detail: {
@@ -18,7 +19,12 @@ const initialState = {
   },
 };
 
-describe('upvote', () => {
+vi.mock('../api', async (importOriginal) => ({
+  ...await importOriginal(),
+  postData: vi.fn(),
+}));
+
+describe('upvote reducer', () => {
   it('pending state', () => {
     const state = threadDetailReducer(
       initialState,
@@ -151,5 +157,60 @@ describe('upvote', () => {
     );
 
     expect(state.detail.detail.comments[1].upVotesBy).toEqual(['caa', 'kaka']);
+  });
+});
+
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
+const globalState = {
+  auth: {
+    userState: {
+      user: {
+        id: 'aca',
+      },
+    },
+  },
+};
+const getGlobalState = () => globalState;
+
+describe('upvote thunk', () => {
+  it('must pending and fullfiled with right data', async () => {
+    const arg = { threadId: '12', commendId: '34' };
+    let requestId;
+    const dispatch = vi.fn().mockImplementation(({ meta }) => {
+      requestId = meta.requestId;
+    });
+    postData.mockResolvedValueOnce({ vote: arg });
+
+    await (upVoteComment(arg))(dispatch, getGlobalState);
+
+    expect(dispatch).toHaveBeenNthCalledWith(
+      1,
+      upVoteComment.pending(requestId, arg, { userId: 'aca' }),
+    );
+    expect(dispatch).toHaveBeenNthCalledWith(
+      2,
+      upVoteComment.fulfilled(arg, requestId, arg),
+    );
+  });
+
+  it('must rejected with right data', async () => {
+    const error = new Error('this is error');
+    let requestId;
+    const dispatch = vi.fn().mockImplementation(({ meta }) => {
+      requestId = meta.requestId;
+    });
+    postData.mockRejectedValueOnce(error);
+
+    const arg = { threadId: '12', commendId: '34' };
+
+    await (upVoteComment(arg))(dispatch, getGlobalState);
+
+    expect(dispatch).toHaveBeenNthCalledWith(
+      2,
+      upVoteComment.rejected(error, requestId, arg),
+    );
   });
 });
