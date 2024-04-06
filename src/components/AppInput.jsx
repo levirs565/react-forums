@@ -32,7 +32,7 @@ AppInputContainer.defaultProps = {
 
 export const AppInput = forwardRef((
   {
-    as, className, value, disabled, onBlur, onChange, type, children,
+    as, className, value, disabled, onBlur, onChange, type, children, id,
   },
   ref,
 ) => {
@@ -40,6 +40,7 @@ export const AppInput = forwardRef((
   return (
     <Component
       className={['app-input--input', className].join(' ')}
+      id={id}
       ref={ref}
       value={value}
       disabled={disabled}
@@ -53,6 +54,7 @@ export const AppInput = forwardRef((
 });
 
 AppInput.propTypes = {
+  id: PropTypes.string,
   as: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.string,
@@ -64,6 +66,7 @@ AppInput.propTypes = {
 };
 
 AppInput.defaultProps = {
+  id: undefined,
   as: 'input',
   className: '',
   value: '',
