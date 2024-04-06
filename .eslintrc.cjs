@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    'cypress/globals': true,
   },
   extends: 'airbnb',
   overrides: [
@@ -24,4 +25,7 @@ module.exports = {
   rules: {
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state', 'entity'] }],
   },
+  plugins: [
+    'cypress',
+  ],
 };
