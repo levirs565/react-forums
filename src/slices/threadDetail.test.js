@@ -79,8 +79,6 @@ describe('upvote reducer', () => {
         new Error(),
         '',
         { threadId: '12', commentId: '34' },
-        null,
-        { userId: 'kaka' },
       ),
     );
 
@@ -104,7 +102,6 @@ describe('upvote reducer', () => {
         {},
         '',
         { threadId: '12', commentId: '34' },
-        { userId: 'kaka' },
       ),
     );
     expect(state.detail.detail.comments[0].upVotesBy).toEqual(['caa', 'kaka']);
