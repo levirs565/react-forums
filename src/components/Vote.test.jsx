@@ -5,6 +5,15 @@ import {
 import { render, screen, userEvent } from '../test/utils';
 import VoteButtons from './Vote';
 
+/*
+Skenario pengujuan VoteButtons:
+- Saat user belum upvote dan downvote, maka callback onUpVote harus dipanggil saat upvote diclick
+  dan callback onDownVote harus dipanggil saat downvote diclick
+- Harus memanggil onNeutralizeVote saat meng-upvote yang sudah di upvote
+- Harus memanggil onNeutralizeVote saat meng-downvote yang sudah di downvote
+- Harus merender ikon yang benar saat belum upvote dan downvote
+*/
+
 describe('VoteButtons component', () => {
   it('should call right callback', async () => {
     const upVote = vi.fn();
@@ -78,6 +87,9 @@ describe('VoteButtons component', () => {
       upVoteCount={2}
       isUpVoted={false}
       isDownVoted={false}
+      onUpVote={() => {}}
+      onDownVote={() => {}}
+      onNeutralizeVote={() => {}}
     />);
 
     expect(screen.getByText('1').parentElement.firstChild).toMatchInlineSnapshot(`<svg

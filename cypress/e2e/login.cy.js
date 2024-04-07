@@ -1,3 +1,12 @@
+/*
+Skenatio login:
+- Harus menampilkan halaman login secara benar
+- Saat di submit dan email kosong, maka harus ada pesan
+- Saat di submit dan password kosong, maka harus ada pesan
+- Jika email dan password sesuai maka pergi ke halaman beranda
+- Jika email dan password sesuai maka harus ada pesan
+*/
+
 describe('login page', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173/login');

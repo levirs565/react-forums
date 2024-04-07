@@ -24,7 +24,22 @@ vi.mock('../api', async (importOriginal) => ({
   postData: vi.fn(),
 }));
 
-describe('upvote reducer', () => {
+/*
+Skenario test upvote komentar reducer:
+- Saat upvote pending, upvote telah ditambahkan, sub skenario
+  - Saat user belum melakukan upvote dan downvote, maka user ditambahkan ke daftar upvote
+  - Saat user telah melakukan upvote, maka user tidak akan ditambahkan ke daftar upvote
+  - Saat user telah melakukan downvote, maka user dihapus dari daftar downvote dan user ditambahkan
+    ke daftar upvote
+- Saat upvote gagal, maka upvote dan downvote akan dikembalikan
+- Saat upvote berhasil, maka tidak terjadi apa-apa
+- Saat upvote dilakukan pada thread atau komentar yang tidak sesuai dengan state saat ini,
+  maka state tidak berubah
+- Saat upvote dilakukan pada thread dengan banyak komentar, maka upvote harus diterapkan pada
+  komentar yang tepat
+*/
+
+describe('upvote comment reducer', () => {
   it('pending state', () => {
     const state = threadDetailReducer(
       initialState,
@@ -172,7 +187,15 @@ const globalState = {
 };
 const getGlobalState = () => globalState;
 
-describe('upvote thunk', () => {
+/*
+Skenario upvote comment thunk:
+- Saat dipanggil dan pemanggilan api berhasil, maka reducer upvote comment dan pending harus di
+  dispatch dengan data yang sesuai
+  Saat reducer pending di dispatch userId harus sesuai dengan id user yang berada di dalam state
+- Begitu juga saat pemanggilan api gagal
+*/
+
+describe('upvote comment thunk', () => {
   it('must pending and fullfiled with right data', async () => {
     const arg = { threadId: '12', commendId: '34' };
     let requestId;
