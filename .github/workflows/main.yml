@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: npm install and e2e
         run: |
           npm ci
           npm run ci:e2e
@@ -41,7 +41,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and test
+      - name: npm install and lint
         run: |
           npm ci
           npm run lint
