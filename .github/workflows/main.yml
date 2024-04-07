@@ -31,6 +31,7 @@ jobs:
       - name: npm install and e2e
         run: |
           npm ci
+          npm run dev & npm run wait-dev
           npm run e2e
   lint:
     runs-on: ubuntu-latest
