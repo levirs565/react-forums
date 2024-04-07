@@ -75,7 +75,7 @@ AppButtonLink.defaultProps = {
   disabled: false,
 };
 
-export function AppButtonGroupSpacer() {
+export function AppBaaauttonGroupSpacer() {
   return <div className="app-button-group-spacer" />;
 }
 
