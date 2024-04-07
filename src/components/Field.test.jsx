@@ -9,6 +9,15 @@ function InputWithControl() {
   return <FieldInput control={control} name="test" type="text" />;
 }
 
+/*
+Skenario pengujian FieldComponent:
+- Saat FieldLabel berada di dalam Field, maka atribut for pada label harus berisi nilai inputId
+  Field
+- Saat FieldInput berada di dalam Field, maka atribut id pada input harus berisi nilai inputId Input
+- Saat FieldLabel pada Field di klik, maka FieldInput yang berada di dalam Field tersebut harus
+  mendapatkan fokus
+*/
+
 describe('Field component', () => {
   it('FieldLabel forId should derived from Field id', () => {
     render(<Field inputId="thisIsId"><FieldLabel>Test</FieldLabel></Field>);

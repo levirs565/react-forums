@@ -18,6 +18,13 @@ vi.mock('../api', async (importOriginal) => ({
   getData: vi.fn(),
 }));
 
+/*
+Skenatio update threads list reducer:
+- Saat pending, loading harus bernilai true dan error bernilai null
+- Saat gagal, loading harus bernilai false dan error bernilai penyebab error
+- Saat berhasil, loading harus bernilai false, error bernilai null dan list berisi daftar thread
+*/
+
 describe('update threads state', () => {
   it('loading state', () => {
     const state = threadsReducer(
@@ -56,6 +63,12 @@ describe('update threads state', () => {
 beforeEach(() => {
   vi.resetAllMocks();
 });
+
+/*
+Skenario update threads thunk:
+- Saat berhasil, maka reducer pending dan fullfiled harus dipanggil dengan data yang benar
+- Saat gagal, maka reducer rejected harus dipanggil dengan data yang benar
+*/
 
 describe('update threads thunk', () => {
   it('dispatch fullfiled with right data', async () => {
