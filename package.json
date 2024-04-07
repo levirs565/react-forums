@@ -11,7 +11,8 @@
     "test": "vitest",
     "e2e": "cypress run",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "wait-dev": "wait-on http://localhost:5173"
   },
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.0.17",
@@ -54,6 +55,7 @@
     "postcss-mixins": "^10.0.0",
     "storybook": "^8.0.6",
     "vite": "^5.1.4",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "wait-on": "^7.2.0"
   }
 }
